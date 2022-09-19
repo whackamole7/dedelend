@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/j2KV-sx-1C1sGu6/static/css/main.bc532ec7.chunk.css",
+    "main.js": "/j2KV-sx-1C1sGu6/static/js/main.66471b40.chunk.js",
+    "main.js.map": "/j2KV-sx-1C1sGu6/static/js/main.66471b40.chunk.js.map",
+    "runtime-main.js": "/j2KV-sx-1C1sGu6/static/js/runtime-main.52e5fd10.js",
+    "runtime-main.js.map": "/j2KV-sx-1C1sGu6/static/js/runtime-main.52e5fd10.js.map",
+    "static/js/2.52a49067.chunk.js": "/j2KV-sx-1C1sGu6/static/js/2.52a49067.chunk.js",
+    "static/js/2.52a49067.chunk.js.map": "/j2KV-sx-1C1sGu6/static/js/2.52a49067.chunk.js.map",
+    "index.html": "/j2KV-sx-1C1sGu6/index.html",
+    "static/css/main.bc532ec7.chunk.css.map": "/j2KV-sx-1C1sGu6/static/css/main.bc532ec7.chunk.css.map",
+    "static/js/2.52a49067.chunk.js.LICENSE.txt": "/j2KV-sx-1C1sGu6/static/js/2.52a49067.chunk.js.LICENSE.txt",
+    "static/media/App.scss": "/j2KV-sx-1C1sGu6/static/media/Gantari-Regular.ed10e76c.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.52e5fd10.js",
+    "static/js/2.52a49067.chunk.js",
+    "static/css/main.bc532ec7.chunk.css",
+    "static/js/main.66471b40.chunk.js"
+  ]
+}
