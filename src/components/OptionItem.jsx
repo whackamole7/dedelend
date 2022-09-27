@@ -18,9 +18,9 @@ const OptionItem = ({ option, stats, ...props }) => {
 		)
 	}
 	
-	OptManager.getApproved(option.id)
+	OptManager.isApprovedOrOwner(contract.address, option.id)
 		.then(res => {
-			if (res === contract.address) {
+			if (res === true) {
 				OptManager.ownerOf(option.id)
 					.then(owner => {
 						if (owner == contract.address) {

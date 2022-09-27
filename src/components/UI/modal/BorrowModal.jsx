@@ -39,15 +39,17 @@ const BorrowModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoad
 		const isCALL = option.name.includes('CALL')
 
 		if (isCALL) {
-			classic = (((option.borrowLimitUsed + val) / option.amount) * 1.2) + option.strike
+			classic = option.strike + (((option.borrowLimitUsed + val) / option.amount) * 1.2)
 			
 			result = Math.max(prior, classic);
 		} else {
-			classic = (((option.borrowLimitUsed + val) / option.amount) * 1.2) - option.strike
+			classic = option.strike - (((option.borrowLimitUsed + val) / option.amount) * 1.2)
 
 			result = Math.min(prior, classic);
 		}
 
+		console.log(classic);
+		
 		setLiqPrice(floor(result))
 
 	}, [inputVal])
@@ -204,7 +206,7 @@ const BorrowModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoad
 					{
 						step === 2 ?
 							<div className="modal__info-field modal__info-field_hl">
-								<div className="modal__info-field-title">Liq. Price:</div>
+								<div className="modal__info-field-title">Liquidation Price:</div>
 								<div className="modal__info-field-val">{liqPrice}</div>
 							</div>
 							: ""
