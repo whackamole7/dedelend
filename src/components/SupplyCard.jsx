@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { UserStatsContext } from './../context/context';
 import Form from './Form';
 import { DDL_POOL, DDL_POOL_signed, USDC_signed } from './utils/contracts';
-import { separateThousands } from './utils/sepThousands';
+import { separateThousands, sepToNumber } from './utils/sepThousands';
 import Loader from './UI/loader/Loader';
 import { getUserStats } from './utils/stats';
 
@@ -51,7 +51,7 @@ const SupplyCard = ({ step, setStep, ...props }) => {
 				e.preventDefault()
 				setIsLoading(true)
 				try {
-					DDL_POOL_signed.provideFrom(props.walletAddress, inputVal * 1e6, 0)
+					DDL_POOL_signed.provideFrom(props.walletAddress, sepToNumber(inputVal) * 1e6, 0)
 					.then(tsc => {
 						console.log('Supply transaction:', tsc);
 

@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import { separateThousands } from './utils/sepThousands';
+import { separateThousands, sepToNumber } from './utils/sepThousands';
 import { UserStatsContext } from './../context/context';
 import Form from './Form';
 import { DDL_POOL_signed } from './utils/contracts';
@@ -25,7 +25,7 @@ const WithdrawCard = (props) => {
 		setIsLoading(true)
 		
 		try {
-			DDL_POOL_signed.withdraw(inputVal * 1e6)
+			DDL_POOL_signed.withdraw(sepToNumber(inputVal) * 1e6)
 			.then(tsc => {
 				console.log('Withdraw transaction:', tsc);
 

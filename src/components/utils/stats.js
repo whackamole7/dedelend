@@ -14,7 +14,8 @@ export const getGlobalStats = async () => {
 	globalStats.availToBorrow = Math.round(ethers.utils.formatUnits(totalBalance, 6));
 	globalStats.totalBorrowed = Math.round(ethers.utils.formatUnits(totalLocked, 6));
 	
-	globalStats.utilRate = (totalLocked / totalSupplied * 100).toFixed(2)
+	globalStats.utilRate = floor(totalSupplied === 0 ? 
+		0 : (totalLocked / totalSupplied * 100))
 	globalStats.borrowAPY = 10;
 	
 	
