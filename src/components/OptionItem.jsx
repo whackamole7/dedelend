@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Button from './UI/button/Button';
 import { OptManager } from './utils/contracts';
+import { separateThousands } from './utils/sepThousands';
 
 const OptionItem = ({ option, stats, ...props }) => {
 	const [initBorrowStep, setInitBorrowStep] = useState(0)
@@ -61,8 +62,15 @@ const OptionItem = ({ option, stats, ...props }) => {
 						let val = '';
 						if (typeof stat.unit !== 'function') {
 							if (option[key] !== '') {
-								val = stat.unit === '$' ? stat.unit + option[key]
-								: option[key] + ' ' + stat.unit;
+								let convertedNum;
+								if (stat.name === 'ID' || stat.name === 'Option') {
+									convertedNum = option[key]
+								} else {
+									convertedNum = separateThousands(option[key]);
+								}
+								
+								val = stat.unit === '$' ? stat.unit + convertedNum
+								: convertedNum + ' ' + stat.unit;
 							} else {
 								val = '—'
 							}

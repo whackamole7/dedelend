@@ -12,7 +12,6 @@ import { UserStatsContext } from './context/context';
 import { GlobalStatsContext } from './context/context';
 import Warning from './components/UI/warning/Warning';
 import Favicon from 'react-favicon';
-import { test } from './components/utils/contracts';
 
 
 

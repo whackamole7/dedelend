@@ -1,22 +1,32 @@
 export const separateThousands = (num, symb = ",") => {
-	if (num.toString().includes('.')) {
-		return num;
+	if (typeof num === 'undefined') {
+		return '';
 	}
 	
-	return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, symb)
+	const str = num.toString();
+	let [intPart, fractionPart] = str.split('.')
+	const hasFraction = fractionPart !== undefined;
+
+	intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, hasFraction ? ',' : symb)
+	
+	if (hasFraction) {
+		return intPart + '.' + fractionPart
+	} else {
+		return intPart;
+	}
 }
 
 
 const removeNonNumeric = (num) => {
-	// const decimalReg = /^\d+(\.\d{1,6})?$/g;
-	
 	let result = num.toString().replace(/^\./g, '').replace(/[^0-9.]/g, '').replace(/^0\d/, '')
 
 	if (result.match(/\./g)?.length > 1) {
 		result = result.replace(/\.$/, '')
 	}
 
-	if (result.split('.')[1]?.length > 6) {
+	let [, fractionPart] = result.split('.')
+
+	if (fractionPart?.length > 6) {
 		result = result.substr(0, result.length - 1)
 	}
 	
@@ -24,10 +34,6 @@ const removeNonNumeric = (num) => {
 }
 
 export const convertInputNum = (num) => {
-	if (num.match(/\./g)?.length > 0) {
-		return removeNonNumeric(num);
-	}
-	
 	return separateThousands(removeNonNumeric(num), ' ')
 }
 

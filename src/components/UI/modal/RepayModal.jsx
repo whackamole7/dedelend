@@ -4,7 +4,7 @@ import { GlobalStatsContext } from './../../../context/context';
 import Form from './../../Form';
 import { USDC_signed } from '../../utils/contracts';
 import Loader from './../loader/Loader';
-import { sepToNumber } from './../../utils/sepThousands';
+import { sepToNumber, separateThousands } from './../../utils/sepThousands';
 import { floor, formatForContract } from './../../utils/math';
 
 
@@ -180,7 +180,7 @@ const RepayModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoadi
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title">Borrow Limit:</div>
-						<div className="modal__info-field-val">{option.borrowLimit + ' USDC'}</div>
+						<div className="modal__info-field-val">{separateThousands(option.borrowLimit) + ' USDC'}</div>
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title nowrap">Loan-To-Value:</div>
@@ -190,13 +190,13 @@ const RepayModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoadi
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title">Repay:</div>
-						<div className="modal__info-field-val highlighted">{option.borrowLimitUsed + ' USDC'}</div>
+						<div className="modal__info-field-val highlighted">{separateThousands(option.borrowLimitUsed) + ' USDC'}</div>
 					</div>
 					{
 						step === 0 ?
 							<div className="modal__info-field modal__info-field_hl">
 								<div className="modal__info-field-title">Liquidation Price:</div>
-								<div className="modal__info-field-val">{liqPrice}</div>
+								<div className="modal__info-field-val">{separateThousands(liqPrice)}</div>
 							</div>
 							: ""
 					}
