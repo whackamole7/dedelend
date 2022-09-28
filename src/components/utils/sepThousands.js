@@ -10,6 +10,10 @@ export const separateThousands = (num, symb = ",") => {
 	intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, hasFraction ? ',' : symb)
 	
 	if (hasFraction) {
+		if (fractionPart.length === 1 && symb !== ' ') {
+			fractionPart += '0'
+		}
+		
 		return intPart + '.' + fractionPart
 	} else {
 		return intPart;

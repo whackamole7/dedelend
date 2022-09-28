@@ -28,7 +28,7 @@ const OptionItem = ({ option, stats, ...props }) => {
 							setInitBorrowStep(2)
 							setRepayDisabled(false)
 
-							if (option.borrowLimitUsed <= 0) {
+							if (option.realVals?.borrowLimitUsed <= 0) {
 								setInitRepayStep(1)
 							} else {
 								setInitRepayStep(0)
