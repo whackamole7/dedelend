@@ -51,10 +51,12 @@ const WithdrawCard = (props) => {
 			},
 			err => {
 				console.log(err);
+				alert(err.code + '\n' + err.reason)
 				setIsLoading(false)
 			})
 		} catch(err) {
 			console.log(err);
+			alert(err.code + '\n' + err.reason)
 		}
 		
 	}

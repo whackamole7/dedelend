@@ -38,11 +38,13 @@ const SupplyCard = ({ step, setStep, ...props }) => {
 					},
 					err => {
 						console.log(err)
+						alert(err.code + '\n' + err.reason)
 
 						setIsLoading(false)
 					})
-				} catch(e) {
-					console.log(e);
+				} catch(err) {
+					console.log(err);
+					alert(err.code + '\n' + err.reason)
 					setIsLoading(false)
 				}
 				
@@ -78,10 +80,12 @@ const SupplyCard = ({ step, setStep, ...props }) => {
 					},
 					err => {
 						console.log(err);
+						alert(err.code + '\n' + err.reason)
 						setIsLoading(false)
 					})
 				} catch(err) {
 					console.log(err);
+					alert(err.code + '\n' + err.reason)
 				}
 				
 			},

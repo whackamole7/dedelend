@@ -97,6 +97,7 @@ const RepayModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoadi
 											},
 											err => {
 												console.log(err);
+												alert(err.code + '\n' + err.reason)
 												setIsLoading(false)
 											})
 										
@@ -104,9 +105,11 @@ const RepayModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoadi
 								
 							}, err => {
 								console.log(err);
+								alert(err.code + '\n' + err.reason)
 								setIsLoading(false)
 							})
 						} else {
+							alert(err.code + '\n' + err.reason)
 							setIsLoading(false)
 						}
 					})
@@ -140,6 +143,7 @@ const RepayModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoadi
 					},
 					err => {
 						console.log(err);
+						alert(err.code + '\n' + err.reason)
 						setIsLoading(false)
 					})
 			},

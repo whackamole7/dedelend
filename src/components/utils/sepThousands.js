@@ -16,7 +16,6 @@ const removeNonNumeric = (num) => {
 		result = result.replace(/\.$/, '')
 	}
 
-	console.log(result.split('.')[1]);
 	if (result.split('.')[1]?.length > 6) {
 		result = result.substr(0, result.length - 1)
 	}

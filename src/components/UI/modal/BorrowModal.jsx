@@ -74,8 +74,9 @@ const BorrowModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoad
 								updateOptionStats(option.id, option.isETH)
 							})
 					},
-					error => {
-						console.log(error);
+					err => {
+						console.log(err);
+						alert(err.code + '\n' + err.reason)
 						setIsLoading(false)
 					})
 			},
@@ -101,8 +102,9 @@ const BorrowModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoad
 								updateOptionStats(option.id, option.isETH)
 							})
 					},
-					error => {
-						console.log(error);
+					err => {
+						console.log(err);
+						alert(err.code + '\n' + err.reason)
 						setIsLoading(false)
 					})
 			},
@@ -129,7 +131,7 @@ const BorrowModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoad
 							})
 					},
 					err => {
-						console.log(err)
+						alert(err.code + '\n' + err.reason)
 						setIsLoading(false)
 					})
 			},

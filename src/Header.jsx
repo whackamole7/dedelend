@@ -91,7 +91,7 @@ const Header = ({ walletAddress, setWalletAddress }) => {
 				
 				let strategyInf = strategyMap.get(lockL.strategy);
 				if (!strategyInf) {
-					return;
+					continue;
 				}
 
 				ids.push(id)
