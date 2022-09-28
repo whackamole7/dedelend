@@ -89,10 +89,12 @@ const Header = ({ walletAddress, setWalletAddress }) => {
 					continue;
 				}
 				
-				ids.push(id)
-				
-				
 				let strategyInf = strategyMap.get(lockL.strategy);
+				if (!strategyInf) {
+					return;
+				}
+
+				ids.push(id)
 				
 				const HegicStrategy = new ethers.Contract(lockL.strategy, strategyInf.inf.abi, mmProvider)
 				

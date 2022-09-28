@@ -5,11 +5,19 @@ import { DDL_POOL, DDL_POOL_signed, USDC_signed } from './utils/contracts';
 import { separateThousands, sepToNumber } from './utils/sepThousands';
 import Loader from './UI/loader/Loader';
 import { getUserStats } from './utils/stats';
+import { formatForContract } from './utils/math';
 
 const SupplyCard = ({ step, setStep, ...props }) => {
 	const {userStats, setUserStats} = useContext(UserStatsContext)
 	const [inputVal, setInputVal] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
+
+	useEffect(() => {
+		if (sepToNumber(inputVal) > userStats.balance) {
+			setInputVal(userStats.balance)
+		}
+	}, [inputVal])
+	
 
 	const steps = [
 		{
@@ -51,7 +59,7 @@ const SupplyCard = ({ step, setStep, ...props }) => {
 				e.preventDefault()
 				setIsLoading(true)
 				try {
-					DDL_POOL_signed.provideFrom(props.walletAddress, sepToNumber(inputVal) * 1e6, 0)
+					DDL_POOL_signed.provideFrom(props.walletAddress, formatForContract(inputVal), 0)
 					.then(tsc => {
 						console.log('Supply transaction:', tsc);
 

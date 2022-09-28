@@ -5,7 +5,7 @@ import Form from './../../Form';
 import { USDC_signed } from '../../utils/contracts';
 import Loader from './../loader/Loader';
 import { sepToNumber } from './../../utils/sepThousands';
-import { floor } from './../../utils/math';
+import { floor, formatForContract } from './../../utils/math';
 
 
 const RepayModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoading}) => {
@@ -28,7 +28,7 @@ const RepayModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoadi
 			return;
 		}
 
-		if (inputVal > repay) {
+		if (sepToNumber(inputVal) > repay) {
 			setInputVal(repay)
 		}
 		
@@ -48,6 +48,11 @@ const RepayModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoadi
 			result = Math.min(prior, classic);
 		}
 
+		if (result === prior && sepToNumber(inputVal) >= repay) {
+			setLiqPrice('—')
+			return;
+		}
+
 		setLiqPrice(floor(result))
 
 	}, [inputVal])
@@ -64,7 +69,7 @@ const RepayModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoadi
 				e.preventDefault();
 				
 				setIsLoading(true);
-				contract_signed.repay(option.id, inputVal * 1e6)
+				contract_signed.repay(option.id, formatForContract(inputVal))
 					.then(res => {
 						console.log('Repay transaction:', res);
 
@@ -78,12 +83,11 @@ const RepayModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoadi
 						console.log(err);
 
 						if (err.message.includes('transfer amount exceeds allowance')) {
-							
 							USDC_signed.approve(contract_signed.address, 10**9 * 1e6)
 							.then(res => {
 								res.wait()
 									.then(() => {
-										contract_signed.repay(option.id, inputVal * 1e6)
+										contract_signed.repay(option.id, formatForContract(inputVal))
 											.then(res => {
 												res.wait()
 													.then(() => {
@@ -105,8 +109,6 @@ const RepayModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoadi
 						} else {
 							setIsLoading(false)
 						}
-						
-						
 					})
 			},
 			inputProps: {
@@ -177,12 +179,10 @@ const RepayModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoadi
 						<div className="modal__info-field-val">{option.borrowLimit + ' USDC'}</div>
 					</div>
 					<div className="modal__info-field">
-						<div className="modal__info-field-title">Borrow Limit Used:</div>
-						<div className="modal__info-field-val">
-							{option.borrowLimitUsed + ' USDC'}
-							<div className="modal__info-field-val_minor">{(option.borrowLimitUsed / option.borrowLimit * 100).toFixed(2) + '%'}</div>
-						</div>
-						
+						<div className="modal__info-field-title nowrap">Loan-To-Value:</div>
+							<div className="modal__info-field-val">
+								{floor((option.borrowLimitUsed / option.intrinsicValue) * 100) + '%'}
+							</div>
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title">Repay:</div>

@@ -1,10 +1,11 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { separateThousands, sepToNumber } from './utils/sepThousands';
 import { UserStatsContext } from './../context/context';
 import Form from './Form';
 import { DDL_POOL_signed } from './utils/contracts';
 import Loader from './UI/loader/Loader';
 import { getUserStats } from './utils/stats';
+import { formatForContract } from './utils/math';
 
 const WithdrawCard = (props) => {
 	const {userStats, setUserStats} = useContext(UserStatsContext)
@@ -20,12 +21,18 @@ const WithdrawCard = (props) => {
 		}
 	}
 
+	useEffect(() => {
+		if (sepToNumber(inputVal) > userStats.avail) {
+			setInputVal(userStats.avail)
+		}
+	}, [inputVal])
+
 	const onSubmit = (e) => {
 		e.preventDefault()
 		setIsLoading(true)
 		
 		try {
-			DDL_POOL_signed.withdraw(sepToNumber(inputVal) * 1e6)
+			DDL_POOL_signed.withdraw(formatForContract(inputVal))
 			.then(tsc => {
 				console.log('Withdraw transaction:', tsc);
 

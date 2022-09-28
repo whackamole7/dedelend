@@ -4,7 +4,7 @@ import { GlobalStatsContext } from './../../../context/context';
 import Form from './../../Form';
 import { OptManager } from './../../utils/contracts';
 import Loader from './../loader/Loader';
-import { floor } from './../../utils/math';
+import { floor, formatForContract } from './../../utils/math';
 import { sepToNumber } from './../../utils/sepThousands';
 
 const BorrowModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoading}) => {
@@ -17,7 +17,7 @@ const BorrowModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoad
 	const [inputVal, setInputVal] = useState('')
 	const [liqPrice, setLiqPrice] = useState('—')
 
-	const available = option.realVals?.borrowLimit - option.realVals?.borrowLimitUsed;
+	const available = floor(option.realVals?.borrowLimit - option.realVals?.borrowLimitUsed, 6);
 
 	const setMaxVal = () => {
 		setInputVal(available)
@@ -28,7 +28,7 @@ const BorrowModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoad
 			return;
 		}
 
-		if (inputVal > available) {
+		if (sepToNumber(inputVal) > available) {
 			setInputVal(available)
 		}
 		
@@ -47,8 +47,6 @@ const BorrowModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoad
 
 			result = Math.min(prior, classic);
 		}
-
-		console.log(classic);
 		
 		setLiqPrice(floor(result))
 
@@ -120,7 +118,7 @@ const BorrowModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoad
 				e.preventDefault()
 				setIsLoading(true);
 
-				contract_signed.borrow(option.id, inputVal * 1e6)
+				contract_signed.borrow(option.id, formatForContract(inputVal))
 					.then(res => {
 						console.log('Borrow transaction:', res);
 						
@@ -132,25 +130,7 @@ const BorrowModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoad
 					},
 					err => {
 						console.log(err)
-
-						if (err.message.includes('underflow')) {
-							contract_signed.borrow(option.id, floor(inputVal, 6) * 1e6)
-								.then(res => {
-									console.log('Borrow transaction:', res);
-									
-									res.wait()
-										.then(() => {
-											setInputVal('')
-											updateOptionStats(option.id, option.isETH)
-										})
-								},
-								err => {
-									console.log(err);
-									setIsLoading(false)
-								})
-						} else {
-							setIsLoading(false)
-						}
+						setIsLoading(false)
 					})
 			},
 			inputProps: {
@@ -192,10 +172,9 @@ const BorrowModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoad
 						<div className="modal__info-field-val">{option.borrowLimit + ' USDC'}</div>
 					</div>
 					<div className="modal__info-field">
-						<div className="modal__info-field-title">Borrow Limit Used:</div>
+						<div className="modal__info-field-title nowrap">Loan-To-Value:</div>
 						<div className="modal__info-field-val">
-							{option.borrowLimitUsed + ' USDC'}
-							<div className="modal__info-field-val_minor">{floor(option.borrowLimitUsed / option.borrowLimit * 100) + '%'}</div>
+							{floor((option.borrowLimitUsed / option.intrinsicValue) * 100) + '%'}
 						</div>
 						
 					</div>

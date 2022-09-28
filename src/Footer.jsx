@@ -7,7 +7,7 @@ const Footer = () => {
 			<div className="footer__content _container">
 				<Logo></Logo>
 				<div className="footer__smedia-items">
-					<a className="footer__smedia-item" target="_blank" href="#">
+					<a className="footer__smedia-item" target="_blank" href="https://mirror.xyz/dedelend.eth/gJriRVVlVGqU3l4qKIP6v08z5KUrdHDpGki6j4jLhss">
 						<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
 							<g clipPath="url(#clip0_58_113)">
 								<rect width="30" height="30" rx="5" fill="#181A3C"/>
