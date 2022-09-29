@@ -13,6 +13,8 @@ export const getGlobalStats = async () => {
 	globalStats.totalSupplied = Math.round(ethers.utils.formatUnits(totalSupplied, 6));
 	globalStats.availToBorrow = Math.round(ethers.utils.formatUnits(totalBalance, 6));
 	globalStats.totalBorrowed = Math.round(ethers.utils.formatUnits(totalLocked, 6));
+
+	console.log(totalBalance);
 	
 	globalStats.utilRate = floor(totalSupplied === 0 ? 
 		0 : (totalLocked / totalSupplied * 100))

@@ -6,6 +6,7 @@ import { OptManager } from './../../utils/contracts';
 import Loader from './../loader/Loader';
 import { floor, formatForContract } from './../../utils/math';
 import { sepToNumber, separateThousands } from './../../utils/sepThousands';
+import { errAlert } from './../../utils/error';
 
 const BorrowModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoading}) => {
 	const option = state.option;
@@ -75,8 +76,7 @@ const BorrowModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoad
 							})
 					},
 					err => {
-						console.log(err);
-						alert(err.code + '\n' + err.reason)
+						errAlert(err)
 						setIsLoading(false)
 					})
 			},
@@ -103,8 +103,7 @@ const BorrowModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoad
 							})
 					},
 					err => {
-						console.log(err);
-						alert(err.code + '\n' + err.reason)
+						errAlert(err)
 						setIsLoading(false)
 					})
 			},
@@ -131,7 +130,7 @@ const BorrowModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoad
 							})
 					},
 					err => {
-						alert(err.code + '\n' + err.reason)
+						errAlert(err)
 						setIsLoading(false)
 					})
 			},

@@ -6,6 +6,7 @@ import { DDL_POOL_signed } from './utils/contracts';
 import Loader from './UI/loader/Loader';
 import { getUserStats } from './utils/stats';
 import { formatForContract } from './utils/math';
+import { errAlert } from './utils/error';
 
 const WithdrawCard = (props) => {
 	const {userStats, setUserStats} = useContext(UserStatsContext)
@@ -50,13 +51,12 @@ const WithdrawCard = (props) => {
 					})
 			},
 			err => {
-				console.log(err);
-				alert(err.code + '\n' + err.reason)
+				errAlert(err)
 				setIsLoading(false)
 			})
 		} catch(err) {
-			console.log(err);
-			alert(err.code + '\n' + err.reason)
+			errAlert(err)
+			setIsLoading(false)
 		}
 		
 	}

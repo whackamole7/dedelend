@@ -6,6 +6,7 @@ import { separateThousands, sepToNumber } from './utils/sepThousands';
 import Loader from './UI/loader/Loader';
 import { getUserStats } from './utils/stats';
 import { formatForContract } from './utils/math';
+import { errAlert } from './utils/error';
 
 const SupplyCard = ({ step, setStep, ...props }) => {
 	const {userStats, setUserStats} = useContext(UserStatsContext)
@@ -37,14 +38,11 @@ const SupplyCard = ({ step, setStep, ...props }) => {
 							})
 					},
 					err => {
-						console.log(err)
-						alert(err.code + '\n' + err.reason)
-
+						errAlert(err)
 						setIsLoading(false)
 					})
 				} catch(err) {
-					console.log(err);
-					alert(err.code + '\n' + err.reason)
+					errAlert(err)
 					setIsLoading(false)
 				}
 				
@@ -79,13 +77,12 @@ const SupplyCard = ({ step, setStep, ...props }) => {
 							})
 					},
 					err => {
-						console.log(err);
-						alert(err.code + '\n' + err.reason)
+						errAlert(err)
 						setIsLoading(false)
 					})
 				} catch(err) {
-					console.log(err);
-					alert(err.code + '\n' + err.reason)
+					errAlert(err)
+					setIsLoading(false)
 				}
 				
 			},

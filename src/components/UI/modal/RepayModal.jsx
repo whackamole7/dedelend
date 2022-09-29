@@ -6,6 +6,7 @@ import { USDC_signed } from '../../utils/contracts';
 import Loader from './../loader/Loader';
 import { sepToNumber, separateThousands } from './../../utils/sepThousands';
 import { floor, formatForContract } from './../../utils/math';
+import { errAlert } from './../../utils/error';
 
 
 const RepayModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoading}) => {
@@ -96,20 +97,18 @@ const RepayModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoadi
 													})
 											},
 											err => {
-												console.log(err);
-												alert(err.code + '\n' + err.reason)
+												errAlert(err)
 												setIsLoading(false)
 											})
 										
 									})
 								
 							}, err => {
-								console.log(err);
-								alert(err.code + '\n' + err.reason)
+								errAlert(err)
 								setIsLoading(false)
 							})
 						} else {
-							alert(err.code + '\n' + err.reason)
+							errAlert(err)
 							setIsLoading(false)
 						}
 					})
@@ -142,8 +141,7 @@ const RepayModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoadi
 							})
 					},
 					err => {
-						console.log(err);
-						alert(err.code + '\n' + err.reason)
+						errAlert(err)
 						setIsLoading(false)
 					})
 			},
