@@ -1,0 +1,95 @@
+:root {
+  --toastify-color-light: #181A3C;
+  --toastify-color-dark: #181A3C;
+  --toastify-color-info: #181A3C;
+  --toastify-color-success: #181A3C;
+  --toastify-color-warning: #181A3C;
+  --toastify-color-error: #181A3C;
+  --toastify-color-transparent: #181A3C;
+
+  --toastify-icon-color-info: var(--toastify-color-info);
+  --toastify-icon-color-success: var(--toastify-color-success);
+  --toastify-icon-color-warning: var(--toastify-color-warning);
+  --toastify-icon-color-error: var(--toastify-color-error);
+
+  --toastify-toast-width: 265зч;
+  --toastify-toast-background: #181A3C;
+  --toastify-toast-min-height: 64px;
+  --toastify-toast-max-height: 800px;
+  --toastify-font-family: 'Gantari', sans-serif;
+  --toastify-z-index: 9999;
+
+  --toastify-text-color-light: #747FA6;
+  --toastify-text-color-dark: #747FA6;
+
+  //Used only for colored theme
+  --toastify-text-color-info: #747FA6;
+  --toastify-text-color-success: #747FA6;
+  --toastify-text-color-warning: #747FA6;
+  --toastify-text-color-error: #747FA6;
+
+  --toastify-spinner-color: #616161;
+  --toastify-spinner-color-empty-area: #e0e0e0;
+
+  // Used when no type is provided
+  // toast("**hello**")
+  --toastify-color-progress-light: linear-gradient(
+    to right,
+    #4cd964,
+    #5ac8fa,
+    #007aff,
+    #34aadc,
+    #5856d6,
+    #ff2d55
+  );
+  // Used when no type is provided
+  --toastify-color-progress-dark: #bb86fc;
+  --toastify-color-progress-info: var(--toastify-color-info);
+  --toastify-color-progress-success: var(--toastify-color-success);
+  --toastify-color-progress-warning: var(--toastify-color-warning);
+  --toastify-color-progress-error: var(--toastify-color-error);
+}
+
+
+.Toastify .Toastify__toast-container {
+	bottom: 40px;
+}
+
+.Toastify .Toastify__close-button {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	opacity: 1;
+
+	&::before {
+		content: '';
+		display: block;
+		flex-shrink: 0;
+		width: 10px;
+		height: 10px;
+		background-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%20viewBox%3D%220%200%2010%2010%22%20fill%3D%22none%22%3E%0A%3Cpath%20d%3D%22M10%200.875L9.125%200L5%204.125L0.875%200L0%200.875L4.125%205L0%209.125L0.875%2010L5%205.875L9.125%2010L10%209.125L5.875%205L10%200.875Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E');
+		background-repeat: no-repeat;
+	}
+
+	svg {
+		display: none;
+	}
+}
+
+.Toastify .Toastify__toast-body {
+	padding-right: 15px;
+}
+.Toastify .Toastify__toast {
+	font-family: 'Gantari', sans-serif;
+	font-size: 15px;
+	line-height: calc(19.5/15);
+	
+	background-color: #181A3C;
+	color: #747FA6;
+	border-radius: 5px;
+	padding: 15px 20px;
+
+	a {
+		color: #6988FF;
+	}
+}
