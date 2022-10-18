@@ -6,12 +6,15 @@ import React, { useState, useEffect } from 'react';
 
 import Header from './Header';
 import Footer from './Footer';
-import MarketRouter from './components/MarketRouter';
+import AppRouter from './components/AppRouter';
 import { HashRouter } from 'react-router-dom';
 import { UserStatsContext } from './context/context';
 import { GlobalStatsContext } from './context/context';
 import Warning from './components/UI/warning/Warning';
 import Favicon from 'react-favicon';
+import { Route } from 'react-router-dom';
+import { Routes } from 'react-router-dom';
+import GMXInterface from './views/gmx-test/App/App';
 
 
 
@@ -34,7 +37,7 @@ function App() {
 	)
 	
 	return (
-		<React.Fragment>
+		<>
 			<Favicon url="https://i.imgur.com/dLCWse0.png" />
 			
 			<GlobalStatsContext.Provider value={{
@@ -45,27 +48,28 @@ function App() {
 					userStats,
 					setUserStats
 				}}>
-					<div className="App">
-						<Header walletAddress={walletAddress}
-							setWalletAddress={setWalletAddress}
-						></Header>
+					<HashRouter>
+						<div className="App">
+							<Header walletAddress={walletAddress}
+								setWalletAddress={setWalletAddress}
+							/>
 
-						<main className='_container'>
-							
-							<HashRouter>
-								<MarketRouter walletAddress={walletAddress}
-							setWalletAddress={setWalletAddress}></MarketRouter>
-							</HashRouter>
-						</main>
+							<main className='_container'>
+								<AppRouter
+									walletAddress={walletAddress}
+									setWalletAddress={setWalletAddress} />
+							</main>
 
-						<Footer></Footer>
-					</div>
+							<Footer></Footer>
+						</div>
+					</HashRouter>
+					
 				</UserStatsContext.Provider>
 			</GlobalStatsContext.Provider>
 			<Warning>
 				DeDeLend is in beta. Use at your own risk
 			</Warning>
-		</React.Fragment>
+		</>
 		
 	);
 }

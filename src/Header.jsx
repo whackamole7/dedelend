@@ -26,6 +26,8 @@ import HegicOperationalTreasury from "./deployments/arbitrum_ddl/HegicOperationa
 import {mmProvider} from './components/utils/providers.js'
 import { OptManager, PriceProviderETH, PriceProviderBTC } from './components/utils/contracts';
 import { getGlobalStats, getUserStats, getOptionStats } from './components/utils/stats';
+import { useLocation } from 'react-router-dom';
+import Tabs from './components/Tabs';
 
 
 const Header = ({ walletAddress, setWalletAddress }) => {
@@ -181,10 +183,31 @@ const Header = ({ walletAddress, setWalletAddress }) => {
 		}
 	}, [walletAddress])
 	
+
+
+	const loc = useLocation();
+	const headerLinks = [
+		{
+			name: 'Options',
+			to: '/options/borrow-market',
+		},
+		{
+			name: 'Perpetuals',
+			to: '/perpetuals',
+		},
+	]
+	headerLinks.find(link => {
+		link.isActive = loc.pathname.split('/')[1] === link.to.split('/')[1];
+		return link.isActive;
+	})
+	
 	return (
 		<header className='header'>
 			<div className="header__content _container">
-				<Logo></Logo>
+				<div className="header__nav">
+					<Logo></Logo>
+					<Tabs className='header__links' links={headerLinks}></Tabs>
+				</div>
 
 				{walletAddress ?
 					<Wallet address={walletAddress} /> :
