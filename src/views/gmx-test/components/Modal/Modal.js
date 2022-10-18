@@ -14,9 +14,10 @@ export default function Modal(props) {
   const modalRef = useRef(null);
 
   useLockBodyScroll(modalRef, isVisible, {
-    disableLock: disableBodyScrollLock,
+    disableLock: false,
     allowTouchMove: allowContentTouchMove,
   });
+
 
   useEffect(() => {
     function close(e) {
@@ -25,9 +26,6 @@ export default function Modal(props) {
       }
     }
     window.addEventListener("keydown", close);
-    document.addEventListener("mouseup", () => {
-      setIsVisible(false)
-    });
     return () => window.removeEventListener("keydown", close);
   }, [setIsVisible]);
 

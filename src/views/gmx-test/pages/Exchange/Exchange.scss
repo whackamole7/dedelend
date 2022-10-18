@@ -4,6 +4,10 @@
     margin: auto;
     justify-content: space-between;
   }
+
+  .Exchange-left {
+    flex: 2;
+  }
   
   .ExchangeChart-title .chart-token-selector--current {
     font-family: "Electrolize", sans-serif;
@@ -433,7 +437,7 @@
   .PositionEditor .Modal-content {
     position: absolute;
     max-height: 80vh;
-    overflow: hidden;
+    overflow: visible;
     border: none;
     top: auto;
     bottom: auto;
@@ -443,8 +447,13 @@
     overscroll-behavior: smooth;
     max-height: calc(80vh - 8.525rem);
     overflow-y: auto;
-    padding-right: 0.5rem;
-    margin: 0 3rem 3rem;
+    padding: 0 2rem 3rem;
+    margin: 0 1rem;
+
+    @media (max-width: 576px) {
+      padding: 0 1rem 2rem;
+      margin: 0 1rem;
+    }
   }
   
   .PositionEditor .Tab {
@@ -730,7 +739,8 @@
   
   .Exchange-swap-box .TokenSelector .Modal .Modal-backdrop,
   .Selector .Modal .Modal-backdrop {
-    display: none;
+    // display: none;
+    opacity: 0;
   }
   
   .Exchange-swap-box .TokenSelector .Modal-content,
@@ -1019,7 +1029,11 @@
     color: #384263;
     border-bottom: 1px solid transparent;
     padding: 8px 0;
+
     margin-right: 4rem;
+    &:last-child {
+      margin-right: 0;
+    }
   }
   .Exchange-list-tabs.Tab.inline .Tab-option.active {
     color: #fff;
@@ -1046,6 +1060,12 @@
   
     .Exchange-list.small {
       display: table;
+    }
+    .Exchange-list-leverage {
+      color: #747FA6;
+    }
+    .Exchange-list-token {
+      color: #fff;
     }
 
     .Exchange-content {
@@ -1146,11 +1166,11 @@
     .Exchange-swap-box .TokenSelector .Modal {
       align-items: center;
       justify-content: center;
-      position: fixed;
-      left: 0;
-      top: 0;
-      right: 0;
-      bottom: 0;
+      // position: fixed;
+      // left: 0;
+      // top: 0;
+      // right: 0;
+      // bottom: 0;
     }
   
     .order-error-message {
@@ -1177,8 +1197,9 @@
       max-height: 80vh;
       overflow: hidden;
       border: none;
-      top: auto;
       bottom: auto;
+      left: auto;
+      right: 0;
     }
   
     .Exchange-swap-box .TokenSelector .Modal-content .Modal-body {
@@ -1310,6 +1331,11 @@
       font-size: 15px;
       line-height: calc(19.5/15);
     }
+
+    .Exchange-list-tabs.Tab.inline .Tab-option {
+      font-size: 15px;
+      line-height: calc(19.5/15);
+    }
   }
 
   @media (max-width: 480px) {
@@ -1358,6 +1384,52 @@
     .Exchange-right {
       margin-top: 29rem;
     }
+
+    .Exchange-swap-box-inner {
+      padding: 2rem;
+    }
+
+    .Exchange-info-label + .align-right {
+      font-size: 15px;
+      line-height: calc(19.5/15);
+    }
+
+    .Exchange-list-tabs.Tab.inline .Tab-option {
+      font-size: 13px;
+      line-height: calc(16.9/13);
+
+      margin-right: 3rem;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    .Exchange-swap-box .Exchange-swap-section {
+      position: relative;
+    }
+    .Exchange-swap-box .TokenSelector .Modal {
+      left: 0;
+      right: 0;
+    }
+    .Exchange-swap-box .TokenSelector .Modal-content,
+    .Selector .Modal-content {
+      width: auto;
+      position: absolute;
+      max-height: 80vh;
+      overflow: hidden;
+      border: none;
+      bottom: auto;
+      left: auto;
+      right: 0;
+    }
   }
   
+
+  @media (max-width: 380px) {
+    .Exchange-info-label + .align-right {
+      .inline-block.muted {
+        display: none;
+      }
+    }
+  }
 }

@@ -242,82 +242,24 @@ export default function PositionsList(props) {
 
               return (
                 <div key={position.key} className="App-card">
-                  <div className="App-card-title">
+                  {/* <div className="App-card-title">
                     <span className="Exchange-list-title">{position.indexToken.symbol}</span>
-                  </div>
+                  </div> */}
                   <div className="App-card-divider"></div>
                   <div className="App-card-content">
                     <div className="App-card-row">
                       <div className="label">
-                        <Trans>Leverage</Trans>
+                        <Trans>Position</Trans>
                       </div>
                       <div>
-                        {formatAmount(position.leverage, 4, 2, true)}x&nbsp;
+                        <div className="Exchange-list-token">{position.indexToken.symbol}</div>
                         <span
                           className={cx("Exchange-list-side", {
                             positive: position.isLong,
                             negative: !position.isLong,
                           })}
-                        >
+                        ><span className="Exchange-list-leverage">{formatAmount(position.leverage, 4, 2, true)}x&nbsp;</span>
                           {position.isLong ? t`Long` : t`Short`}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="App-card-row">
-                      <div className="label">
-                        <Trans>Size</Trans>
-                      </div>
-                      <div>${formatAmount(position.size, USD_DECIMALS, 2, true)}</div>
-                    </div>
-                    <div className="App-card-row">
-                      <div className="label">
-                        <Trans>Collateral</Trans>
-                      </div>
-                      <div>
-                        <Tooltip
-                          handle={`$${formatAmount(position.collateralAfterFee, USD_DECIMALS, 2, true)}`}
-                          position="right-bottom"
-                          handleClassName={cx("plain", { negative: position.hasLowCollateral })}
-                          renderContent={() => {
-                            return (
-                              <>
-                                {position.hasLowCollateral && (
-                                  <div>
-                                    WARNING: This position has a low amount of collateral after deducting borrowing
-                                    fees, deposit more collateral to reduce the position's liquidation risk.
-                                    <br />
-                                    <br />
-                                  </div>
-                                )}
-                                <StatsTooltipRow
-                                  label="Initial Collateral"
-                                  value={formatAmount(position.collateral, USD_DECIMALS, 2, true)}
-                                />
-                                <StatsTooltipRow
-                                  label="Borrow Fee"
-                                  value={formatAmount(position.fundingFee, USD_DECIMALS, 2, true)}
-                                />
-                                <StatsTooltipRow label={t`Borrow Fee / Day`} value={borrowFeeUSD} />
-                                <span>Use the "Edit" button to deposit or withdraw collateral.</span>
-                              </>
-                            );
-                          }}
-                        />
-                      </div>
-                    </div>
-                    <div className="App-card-row">
-                      <div className="label">
-                        <Trans>PnL</Trans>
-                      </div>
-                      <div>
-                        <span
-                          className={cx("Exchange-list-info-label", {
-                            positive: hasPositionProfit && positionDelta.gt(0),
-                            negative: !hasPositionProfit && positionDelta.gt(0),
-                            muted: positionDelta.eq(0),
-                          })}
-                        >
-                          {position.deltaStr} ({position.deltaPercentageStr})
                         </span>
                       </div>
                     </div>
@@ -363,7 +305,81 @@ export default function PositionsList(props) {
                         />
                       </div>
                     </div>
+                    {/* <div className="App-card-row">
+                      <div className="label">
+                        <Trans>Leverage</Trans>
+                      </div>
+                      <div>
+                        {formatAmount(position.leverage, 4, 2, true)}x&nbsp;
+                        <span
+                          className={cx("Exchange-list-side", {
+                            positive: position.isLong,
+                            negative: !position.isLong,
+                          })}
+                        >
+                          {position.isLong ? t`Long` : t`Short`}
+                        </span>
+                      </div>
+                    </div> */}
                     <div className="App-card-row">
+                      <div className="label">
+                        <Trans>Size</Trans>
+                      </div>
+                      <div>${formatAmount(position.size, USD_DECIMALS, 2, true)}</div>
+                    </div>
+                    <div className="App-card-row">
+                      <div className="label">
+                        <Trans>Collateral</Trans>
+                      </div>
+                      <div>
+                        <Tooltip
+                          handle={`$${formatAmount(position.collateralAfterFee, USD_DECIMALS, 2, true)}`}
+                          position="right-bottom"
+                          handleClassName={cx("plain", { negative: position.hasLowCollateral })}
+                          renderContent={() => {
+                            return (
+                              <>
+                                {position.hasLowCollateral && (
+                                  <div>
+                                    WARNING: This position has a low amount of collateral after deducting borrowing
+                                    fees, deposit more collateral to reduce the position's liquidation risk.
+                                    <br />
+                                    <br />
+                                  </div>
+                                )}
+                                <StatsTooltipRow
+                                  label="Initial Collateral"
+                                  value={formatAmount(position.collateral, USD_DECIMALS, 2, true)}
+                                />
+                                <StatsTooltipRow
+                                  label="Borrow Fee"
+                                  value={formatAmount(position.fundingFee, USD_DECIMALS, 2, true)}
+                                />
+                                <StatsTooltipRow label={t`Borrow Fee / Day`} value={borrowFeeUSD} />
+                                <span>Use the "Edit" button to deposit or withdraw collateral.</span>
+                              </>
+                            );
+                          }}
+                        />
+                      </div>
+                    </div>
+                    {/* <div className="App-card-row">
+                      <div className="label">
+                        <Trans>PnL</Trans>
+                      </div>
+                      <div>
+                        <span
+                          className={cx("Exchange-list-info-label", {
+                            positive: hasPositionProfit && positionDelta.gt(0),
+                            negative: !hasPositionProfit && positionDelta.gt(0),
+                            muted: positionDelta.eq(0),
+                          })}
+                        >
+                          {position.deltaStr} ({position.deltaPercentageStr})
+                        </span>
+                      </div>
+                    </div> */}
+                    {/* <div className="App-card-row">
                       <div className="label">
                         <Trans>Orders</Trans>
                       </div>
@@ -397,7 +413,7 @@ export default function PositionsList(props) {
                           }
                         })}
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="App-card-divider"></div>
                   <div className="App-card-content">
@@ -425,18 +441,19 @@ export default function PositionsList(props) {
                     <button
                       className="App-button-option App-card-option"
                       disabled={position.size.eq(0)}
-                      onClick={() => sellPosition(position)}
-                    >
-                      Close
-                    </button>
-                    <button
-                      className="App-button-option App-card-option"
-                      disabled={position.size.eq(0)}
                       onClick={() => editPosition(position)}
                     >
                       <Trans> Edit</Trans>
                     </button>
                     <button
+                      className="App-button-option App-card-option"
+                      disabled={position.size.eq(0)}
+                      onClick={() => sellPosition(position)}
+                    >
+                      Close
+                    </button>
+                    
+                    {/* <button
                       className="Exchange-list-action App-button-option App-card-option"
                       onClick={() => {
                         setPositionToShare(position);
@@ -445,7 +462,7 @@ export default function PositionsList(props) {
                       disabled={position.size.eq(0)}
                     >
                       <Trans>Share</Trans>
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               );
