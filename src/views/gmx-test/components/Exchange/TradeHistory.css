@@ -5,6 +5,7 @@
 
 .TradeHistory-row {
   position: relative;
+  border-radius: 0!important;
   padding: 1.5rem 2rem;
 }
 .TradeHistory-row::before {
@@ -15,6 +16,10 @@
   bottom: 0;
   height: 1px;
   background-color: #181A3C;
+}
+
+.TradeHistory-row.Exchange-list-empty-note::before {
+  display: none;
 }
 
 .TradeHistory-row.App-box {
