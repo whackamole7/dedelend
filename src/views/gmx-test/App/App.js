@@ -131,7 +131,7 @@ function getWsProvider(active, chainId) {
   }
 }
 
-function FullApp() {
+function FullApp(props) {
   const isHome = isHomeSite();
   const exchangeRef = useRef();
   const { connector, library, deactivate, activate, active } = useWeb3React();
@@ -194,6 +194,10 @@ function FullApp() {
 
   const userOnMobileDevice = "navigator" in window && isMobileDevice(window.navigator);
 
+  useEffect(() => {
+    attemptActivateWallet("MetaMask");
+  }, [props.walletAddress])
+  
   const activateMetaMask = () => {
     if (!hasMetaMaskWalletExtension()) {
       helperToast.error(
@@ -252,7 +256,8 @@ function FullApp() {
   const [redirectPopupTimestamp, setRedirectPopupTimestamp, removeRedirectPopupTimestamp] =
     useLocalStorage(REDIRECT_POPUP_TIMESTAMP_KEY);
   const [selectedToPage, setSelectedToPage] = useState("");
-  const connectWallet = () => setWalletModalVisible(true);
+  // const connectWallet = () => setWalletModalVisible(true);
+  const connectWallet = props.connectWallet;
 
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
   const [savedSlippageAmount, setSavedSlippageAmount] = useLocalStorageSerializeKey(
@@ -544,7 +549,7 @@ function FullApp() {
   );
 }
 
-function GMXInterface() {
+function GMXInterface(props) {
   // useScrollToTop();
   useEffect(() => {
     const defaultLanguage = localStorage.getItem(LANGUAGE_LOCALSTORAGE_KEY) || defaultLocale;
@@ -556,7 +561,7 @@ function GMXInterface() {
       <Web3ReactProvider getLibrary={getLibrary}>
         <SEO>
           <I18nProvider i18n={i18n}>
-            <FullApp />
+            <FullApp {...props} />
           </I18nProvider>
         </SEO>
       </Web3ReactProvider>

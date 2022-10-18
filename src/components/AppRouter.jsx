@@ -8,6 +8,7 @@ import { DDL_POOL, USDC } from './utils/contracts';
 import { UserStatsContext } from '../context/context';
 import { ethers } from 'ethers';
 import GMXInterface from '../views/gmx-test/App/App';
+import { connectWallet } from './utils/wallet';
 
 
 const AppRouter = ({ walletAddress, setWalletAddress}) => {
@@ -57,7 +58,9 @@ const AppRouter = ({ walletAddress, setWalletAddress}) => {
 	return (
 		<>
 			<Routes>
-				<Route path="/perpetuals" element={<GMXInterface />} />
+				<Route path="/perpetuals" element={<GMXInterface connectWallet={() => {
+					connectWallet(setWalletAddress)
+				}} walletAddress={walletAddress}/>} />
 				<Route path="/options">
 					<Route path="/options/borrow-market" element={
 						<>
