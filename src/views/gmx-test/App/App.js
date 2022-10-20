@@ -42,22 +42,22 @@ import {
   LANGUAGE_LOCALSTORAGE_KEY,
 } from "../lib/legacy";
 
-import Home from "../pages/Home/Home";
-import Dashboard from "../pages/Dashboard/Dashboard";
-import Ecosystem from "../pages/Ecosystem/Ecosystem";
-import Stake from "../pages/Stake/Stake";
+// import Home from "../pages/Home/Home";
+// import Dashboard from "../pages/Dashboard/Dashboard";
+// import Ecosystem from "../pages/Ecosystem/Ecosystem";
+// import Stake from "../pages/Stake/Stake";
 import { Exchange } from "../pages/Exchange/Exchange";
-import Actions from "../pages/Actions/Actions";
-import OrdersOverview from "../pages/OrdersOverview/OrdersOverview";
-import PositionsOverview from "../pages/PositionsOverview/PositionsOverview";
-import Referrals from "../pages/Referrals/Referrals";
-import BuyGlp from "../pages/BuyGlp/BuyGlp";
-import BuyGMX from "../pages/BuyGMX/BuyGMX";
-import Buy from "../pages/Buy/Buy";
-import NftWallet from "../pages/NftWallet/NftWallet";
-import ClaimEsGmx from "../pages/ClaimEsGmx/ClaimEsGmx";
-import BeginAccountTransfer from "../pages/BeginAccountTransfer/BeginAccountTransfer";
-import CompleteAccountTransfer from "../pages/CompleteAccountTransfer/CompleteAccountTransfer";
+// import Actions from "../pages/Actions/Actions";
+// import OrdersOverview from "../pages/OrdersOverview/OrdersOverview";
+// import PositionsOverview from "../pages/PositionsOverview/PositionsOverview";
+// import Referrals from "../pages/Referrals/Referrals";
+// import BuyGlp from "../pages/BuyGlp/BuyGlp";
+// import BuyGMX from "../pages/BuyGMX/BuyGMX";
+// import Buy from "../pages/Buy/Buy";
+// import NftWallet from "../pages/NftWallet/NftWallet";
+// import ClaimEsGmx from "../pages/ClaimEsGmx/ClaimEsGmx";
+// import BeginAccountTransfer from "../pages/BeginAccountTransfer/BeginAccountTransfer";
+// import CompleteAccountTransfer from "../pages/CompleteAccountTransfer/CompleteAccountTransfer";
 
 import { cssTransition, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -82,19 +82,19 @@ import { getContract } from "../config/Addresses";
 import VaultV2 from "../abis/VaultV2.json";
 import VaultV2b from "../abis/VaultV2b.json";
 import PositionRouter from "../abis/PositionRouter.json";
-import PageNotFound from "../pages/PageNotFound/PageNotFound";
-import ReferralTerms from "../pages/ReferralTerms/ReferralTerms";
-import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
+// import PageNotFound from "../pages/PageNotFound/PageNotFound";
+// import ReferralTerms from "../pages/ReferralTerms/ReferralTerms";
+// import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
 import { useLocalStorage } from "react-use";
 import { RedirectPopupModal } from "../components/ModalViews/RedirectModal";
 import { REDIRECT_POPUP_TIMESTAMP_KEY } from "../config/ui";
-import Jobs from "../pages/Jobs/Jobs";
+// import Jobs from "../pages/Jobs/Jobs";
 
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { Trans, t } from "@lingui/macro";
 import { defaultLocale, dynamicActivate } from "../lib/i18n";
-import { Header } from "../components/Header/Header";
+// import { Header } from "../components/Header/Header";
 
 if ("ethereum" in window) {
   window.ethereum.autoRefreshOnNetworkChange = false;
