@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/dedelend/static/css/main.fee97bf2.chunk.css",
-    "main.js": "/dedelend/static/js/main.e09ba164.chunk.js",
-    "main.js.map": "/dedelend/static/js/main.e09ba164.chunk.js.map",
+    "main.css": "/dedelend/static/css/main.2325f6f0.chunk.css",
+    "main.js": "/dedelend/static/js/main.a1ea6f41.chunk.js",
+    "main.js.map": "/dedelend/static/js/main.a1ea6f41.chunk.js.map",
     "runtime-main.js": "/dedelend/static/js/runtime-main.20dfc617.js",
     "runtime-main.js.map": "/dedelend/static/js/runtime-main.20dfc617.js.map",
     "static/css/2.9980fd32.chunk.css": "/dedelend/static/css/2.9980fd32.chunk.css",
@@ -28,7 +28,7 @@
     "static/js/11.aa6ebb1c.chunk.js.map": "/dedelend/static/js/11.aa6ebb1c.chunk.js.map",
     "index.html": "/dedelend/index.html",
     "static/css/2.9980fd32.chunk.css.map": "/dedelend/static/css/2.9980fd32.chunk.css.map",
-    "static/css/main.fee97bf2.chunk.css.map": "/dedelend/static/css/main.fee97bf2.chunk.css.map",
+    "static/css/main.2325f6f0.chunk.css.map": "/dedelend/static/css/main.2325f6f0.chunk.css.map",
     "static/js/2.0a2e8558.chunk.js.LICENSE.txt": "/dedelend/static/js/2.0a2e8558.chunk.js.LICENSE.txt",
     "static/js/3.dc60daf5.chunk.js.LICENSE.txt": "/dedelend/static/js/3.dc60daf5.chunk.js.LICENSE.txt",
     "static/media/Anyswap.svg": "/dedelend/static/media/Anyswap.491d1f32.svg",
@@ -196,7 +196,7 @@
     "static/js/runtime-main.20dfc617.js",
     "static/css/2.9980fd32.chunk.css",
     "static/js/2.0a2e8558.chunk.js",
-    "static/css/main.fee97bf2.chunk.css",
-    "static/js/main.e09ba164.chunk.js"
+    "static/css/main.2325f6f0.chunk.css",
+    "static/js/main.a1ea6f41.chunk.js"
   ]
 }
