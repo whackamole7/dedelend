@@ -3,6 +3,7 @@ import { Menu } from "@headlessui/react";
 import { FaChevronDown } from "react-icons/fa";
 import cx from "classnames";
 import "./ChartTokenSelector.css";
+import "../AddressDropdown/AddressDropdown.css";
 import { getTokens, getWhitelistedTokens } from "../../config/Tokens";
 import { LONG, SHORT, SWAP } from "../../lib/legacy";
 

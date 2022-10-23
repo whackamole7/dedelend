@@ -6,7 +6,7 @@
   }
 
   .Exchange-left {
-    flex: 2;
+    flex: 4;
   }
   
   .ExchangeChart-title .chart-token-selector--current {
@@ -72,7 +72,17 @@
     // margin-top: -1.5rem;
   }
   .Exchange-right {
+    min-width: 38.75rem;
     flex: 1;
+
+    @media (max-width: 1380px) {
+      min-width: 33rem;
+      flex: 2;
+    }
+
+    @media (max-width: 480px) {
+      min-width: auto;
+    }
   }
   
   .Exchange-position-list-orders {
@@ -386,7 +396,7 @@
     font-size: 1.4rem;
     padding: 0.8rem 0;
     margin-left: 3.1rem;
-    white-space: nowrap;
+    // white-space: nowrap;
     z-index: 2;
   }
   .ExchangeChart-bottom-stats-label {
@@ -1050,12 +1060,6 @@
 
   .ExchangeChart-bottom-controls .Tab-option.muted {
     opacity: 1;
-  }
-  
-  @media (max-width: 1500px) {
-    .Exchange-swap-box {
-      width: 38.75rem;
-    }
   }
   
   @media (max-width: 1300px) {

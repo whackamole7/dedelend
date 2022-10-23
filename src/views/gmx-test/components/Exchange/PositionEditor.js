@@ -320,6 +320,7 @@ export default function PositionEditor(props) {
       priceLimit, // _acceptablePrice
       minExecutionFee, // _executionFee
       referralCode, // _referralCode
+      AddressZero, // _callbackTarget
     ];
 
     let method = "createIncreasePosition";
@@ -336,6 +337,7 @@ export default function PositionEditor(props) {
         priceLimit, // _acceptablePrice
         minExecutionFee, // _executionFee
         referralCode, // _referralCode
+        AddressZero, // _callbackTarget
       ];
     }
 
@@ -394,6 +396,7 @@ export default function PositionEditor(props) {
       0, // _minOut
       minExecutionFee, // _executionFee
       withdrawETH, // _withdrawETH
+      AddressZero, // _callbackTarget
     ];
 
     const method = "createDecreasePosition";

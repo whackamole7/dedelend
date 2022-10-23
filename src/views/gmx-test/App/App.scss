@@ -1,3 +1,17 @@
+.rc-slider-tooltip {
+  z-index: 5;
+}
+
+.rc-slider-tooltip-inner {
+  box-shadow: none;
+  padding: 0.465rem 0.8rem;
+  background: #384263;
+}
+
+.rc-slider-tooltip-placement-top .rc-slider-tooltip-arrow {
+  border-top-color: #384263;
+}
+
 .GMX-Interface {
   &.App {
     position: relative;
@@ -1177,20 +1191,6 @@
   .App-slider .rc-slider-mark-text:hover,
   .App-slider .rc-slider-mark-text-active:hover {
     color: #747FA6;
-  }
-  
-  .rc-slider-tooltip {
-    z-index: 5;
-  }
-  
-  .rc-slider-tooltip-inner {
-    box-shadow: none;
-    padding: 0.465rem 0.8rem;
-    background: #303652;
-  }
-  
-  .rc-slider-tooltip-placement-top .rc-slider-tooltip-arrow {
-    border-top-color: #303652;
   }
   
   .header-connect-btn {

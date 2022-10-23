@@ -75,4 +75,14 @@
 	@media (max-width: 576px) {
 		padding: 15px 0;
 	}
+
+	@media (max-width: 480px) {
+		&__links {
+			column-gap: 20px;
+		}
+		
+		.btn_tab {
+			flex: 0;
+		}
+	}
 }

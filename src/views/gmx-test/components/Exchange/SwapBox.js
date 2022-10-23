@@ -1520,6 +1520,7 @@ export default function SwapBox(props) {
       priceLimit, // _acceptablePrice
       minExecutionFee, // _executionFee
       referralCode, // _referralCode
+      AddressZero, // _callbackTarget
     ];
 
     let method = "createIncreasePosition";
@@ -1535,7 +1536,8 @@ export default function SwapBox(props) {
         isLong, // _isLong
         priceLimit, // _acceptablePrice
         minExecutionFee, // _executionFee
-        referralCode, // _referralCode
+        referralCode, // _referralCode,
+        AddressZero, // _callbackTarget
       ];
     }
 
@@ -2054,7 +2056,7 @@ export default function SwapBox(props) {
                 })}
               >
                 <Slider
-                  min={1.2}
+                  min={1.1}
                   max={30.5}
                   step={0.1}
                   marks={leverageMarks}

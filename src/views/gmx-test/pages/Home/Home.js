@@ -287,14 +287,14 @@
 //         </div>
 //       </div>
 
-//       {/* <div className="Home-video-section">
+//       {<div className="Home-video-section">
 //         <div className="Home-video-container default-container">
 //           <div className="Home-video-block">
 //             <img src={gmxBigIcon} alt="gmxbig" />
 //           </div>
 //         </div>
-//       </div> */}
-//       {/* <div className="Home-faqs-section">
+//       </div>}
+//       {<div className="Home-faqs-section">
 //         <div className="Home-faqs-container default-container">
 //           <div className="Home-faqs-introduction">
 //             <div className="Home-faqs-introduction__title">FAQs</div>
@@ -326,7 +326,7 @@
 //             }
 //           </div>
 //         </div>
-//       </div> */}
+//       </div>}
 //       <Footer showRedirectModal={showRedirectModal} redirectPopupTimestamp={redirectPopupTimestamp} />
 //     </div>
 //   );

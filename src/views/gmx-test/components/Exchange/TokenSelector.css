@@ -6,6 +6,10 @@
   border-radius: 5px;
 }
 
+.TokenSelector.opened .TokenSelector-caret {
+  transform: translateY(-50%) rotate(180deg);
+}
+
 .TokenSelector-token-row {
   /* min-width: fit-content; */
 }
@@ -66,9 +70,10 @@
   margin-left: 0.465rem;
   font-size: 2.325rem;
   position: absolute;
-  top: 50%;
+  top: calc(50% - 1px);
   right: 0;
   transform: translateY(-50%);
+  transition: transform .2s ease;
 }
 
 .TokenSelector-tokens {
