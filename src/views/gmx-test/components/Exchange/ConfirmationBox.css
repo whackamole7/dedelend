@@ -36,6 +36,12 @@
   padding: 0 30px 30px;
 }
 
+@media (max-width: 576px) {
+  .Confirmation-box .Modal-body {
+    padding: 0 20px 20px;
+  }
+}
+
 .Confirmation-box-main-label {
   display: flex;
   justify-content: space-between;

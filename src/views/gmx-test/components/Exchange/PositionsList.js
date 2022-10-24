@@ -452,6 +452,19 @@ export default function PositionsList(props) {
                     >
                       Close
                     </button>
+                    <Tooltip
+                      className="collateral-locked-icon"
+                      position="right-bottom"
+                      enabled={true}
+                      handle=""
+                      renderContent={() => {
+                        return (
+                          <div>
+                            Your position is locked as collateral
+                          </div>
+                        );
+                      }} />
+
                     
                     {/* <button
                       className="Exchange-list-action App-button-option App-card-option"
@@ -472,31 +485,33 @@ export default function PositionsList(props) {
       )}
       <table className="Exchange-list large App-box">
         <tbody>
-          <tr className="Exchange-list-header">
-            <th>
-              <Trans>Position</Trans>
-            </th>
-            <th>
-              <Trans>Net Value</Trans>
-            </th>
-            <th>
-              <Trans>Size</Trans>
-            </th>
-            <th>
-              <Trans>Collateral</Trans>
-            </th>
-            <th>
-              <Trans>Mark Price</Trans>
-            </th>
-            <th>
-              <Trans>Entry Price</Trans>
-            </th>
-            <th>
-              <Trans>Liq. Price</Trans>
-            </th>
-            <th></th>
-            <th></th>
-          </tr>
+          {positions.length > 0 && (
+            <tr className="Exchange-list-header">
+              <th>
+                <Trans>Position</Trans>
+              </th>
+              <th>
+                <Trans>Net Value</Trans>
+              </th>
+              <th>
+                <Trans>Size</Trans>
+              </th>
+              <th>
+                <Trans>Collateral</Trans>
+              </th>
+              <th>
+                <Trans>Mark Price</Trans>
+              </th>
+              <th>
+                <Trans>Entry Price</Trans>
+              </th>
+              <th>
+                <Trans>Liq. Price</Trans>
+              </th>
+              <th></th>
+              <th></th>
+            </tr>
+          )}
           {positions.length === 0 && positionsDataIsLoading && (
             <tr>
               <td colSpan="15">
@@ -506,8 +521,8 @@ export default function PositionsList(props) {
           )}
           {positions.length === 0 && !positionsDataIsLoading && (
             <tr>
-              <td colSpan="15">
-                <div className="Exchange-empty-positions-list-note Exchange-list-empty-note">No open positions</div>
+              <td colSpan="15" className="Exchange-list-empty-note">
+                No open positions
               </td>
             </tr>
           )}

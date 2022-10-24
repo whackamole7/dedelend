@@ -52,6 +52,7 @@ import Footer from "../../components/Footer/Footer";
 
 import "./Exchange.scss";
 import { fetcher } from "../../lib/contracts/fetcher";
+import BorrowsList from './../../components/Exchange/BorrowsList';
 const { AddressZero } = ethers.constants;
 
 const PENDING_POSITION_VALID_DURATION = 600 * 1000;
@@ -902,6 +903,9 @@ export const Exchange = forwardRef((props, ref) => {
             nativeTokenAddress={nativeTokenAddress}
             shouldShowPaginationButtons={true}
           />
+        )}
+        {listSection === 'Borrows' && (
+          <BorrowsList />
         )}
       </div>
     );

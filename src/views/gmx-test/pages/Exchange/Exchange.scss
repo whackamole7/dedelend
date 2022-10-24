@@ -8,6 +8,12 @@
   .Exchange-left {
     flex: 4;
   }
+
+  .Orders {
+    .Checkbox {
+      display: none;
+    }
+  }
   
   .ExchangeChart-title .chart-token-selector--current {
     font-family: "Electrolize", sans-serif;
@@ -43,7 +49,10 @@
   }
   
   .Exchange-list-empty-note {
-    color: #384263;
+    font-size: 15px;
+    line-height: calc(19.5/15);
+    color: #384263!important;
+    padding: 15px 20px;
   }
   
   .position-loading-icon {
@@ -458,7 +467,7 @@
     bottom: auto;
   }
   
-  .PositionEditor .Modal-content .Modal-body {
+  .Exchange-list-modal .Modal-content .Modal-body, .PositionEditor .Modal-content .Modal-body {
     overscroll-behavior: smooth;
     max-height: calc(80vh - 8.525rem);
     overflow-y: auto;
@@ -526,8 +535,15 @@
   .Exchange-list.small {
     display: none;
   }
+
+  .PositionsList {
+    .App-card-options {
+      display: flex;
+    }
+  }
   
   .collateral-locked-icon {
+    margin-left: auto;
     vertical-align: middle;
     cursor: default;
   }
@@ -568,8 +584,10 @@
   }
   
   table.Exchange-list {
-    border-top-left-radius: 0;
     border-collapse: collapse;
+  }
+  .PositionsList .Exchange-list {
+    border-top-left-radius: 0;
   }
   
   table.Exchange-list th,
@@ -628,13 +646,26 @@
   
   .Exchange-info-row {
     display: grid;
+    align-items: center;
     grid-template-columns: auto auto;
     font-size: 17px;
     line-height: calc(22.1/17);
     margin-bottom: 1rem;
+
+    &_relative {
+      position: relative;
+    }
+
+    @media (max-width: 576px) {
+      font-size: 15px;
+      line-height: calc(19.5/15);
+    }
   }
   
   .Exchange-info-row .align-right {
+    font-size: 15px;
+    line-height: calc(19.5/15);
+    vertical-align: middle;
     color: #747FA6;
   }
   

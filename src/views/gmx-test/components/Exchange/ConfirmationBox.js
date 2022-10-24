@@ -35,6 +35,7 @@ import ExchangeInfoRow from "./ExchangeInfoRow";
 import { cancelDecreaseOrder, handleCancelOrder } from "../../domain/legacy";
 import { getNativeToken, getToken, getWrappedToken } from "../../config/Tokens";
 import StatsTooltipRow from "../StatsTooltip/StatsTooltipRow";
+import SlippageInput from './../SlippageInput/SlippageInput';
 
 const HIGH_SPREAD_THRESHOLD = expandDecimals(1, USD_DECIMALS).div(100); // 1%;
 
@@ -259,9 +260,13 @@ export default function ConfirmationBox(props) {
   // it's meaningless for limit/stop orders to show spread based on current prices
   const showSpread = isMarketOrder && !!spread;
 
+  const [userSlippage, setUserSlippage] = useState('')
   let allowedSlippage = savedSlippageAmount;
-  if (isHigherSlippageAllowed) {
-    allowedSlippage = DEFAULT_HIGHER_SLIPPAGE_AMOUNT;
+  // if (isHigherSlippageAllowed) {
+  //   allowedSlippage = DEFAULT_HIGHER_SLIPPAGE_AMOUNT;
+  // }
+  if (userSlippage !== '') {
+    allowedSlippage = userSlippage * 100;
   }
 
   const renderSpreadWarning = useCallback(() => {
@@ -730,7 +735,13 @@ export default function ConfirmationBox(props) {
               </ExchangeInfoRow>
             </div>
           )}
-          <ExchangeInfoRow label="Allowed Slippage">
+          {isMarketOrder && (
+            <SlippageInput
+              value={userSlippage}
+              setValue={setUserSlippage}
+             />
+          )}
+          <ExchangeInfoRow label="Allowed Slippage" className="Slippage-row">
             <Tooltip
               handle={`${formatAmount(allowedSlippage, 2, 2)}%`}
               position="right-top"
@@ -747,13 +758,6 @@ export default function ConfirmationBox(props) {
               }}
             />
           </ExchangeInfoRow>
-          {isMarketOrder && (
-            <div className="PositionEditor-allow-higher-slippage">
-              <Checkbox isChecked={isHigherSlippageAllowed} setIsChecked={setIsHigherSlippageAllowed}>
-                <span className="muted font-sm">Allow up to 1% slippage</span>
-              </Checkbox>
-            </div>
-          )}
           {decreaseOrdersThatWillBeExecuted.length > 0 && (
             <div className="PositionEditor-allow-higher-slippage">
               <Checkbox isChecked={isTriggerWarningAccepted} setIsChecked={setIsTriggerWarningAccepted}>

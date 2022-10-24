@@ -2068,7 +2068,7 @@ export default function SwapBox(props) {
               </div>
             )}
             {isShort && (
-              <div className="Exchange-info-row">
+              <div className="Exchange-info-row Exchange-info-row_relative">
                 <div className="Exchange-info-label">
                   <Trans>Collateral In</Trans>
                 </div>
@@ -2081,7 +2081,7 @@ export default function SwapBox(props) {
                     onSelectToken={onSelectShortCollateralAddress}
                     tokens={stableTokens}
                     showTokenImgInDropdown={true}
-                    disabled={true}
+                    disabled={false}
                   />
                 </div>
               </div>

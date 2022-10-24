@@ -10,6 +10,10 @@
   transform: translateY(-50%) rotate(180deg);
 }
 
+.TokenSelector.opened .Modal-content {
+  box-shadow: 3px 0 20px #060D21;
+}
+
 .TokenSelector-token-row {
   /* min-width: fit-content; */
 }

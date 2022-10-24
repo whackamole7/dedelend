@@ -61,10 +61,14 @@ export default function OrdersList(props) {
   );
 
   const renderHead = useCallback(() => {
+    if (!orders.length) {
+      return;
+    }
+    
     const isAllOrdersSelected = cancelOrderIdList?.length > 0 && cancelOrderIdList?.length === orders.length;
     return (
       <tr className="Exchange-list-header">
-        {orders.length > 0 && (
+        {/* {orders.length > 0 && (
           <th>
             <div className="checkbox-inline ">
               <Checkbox
@@ -80,7 +84,7 @@ export default function OrdersList(props) {
               />
             </div>
           </th>
-        )}
+        )} */}
 
         <th>
           <div>
@@ -160,7 +164,7 @@ export default function OrdersList(props) {
 
         return (
           <tr className="Exchange-list-item" key={orderId}>
-            <td>
+            {/* <td>
               <div className="checkbox-inline ">
                 <Checkbox
                   isChecked={cancelOrderIdList?.includes(orderId)}
@@ -175,7 +179,7 @@ export default function OrdersList(props) {
                   }}
                 />
               </div>
-            </td>
+            </td> */}
             <td className="Exchange-list-item-type">Limit</td>
             <td>
               Swap{" "}
@@ -239,7 +243,7 @@ export default function OrdersList(props) {
 
       return (
         <tr className="Exchange-list-item" key={`${order.isLong}-${order.type}-${order.index}`}>
-          <td className="Exchange-list-item-type">
+          {/* <td className="Exchange-list-item-type">
             <div>
               <Checkbox
                 isChecked={cancelOrderIdList?.includes(orderId)}
@@ -254,7 +258,7 @@ export default function OrdersList(props) {
                 }}
               />
             </div>
-          </td>
+          </td> */}
           <td className="Exchange-list-item-type">{order.type === INCREASE ? "Limit" : "Trigger"}</td>
           <td>
             {order.type === DECREASE ? (

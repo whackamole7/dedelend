@@ -64,6 +64,7 @@ import marketImg from '../../img/ddl/icon_market.svg'
 import marketActiveImg from '../../img/ddl/icon_market_active.svg'
 import triggerImg from '../../img/ddl/icon_trigger.svg'
 import triggerActiveImg from '../../img/ddl/icon_trigger_active.svg'
+import SlippageInput from './../SlippageInput/SlippageInput';
 
 const CLOSE_ICONS = {
   Market: marketImg,
@@ -192,6 +193,9 @@ export default function PositionSeller(props) {
   const [keepLeverage, setKeepLeverage] = useLocalStorageSerializeKey([chainId, "Exchange-keep-leverage"], true);
   const position = positionsMap && positionKey ? positionsMap[positionKey] : undefined;
   const [fromValue, setFromValue] = useState("");
+
+  const [userSlippage, setUserSlippage] = useState('')
+  
   const [isProfitWarningAccepted, setIsProfitWarningAccepted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const prevIsVisible = usePrevious(isVisible);
@@ -209,8 +213,11 @@ export default function PositionSeller(props) {
   );
 
   let allowedSlippage = savedSlippageAmount;
-  if (isHigherSlippageAllowed) {
-    allowedSlippage = DEFAULT_HIGHER_SLIPPAGE_AMOUNT;
+  // if (isHigherSlippageAllowed) {
+  //   allowedSlippage = DEFAULT_HIGHER_SLIPPAGE_AMOUNT;
+  // }
+  if (userSlippage !== '') {
+    allowedSlippage = userSlippage * 100;
   }
 
   const orderOptions = [MARKET, STOP];
@@ -720,6 +727,7 @@ export default function PositionSeller(props) {
       return;
     }
 
+    console.log(allowedSlippage);
     const priceBasisPoints = position.isLong
       ? BASIS_POINTS_DIVISOR - allowedSlippage
       : BASIS_POINTS_DIVISOR + allowedSlippage;
@@ -931,6 +939,12 @@ export default function PositionSeller(props) {
               <div className="PositionEditor-token-symbol">USD</div>
             </div>
           </div>
+          {orderOption === MARKET && (
+            <SlippageInput 
+              value={userSlippage}
+              setValue={setUserSlippage} 
+            />
+          )}
           {orderOption === STOP && (
             <div className="Exchange-swap-section">
               <div className="Exchange-swap-section-top">
@@ -974,21 +988,21 @@ export default function PositionSeller(props) {
                 </Checkbox>
               </div>
             )}
-            <div className="PositionEditor-keep-leverage-settings">
+            {/* <div className="PositionEditor-keep-leverage-settings">
               <Checkbox isChecked={keepLeverage} setIsChecked={setKeepLeverage}>
                 <span className="muted font-sm">Keep leverage at {formatAmount(position.leverage, 4, 2)}x</span>
               </Checkbox>
-            </div>
-            {orderOption === MARKET && (
+            </div> */}
+            {/* {orderOption === MARKET && (
               <div className="PositionEditor-allow-higher-slippage">
                 <Checkbox isChecked={isHigherSlippageAllowed} setIsChecked={setIsHigherSlippageAllowed}>
                   <span className="muted font-sm">Allow up to 1% slippage</span>
                 </Checkbox>
               </div>
-            )}
+            )} */}
             {orderOption === MARKET && (
               <div>
-                <ExchangeInfoRow label="Allowed Slippage">
+                <ExchangeInfoRow label="Allowed Slippage" className="Slippage-row">
                   <Tooltip
                     handle={`${formatAmount(allowedSlippage, 2, 2)}%`}
                     position="right-bottom"
