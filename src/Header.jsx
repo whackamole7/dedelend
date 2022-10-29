@@ -76,7 +76,6 @@ const Header = ({ walletAddress, setWalletAddress }) => {
 		for (let event of transferLogs) {
 			
 			let decodeData = iface.decodeEventLog("Transfer", event.data, event.topics)
-
 			
 			let lockL = await hegicOperationalTreasury.lockedLiquidity(decodeData.tokenId)
 			
