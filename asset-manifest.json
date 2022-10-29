@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/dedelend/static/css/main.f1691f89.chunk.css",
+    "main.css": "/dedelend/static/css/main.bd3ae4dd.chunk.css",
     "main.js": "/dedelend/static/js/main.74dee138.chunk.js",
     "main.js.map": "/dedelend/static/js/main.74dee138.chunk.js.map",
     "runtime-main.js": "/dedelend/static/js/runtime-main.c5045891.js",
@@ -28,7 +28,7 @@
     "static/js/11.f54fe1d7.chunk.js.map": "/dedelend/static/js/11.f54fe1d7.chunk.js.map",
     "index.html": "/dedelend/index.html",
     "static/css/2.9980fd32.chunk.css.map": "/dedelend/static/css/2.9980fd32.chunk.css.map",
-    "static/css/main.f1691f89.chunk.css.map": "/dedelend/static/css/main.f1691f89.chunk.css.map",
+    "static/css/main.bd3ae4dd.chunk.css.map": "/dedelend/static/css/main.bd3ae4dd.chunk.css.map",
     "static/js/2.1051f8df.chunk.js.LICENSE.txt": "/dedelend/static/js/2.1051f8df.chunk.js.LICENSE.txt",
     "static/js/3.4da4fad4.chunk.js.LICENSE.txt": "/dedelend/static/js/3.4da4fad4.chunk.js.LICENSE.txt",
     "static/media/Anyswap.svg": "/dedelend/static/media/Anyswap.491d1f32.svg",
@@ -196,7 +196,7 @@
     "static/js/runtime-main.c5045891.js",
     "static/css/2.9980fd32.chunk.css",
     "static/js/2.1051f8df.chunk.js",
-    "static/css/main.f1691f89.chunk.css",
+    "static/css/main.bd3ae4dd.chunk.css",
     "static/js/main.74dee138.chunk.js"
   ]
 }
