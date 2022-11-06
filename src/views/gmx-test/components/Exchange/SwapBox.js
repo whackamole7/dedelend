@@ -89,6 +89,7 @@ import NoLiquidityErrorModal from "./NoLiquidityErrorModal";
 import StatsTooltipRow from "../StatsTooltip/StatsTooltipRow";
 import { fetcher } from "../../lib/contracts/fetcher";
 import { callContract } from "../../lib/contracts/callContract";
+import { DDL_AccountManager, DDL_PositionRouter } from './../../../../components/utils/contracts';
 
 const SWAP_ICONS = {
   [LONG]: longImg,
@@ -1518,26 +1519,30 @@ export default function SwapBox(props) {
       toUsdMax, // _sizeDelta
       isLong, // _isLong
       priceLimit, // _acceptablePrice
-      minExecutionFee, // _executionFee
+      // minExecutionFee, // _executionFee
       referralCode, // _referralCode
-      AddressZero, // _callbackTarget
+      // AddressZero, // _callbackTarget
     ];
 
     let method = "createIncreasePosition";
     let value = minExecutionFee;
     if (fromTokenAddress === AddressZero) {
+      console.log('ETH');
       method = "createIncreasePositionETH";
       value = boundedFromAmount.add(minExecutionFee);
       params = [
         path, // _path
         indexTokenAddress, // _indexToken
+        // --amountIn
+        boundedFromAmount, // _amountIn
+        
         0, // _minOut
         toUsdMax, // _sizeDelta
         isLong, // _isLong
         priceLimit, // _acceptablePrice
         minExecutionFee, // _executionFee
         referralCode, // _referralCode,
-        AddressZero, // _callbackTarget
+        // AddressZero, // _callbackTarget
       ];
     }
 
@@ -1550,8 +1555,9 @@ export default function SwapBox(props) {
       return;
     }
 
-    const contractAddress = getContract(chainId, "PositionRouter");
-    const contract = new ethers.Contract(contractAddress, PositionRouter.abi, library.getSigner());
+    // const contractAddress = getContract(chainId, "PositionRouter");
+    // const contract = new ethers.Contract(contractAddress, PositionRouter.abi, library.getSigner());
+    const contract = DDL_AccountManager;
     const indexToken = getTokenInfo(infoTokens, indexTokenAddress);
     const tokenSymbol = indexToken.isWrapped ? getConstant(chainId, "nativeTokenSymbol") : indexToken.symbol;
     const successMsg = t`Requested increase of ${tokenSymbol} ${isLong ? "Long" : "Short"} by ${formatAmount(
@@ -1650,7 +1656,8 @@ export default function SwapBox(props) {
       setIsApproving,
       library,
       tokenAddress: fromToken.address,
-      spender: routerAddress,
+      // spender: routerAddress,
+      spender: DDL_AccountManager.address,
       chainId: chainId,
       onApproveSubmitted: () => {
         setIsWaitingForApproval(true);
@@ -2201,7 +2208,7 @@ export default function SwapBox(props) {
           </div>
         )}
         <div className="Exchange-swap-button-container">
-          <button className="App-cta Exchange-swap-button" onClick={onClickPrimary} disabled={!isPrimaryEnabled()}>
+          <button className="App-cta Exchange-swap-button" onClick={onClickPrimary} disabled={/* !isPrimaryEnabled() */ false}>
             {getPrimaryText()}
           </button>
         </div>

@@ -96,6 +96,9 @@ import { Trans, t } from "@lingui/macro";
 import { defaultLocale, dynamicActivate } from "../lib/i18n";
 // import { Header } from "../components/Header/Header";
 
+import { signer } from './../../../components/utils/providers';
+import _AccountManager from "../../../deployments/arbitrum_ddl/accountManager.json";
+
 if ("ethereum" in window) {
   window.ethereum.autoRefreshOnNetworkChange = false;
 }
@@ -551,6 +554,8 @@ function FullApp(props) {
 
 function GMXInterface(props) {
   // useScrollToTop();
+  
+  
   useEffect(() => {
     const defaultLanguage = localStorage.getItem(LANGUAGE_LOCALSTORAGE_KEY) || defaultLocale;
     console.log(defaultLanguage);

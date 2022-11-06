@@ -427,6 +427,10 @@ input[type="text"] {
 		margin-top: 15px;
 	}
 
+	&__text {
+		color: $lgrey;
+	}
+
 	@media (max-width: 576px) {
 		&__steps {
 			gap: 24px;
@@ -441,6 +445,47 @@ input[type="text"] {
 				font-size: 15px;
 				line-height: calc(19.5/15);
 			}
+		}
+	}
+
+	&.modal_register &__content {
+		width: 665px;
+
+		@media (max-width: 768px) {
+			width: 400px;
+		}
+
+		@media (max-width: 480px) {
+			width: calc(100% - 40px);
+			margin: 0 auto;
+		}
+	}
+	&.modal_register &__title {
+		margin-bottom: 15px;
+	}
+
+	&.modal_register {
+		.text-cols {
+			display: flex;
+			flex-wrap: wrap;
+			column-gap: 30px;
+			row-gap: 10px;
+			justify-content: space-between;
+		}
+		.text-col {
+			display: flex;
+			flex-direction: column;
+			row-gap: 10px;
+			width: 105px;
+
+			p {
+				margin: 0;
+			}
+		}
+
+		.btn {
+			width: 100%;
+			margin-top: 5px;
 		}
 	}
 }

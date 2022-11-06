@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Modal = ({children, className, visible, setVisible, resetModal}) => {
+const Modal = ({children, className, visible, setVisible, resetModal, isObligatory}) => {
 	const classes = ['modal', className]
 
 	
@@ -9,15 +9,24 @@ const Modal = ({children, className, visible, setVisible, resetModal}) => {
 	}
 
 	const closeModal = () => {
+		if (isObligatory) {
+			return;
+		}
+		
 		setVisible(false)
-		resetModal()
+		
+		if (resetModal) {
+			resetModal()
+		}
 	}
 	
 	return (
 		<div className={classes.join(' ')} onMouseDown={closeModal}>
 			<div className="modal__content-wrapper">
 				<div className="modal__content" onMouseDown={e => e.stopPropagation()}>
-					<button className="close-btn" onClick={closeModal}></button>
+					{isObligatory ?
+					"" : <button className="close-btn" onClick={closeModal}></button>}
+					
 					{children}
 				</div>
 			</div>

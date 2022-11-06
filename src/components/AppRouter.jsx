@@ -11,7 +11,7 @@ import GMXInterface from '../views/gmx-test/App/App';
 import { connectWallet } from './utils/wallet';
 
 
-const AppRouter = ({ walletAddress, setWalletAddress}) => {
+const AppRouter = ({ walletAddress, setWalletAddress, dgAddress}) => {
 	const loc = useLocation();
 	const navigate = useNavigate();
 
@@ -60,7 +60,8 @@ const AppRouter = ({ walletAddress, setWalletAddress}) => {
 			<Routes>
 				<Route path="/perpetuals" element={<GMXInterface connectWallet={() => {
 					connectWallet(setWalletAddress)
-				}} walletAddress={walletAddress}/>} />
+				}}
+					walletAddress={walletAddress}/>} />
 				<Route path="/options">
 					<Route path="/options/borrow-market" element={
 						<>

@@ -2,7 +2,7 @@
 import './style/App.scss'
 
 // Main
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import Header from './Header';
 import Footer from './Footer';
@@ -12,14 +12,12 @@ import { UserStatsContext } from './context/context';
 import { GlobalStatsContext } from './context/context';
 import Warning from './components/UI/warning/Warning';
 import Favicon from 'react-favicon';
-import { Route } from 'react-router-dom';
-import { Routes } from 'react-router-dom';
-import GMXInterface from './views/gmx-test/App/App';
 
 
 
 function App() {
-	const [walletAddress, setWalletAddress] = useState('')
+	const [walletAddress, setWalletAddress] = useState('');
+	const [dgAddress, setDgAddress] = useState('');
 	
 	const [userStats, setUserStats] = useState({
 		balance: undefined,
@@ -52,15 +50,20 @@ function App() {
 						<div className="App">
 							<Header walletAddress={walletAddress}
 								setWalletAddress={setWalletAddress}
+								dgAddress={dgAddress}
+								setDgAddress={setDgAddress}
 							/>
 
 							<main className='_container'>
 								<AppRouter
 									walletAddress={walletAddress}
-									setWalletAddress={setWalletAddress} />
+									setWalletAddress={setWalletAddress} 
+									dgAddress={dgAddress}
+									setDgAddress={setDgAddress}
+								/>
 							</main>
 
-							<Footer></Footer>
+							<Footer />
 						</div>
 					</HashRouter>
 					

@@ -27,6 +27,7 @@ import {
 import PositionShare from "./PositionShare";
 import PositionDropdown from "./PositionDropdown";
 import StatsTooltipRow from "../StatsTooltip/StatsTooltipRow";
+import CollateralLocked from './CollateralLocked';
 
 const getOrdersForPosition = (account, position, orders, nativeTokenAddress) => {
   if (!orders || orders.length === 0) {
@@ -452,18 +453,6 @@ export default function PositionsList(props) {
                     >
                       Close
                     </button>
-                    <Tooltip
-                      className="collateral-locked-icon"
-                      position="right-bottom"
-                      enabled={true}
-                      handle=""
-                      renderContent={() => {
-                        return (
-                          <div>
-                            Your position is locked as collateral
-                          </div>
-                        );
-                      }} />
 
                     
                     {/* <button

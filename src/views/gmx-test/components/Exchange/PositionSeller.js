@@ -727,7 +727,6 @@ export default function PositionSeller(props) {
       return;
     }
 
-    console.log(allowedSlippage);
     const priceBasisPoints = position.isLong
       ? BASIS_POINTS_DIVISOR - allowedSlippage
       : BASIS_POINTS_DIVISOR + allowedSlippage;

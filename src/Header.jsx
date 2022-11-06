@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Logo from './components/UI/logo/Logo'
 import Button from './components/UI/button/Button';
 import Wallet from './components/Wallet';
@@ -24,16 +24,33 @@ import HegicStrategyOTM_PUT_90_BTC from "./deployments/arbitrum_ddl/HegicStrateg
 import OptionsManager from "./deployments/arbitrum_ddl/OptionsManager.json";
 import HegicOperationalTreasury from "./deployments/arbitrum_ddl/HegicOperationalTreasury.json";
 import {mmProvider} from './components/utils/providers.js'
-import { OptManager, PriceProviderETH, PriceProviderBTC } from './components/utils/contracts';
+import { OptManager, PriceProviderETH, PriceProviderBTC, DDL_AccountManager } from './components/utils/contracts';
 import { getGlobalStats, getUserStats, getOptionStats } from './components/utils/stats';
 import { useLocation } from 'react-router-dom';
 import Tabs from './components/Tabs';
+import RegisterModal from './components/UI/modal/RegisterModal';
+import { errAlert } from './components/utils/error';
 
 
-const Header = ({ walletAddress, setWalletAddress }) => {
+const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) => {
 	
 	const { setGlobalStats } = useContext(GlobalStatsContext)
 	const { setUserStats } = useContext(UserStatsContext)
+
+	const [registerVisible, setRegisterVisible] = useState(false);
+
+	async function register() {
+		DDL_AccountManager.createDoppelgangerGMX()
+			.then(tsc => {
+				console.log('Creating Doppelganger Transaction:', tsc);
+				tsc.wait().then(res => {
+					console.log(res);
+				})
+			}, 
+			err => {
+				errAlert(err);
+			})
+	}
 	
 	async function getOptionByUser(userAddress) {
 		let hot = OptManager;
@@ -167,6 +184,17 @@ const Header = ({ walletAddress, setWalletAddress }) => {
 
 	useEffect(() => {
 		if (walletAddress) {
+			DDL_AccountManager.doppelgangerMap(walletAddress)
+				.then(res => {
+					if (parseInt(res.split('x')[1], 10) === 0) {
+						setRegisterVisible(true)
+					} else {
+						// 0x764AcC37A9a35B10D2110E1bF8536d640eED7Cf1
+						setDgAddress(res);
+						setRegisterVisible(false);
+					}
+				})
+			
 			getUserStats(walletAddress)
 				.then(stats => {
 					setUserStats(stats)
@@ -200,12 +228,13 @@ const Header = ({ walletAddress, setWalletAddress }) => {
 		return link.isActive;
 	})
 	
+	
 	return (
 		<header className='header'>
 			<div className="header__content _container">
 				<div className="header__nav">
-					<Logo></Logo>
-					<Tabs className='header__links' links={headerLinks}></Tabs>
+					<Logo />
+					<Tabs className='header__links' links={headerLinks} />
 				</div>
 
 				{walletAddress ?
@@ -213,6 +242,11 @@ const Header = ({ walletAddress, setWalletAddress }) => {
 					<Button isMain={true} onClick={(e) => {
 						connectWallet(setWalletAddress)
 					}}>Connect wallet</Button>}
+
+				<RegisterModal
+					visible={registerVisible}
+					setVisible={setRegisterVisible}
+					onClick={register} />
 			</div>
 		</header>
 	);
