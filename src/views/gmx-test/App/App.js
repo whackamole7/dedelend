@@ -456,6 +456,7 @@ function FullApp(props) {
             setSavedShouldShowPositionLines={setSavedShouldShowPositionLines}
             connectWallet={connectWallet}
             savedShouldDisableValidationForTesting={savedShouldDisableValidationForTesting}
+            dgAddress={props.dgAddress}
           />
         </div>
       </div>

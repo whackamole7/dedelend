@@ -58,10 +58,14 @@ const AppRouter = ({ walletAddress, setWalletAddress, dgAddress}) => {
 	return (
 		<>
 			<Routes>
-				<Route path="/perpetuals" element={<GMXInterface connectWallet={() => {
-					connectWallet(setWalletAddress)
-				}}
-					walletAddress={walletAddress}/>} />
+				<Route path="/perpetuals" element={
+					<GMXInterface
+						connectWallet={() => {
+							connectWallet(setWalletAddress)
+						}}
+						walletAddress={walletAddress} 
+						dgAddress={dgAddress} />
+				} />
 				<Route path="/options">
 					<Route path="/options/borrow-market" element={
 						<>

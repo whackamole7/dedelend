@@ -22,7 +22,8 @@ export const fetcher =
       additionalArgs,
     });
 
-    let shouldCallFallback = true;
+    // let shouldCallFallback = true;
+    let shouldCallFallback = false;
 
     const handleFallback = async (resolve, reject, error) => {
       if (!shouldCallFallback) {

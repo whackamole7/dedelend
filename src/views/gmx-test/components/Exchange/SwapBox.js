@@ -1521,28 +1521,25 @@ export default function SwapBox(props) {
       priceLimit, // _acceptablePrice
       // minExecutionFee, // _executionFee
       referralCode, // _referralCode
-      // AddressZero, // _callbackTarget
+      AddressZero, // _callbackTarget
     ];
 
     let method = "createIncreasePosition";
     let value = minExecutionFee;
     if (fromTokenAddress === AddressZero) {
-      console.log('ETH');
       method = "createIncreasePositionETH";
       value = boundedFromAmount.add(minExecutionFee);
       params = [
         path, // _path
         indexTokenAddress, // _indexToken
-        // --amountIn
         boundedFromAmount, // _amountIn
-        
         0, // _minOut
         toUsdMax, // _sizeDelta
         isLong, // _isLong
         priceLimit, // _acceptablePrice
         minExecutionFee, // _executionFee
         referralCode, // _referralCode,
-        // AddressZero, // _callbackTarget
+        AddressZero, // _callbackTarget
       ];
     }
 
@@ -2208,7 +2205,7 @@ export default function SwapBox(props) {
           </div>
         )}
         <div className="Exchange-swap-button-container">
-          <button className="App-cta Exchange-swap-button" onClick={onClickPrimary} disabled={/* !isPrimaryEnabled() */ false}>
+          <button className="App-cta Exchange-swap-button" onClick={onClickPrimary} disabled={!isPrimaryEnabled()}>
             {getPrimaryText()}
           </button>
         </div>

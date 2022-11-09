@@ -1,8 +1,6 @@
 import React from 'react';
 
 const Wallet = ({ address }) => {
-	
-	
 	return (
 		<div className="wallet-container">
 			<div className="wallet">

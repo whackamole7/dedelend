@@ -19,6 +19,11 @@
           "type": "address"
         },
         {
+          "internalType": "address",
+          "name": "_shortsTracker",
+          "type": "address"
+        },
+        {
           "internalType": "uint256",
           "name": "_depositFee",
           "type": "uint256"
@@ -31,6 +36,25 @@
       ],
       "stateMutability": "nonpayable",
       "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "callbackTarget",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "name": "Callback",
+      "type": "event"
     },
     {
       "anonymous": false,
@@ -256,6 +280,12 @@
         {
           "indexed": false,
           "internalType": "uint256",
+          "name": "queueIndex",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
           "name": "blockNumber",
           "type": "uint256"
         },
@@ -330,6 +360,12 @@
           "indexed": false,
           "internalType": "uint256",
           "name": "index",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "queueIndex",
           "type": "uint256"
         },
         {
@@ -599,6 +635,19 @@
         {
           "indexed": false,
           "internalType": "uint256",
+          "name": "callbackGasLimit",
+          "type": "uint256"
+        }
+      ],
+      "name": "SetCallbackGasLimit",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
           "name": "minBlockDelayKeeper",
           "type": "uint256"
         },
@@ -821,6 +870,19 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "callbackGasLimit",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "bytes32",
@@ -919,10 +981,21 @@
           "internalType": "bool",
           "name": "_withdrawETH",
           "type": "bool"
+        },
+        {
+          "internalType": "address",
+          "name": "_callbackTarget",
+          "type": "address"
         }
       ],
       "name": "createDecreasePosition",
-      "outputs": [],
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
       "stateMutability": "payable",
       "type": "function"
     },
@@ -972,10 +1045,21 @@
           "internalType": "bytes32",
           "name": "_referralCode",
           "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "_callbackTarget",
+          "type": "address"
         }
       ],
       "name": "createIncreasePosition",
-      "outputs": [],
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
       "stateMutability": "payable",
       "type": "function"
     },
@@ -1020,10 +1104,21 @@
           "internalType": "bytes32",
           "name": "_referralCode",
           "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "_callbackTarget",
+          "type": "address"
         }
       ],
       "name": "createIncreasePositionETH",
-      "outputs": [],
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
       "stateMutability": "payable",
       "type": "function"
     },
@@ -1128,6 +1223,11 @@
           "internalType": "bool",
           "name": "withdrawETH",
           "type": "bool"
+        },
+        {
+          "internalType": "address",
+          "name": "callbackTarget",
+          "type": "address"
         }
       ],
       "stateMutability": "view",
@@ -1480,6 +1580,11 @@
           "internalType": "bool",
           "name": "hasCollateralInETH",
           "type": "bool"
+        },
+        {
+          "internalType": "address",
+          "name": "callbackTarget",
+          "type": "address"
         }
       ],
       "stateMutability": "view",
@@ -1687,6 +1792,19 @@
       "inputs": [
         {
           "internalType": "uint256",
+          "name": "_callbackGasLimit",
+          "type": "uint256"
+        }
+      ],
+      "name": "setCallbackGasLimit",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
           "name": "_minBlockDelayKeeper",
           "type": "uint256"
         },
@@ -1845,6 +1963,19 @@
     },
     {
       "inputs": [],
+      "name": "shortsTracker",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "vault",
       "outputs": [
         {
@@ -1892,5 +2023,5 @@
       "type": "receive"
     }
   ],
-  "numDeployments": 2
+  "numDeployments": 4
 }

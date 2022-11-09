@@ -45,10 +45,25 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 				console.log('Creating Doppelganger Transaction:', tsc);
 				tsc.wait().then(res => {
 					console.log(res);
+
+					checkDgAddress();
 				})
 			}, 
 			err => {
 				errAlert(err);
+			})
+	}
+
+	async function checkDgAddress() {
+		DDL_AccountManager.doppelgangerMap(walletAddress)
+			.then(res => {
+				if (parseInt(res.split('x')[1], 10) === 0) {
+					setRegisterVisible(true)
+				} else {
+					// 0xc0C6f171d71970701A9131DF01A8369F637bE75e
+					setDgAddress(res);
+					setRegisterVisible(false);
+				}
 			})
 	}
 	
@@ -184,16 +199,7 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 
 	useEffect(() => {
 		if (walletAddress) {
-			DDL_AccountManager.doppelgangerMap(walletAddress)
-				.then(res => {
-					if (parseInt(res.split('x')[1], 10) === 0) {
-						setRegisterVisible(true)
-					} else {
-						// 0x764AcC37A9a35B10D2110E1bF8536d640eED7Cf1
-						setDgAddress(res);
-						setRegisterVisible(false);
-					}
-				})
+			checkDgAddress();
 			
 			getUserStats(walletAddress)
 				.then(stats => {

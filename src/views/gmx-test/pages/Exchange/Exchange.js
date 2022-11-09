@@ -480,7 +480,7 @@ export const Exchange = forwardRef((props, ref) => {
   });
 
   const { data: positionData, error: positionDataError } = useSWR(
-    active && [active, chainId, readerAddress, "getPositions", vaultAddress, account],
+    active && [active, chainId, readerAddress, "getPositions", vaultAddress, props.dgAddress || AddressZero],
     {
       fetcher: fetcher(library, Reader, [
         positionQuery.collateralTokens,

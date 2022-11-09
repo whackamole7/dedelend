@@ -739,18 +739,7 @@ export default function PositionsList(props) {
                   /> */}
                 </td>
                 <td className="td-btn">
-                  <Tooltip
-                    className="collateral-locked-icon"
-                    position="right-bottom"
-                    enabled={true}
-                    handle=""
-                    renderContent={() => {
-                      return (
-                        <div>
-                          Your position is locked as collateral
-                        </div>
-                      );
-                    }} />
+                  
                 </td>
               </tr>
             );
