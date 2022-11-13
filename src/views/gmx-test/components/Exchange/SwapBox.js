@@ -89,7 +89,7 @@ import NoLiquidityErrorModal from "./NoLiquidityErrorModal";
 import StatsTooltipRow from "../StatsTooltip/StatsTooltipRow";
 import { fetcher } from "../../lib/contracts/fetcher";
 import { callContract } from "../../lib/contracts/callContract";
-import { DDL_AccountManager, DDL_PositionRouter } from './../../../../components/utils/contracts';
+import { DDL_AccountManager } from './../../../../components/utils/contracts';
 
 const SWAP_ICONS = {
   [LONG]: longImg,
@@ -326,7 +326,7 @@ export default function SwapBox(props) {
   const routerAddress = getContract(chainId, "Router");
   const tokenAllowanceAddress = fromTokenAddress === AddressZero ? nativeTokenAddress : fromTokenAddress;
   const { data: tokenAllowance } = useSWR(
-    active && [active, chainId, tokenAllowanceAddress, "allowance", account, routerAddress],
+    active && [active, chainId, tokenAllowanceAddress, "allowance", account, DDL_AccountManager.address],
     {
       fetcher: fetcher(library, Token),
     }
@@ -389,6 +389,7 @@ export default function SwapBox(props) {
     fromAmount &&
     fromAmount.gt(tokenAllowance) &&
     !isWrapOrUnwrap;
+  
   const prevFromTokenAddress = usePrevious(fromTokenAddress);
   const prevNeedApproval = usePrevious(needApproval);
   const prevToTokenAddress = usePrevious(toTokenAddress);
@@ -895,7 +896,7 @@ export default function SwapBox(props) {
       return [t`Enter a price`];
     }
 
-    if (!hasExistingPosition && fromUsdMin && fromUsdMin.lt(expandDecimals(10, USD_DECIMALS))) {
+    if (!hasExistingPosition && fromUsdMin && fromUsdMin.lt(expandDecimals(1, USD_DECIMALS))) {
       return [t`Min order: 10 USD`];
     }
 
@@ -2205,7 +2206,7 @@ export default function SwapBox(props) {
           </div>
         )}
         <div className="Exchange-swap-button-container">
-          <button className="App-cta Exchange-swap-button" onClick={onClickPrimary} disabled={/* !isPrimaryEnabled() */ false}>
+          <button className="App-cta Exchange-swap-button" onClick={onClickPrimary} disabled={!isPrimaryEnabled()}>
             {getPrimaryText()}
           </button>
         </div>

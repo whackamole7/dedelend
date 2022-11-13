@@ -51,7 +51,7 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 					// 0xc0C6f171d71970701A9131DF01A8369F637bE75e
 					setDgAddress(res);
 					const dgAddress = res;
-
+					
 					DDL_AccountManager.isApprovedForAll(dgAddress, DDL_AccountManager.address)
 						.then(res => {
 							console.log(res);

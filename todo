@@ -1,4 +1,6 @@
 - jelly toast effect
 - GMX Popups animation
 
-- disable Exchange-swap-button in SwapBox.js
+- min order: 10 usdc (swapBox)
+
+- exceeds token allowance
