@@ -24,7 +24,7 @@ import HegicStrategyOTM_PUT_90_BTC from "./deployments/arbitrum_ddl/HegicStrateg
 import OptionsManager from "./deployments/arbitrum_ddl/OptionsManager.json";
 import HegicOperationalTreasury from "./deployments/arbitrum_ddl/HegicOperationalTreasury.json";
 import {mmProvider} from './components/utils/providers.js'
-import { OptManager, PriceProviderETH, PriceProviderBTC, DDL_AccountManager } from './components/utils/contracts';
+import { OptManager, PriceProviderETH, PriceProviderBTC, DDL_AccountManager, getDgContract } from './components/utils/contracts';
 import { getGlobalStats, getUserStats, getOptionStats } from './components/utils/stats';
 import { useLocation } from 'react-router-dom';
 import Tabs from './components/Tabs';
@@ -38,33 +38,75 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 	const { setUserStats } = useContext(UserStatsContext)
 
 	const [registerVisible, setRegisterVisible] = useState(false);
-
-	async function register() {
-		DDL_AccountManager.createDoppelgangerGMX()
-			.then(tsc => {
-				console.log('Creating Doppelganger Transaction:', tsc);
-				tsc.wait().then(res => {
-					console.log(res);
-
-					checkDgAddress();
-				})
-			}, 
-			err => {
-				errAlert(err);
-			})
-	}
+	const [registerStep, setRegisterStep] = useState(0);
+	const [registerLoading, setRegisterLoading] = useState(false);
 
 	async function checkDgAddress() {
 		DDL_AccountManager.doppelgangerMap(walletAddress)
 			.then(res => {
 				if (parseInt(res.split('x')[1], 10) === 0) {
-					setRegisterVisible(true)
+					setRegisterStep(0);
+					setRegisterVisible(true);
 				} else {
 					// 0xc0C6f171d71970701A9131DF01A8369F637bE75e
 					setDgAddress(res);
-					setRegisterVisible(false);
+					const dgAddress = res;
+
+					DDL_AccountManager.isApprovedForAll(dgAddress, DDL_AccountManager.address)
+						.then(res => {
+							console.log(res);
+							if (res === true) {
+								setRegisterVisible(false);
+							} else {
+								setRegisterStep(1);
+								// setRegisterVisible(true);
+							}
+						})
 				}
 			})
+	}
+	
+	async function register() {
+		setRegisterLoading(true);
+
+		DDL_AccountManager.createDoppelgangerGMX()
+			.then(tsc => {
+				console.log('Creating Doppelganger Transaction:', tsc);
+				tsc.wait().then(() => {
+					checkDgAddress();
+
+					setRegisterLoading(false)
+				})
+			}, 
+			err => {
+				errAlert(err, setRegisterLoading);
+			})
+	}
+
+	async function approveAll() {
+		if (dgAddress) {
+			setRegisterLoading(true);
+			
+			const DDL_Doppelganger = getDgContract(dgAddress);
+
+			DDL_Doppelganger.approveAll(10**9 * 1e6)
+				.then(tsc => {
+					console.log('Approve transaction:', tsc);
+
+					tsc.wait().then(() => {
+						setRegisterStep(0);
+						setRegisterVisible(false);
+
+						setRegisterLoading(false)
+					})
+				},
+				err => {
+					errAlert(err, setRegisterLoading)
+				})
+		} else {
+			checkDgAddress()
+		}
+		
 	}
 	
 	async function getOptionByUser(userAddress) {
@@ -222,12 +264,16 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 	const headerLinks = [
 		{
 			name: 'Options',
-			to: '/options/borrow-market',
+			to: '/options',
 		},
 		{
 			name: 'Perpetuals',
 			to: '/perpetuals',
 		},
+		{
+			name: 'Earn',
+			to: '/earn',
+		}
 	]
 	headerLinks.find(link => {
 		link.isActive = loc.pathname.split('/')[1] === link.to.split('/')[1];
@@ -252,7 +298,10 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 				<RegisterModal
 					visible={registerVisible}
 					setVisible={setRegisterVisible}
-					onClick={register} />
+					onRegisterClick={register}
+					onApproveClick={approveAll}
+					curStep={registerStep}
+					isLoading={registerLoading} />
 			</div>
 		</header>
 	);

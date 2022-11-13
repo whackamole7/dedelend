@@ -1,5 +1,7 @@
 .info-board {
+	border: 1px solid rgba(152, 162, 198, 0.075);
 	padding: 22px 15px;
+	margin-bottom: 30px;
 
 	&__items {
 		display: flex;
@@ -74,5 +76,10 @@
 				line-height: calc(19.5/15);
 			}
 		}
+	}
+
+	@media (max-width: 480px) {
+		border-radius: 0;
+		border: none;
 	}
 }

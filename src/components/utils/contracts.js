@@ -10,6 +10,7 @@ import {netProvider, mmProvider, signer} from './providers.js'
 
 import _AccountManager from "../../deployments/arbitrum_ddl/accountManager.json";
 import _PositionRouter from "../../deployments/arbitrum_ddl/positionRouter.json";
+import _Doppelganger from "../../deployments/arbitrum_ddl/Doppelganger.json";
 
 
 // Options Contracts
@@ -34,4 +35,8 @@ export const PriceProviderBTC = new ethers.Contract(_PriceProviderBTC.address, _
 
 // GMX Contracts
 export const DDL_AccountManager = new ethers.Contract(_AccountManager.address, _AccountManager.abi, signer)
-// export const DDL_PositionRouter = new ethers.Contract(_PositionRouter.address, _PositionRouter.abi, signer);
+
+export function getDgContract(dgAddress) {
+	const contract = new ethers.Contract(dgAddress, _Doppelganger.abi, signer);
+	return contract;
+}

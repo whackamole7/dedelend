@@ -3,7 +3,6 @@ import { Routes, Route,	useLocation, useNavigate } from "react-router-dom";
 import BorrowMarket from '../views/markets/BorrowMarket';
 import SupplyMarket from '../views/markets/SupplyMarket';
 import Tabs from './Tabs';
-import MarketInfoBoard from './MarketInfoBoard';
 import { DDL_POOL, USDC } from './utils/contracts';
 import { UserStatsContext } from '../context/context';
 import { ethers } from 'ethers';
@@ -58,6 +57,10 @@ const AppRouter = ({ walletAddress, setWalletAddress, dgAddress}) => {
 	return (
 		<>
 			<Routes>
+				<Route
+					path="/options"
+					element={<BorrowMarket walletAddress={walletAddress} setWalletAddress={setWalletAddress} />} 
+				/>
 				<Route path="/perpetuals" element={
 					<GMXInterface
 						connectWallet={() => {
@@ -66,22 +69,10 @@ const AppRouter = ({ walletAddress, setWalletAddress, dgAddress}) => {
 						walletAddress={walletAddress} 
 						dgAddress={dgAddress} />
 				} />
-				<Route path="/options">
-					<Route path="/options/borrow-market" element={
-						<>
-							<Tabs className='market-tabs' links={links}></Tabs>
-							<MarketInfoBoard></MarketInfoBoard>
-							<BorrowMarket walletAddress={walletAddress} setWalletAddress={setWalletAddress} />
-						</>
-					} />
-					<Route path="/options/supply-market" element={
-						<>
-							<Tabs className='market-tabs' links={links}></Tabs>
-							<MarketInfoBoard></MarketInfoBoard>
-							<SupplyMarket walletAddress={walletAddress} setWalletAddress={setWalletAddress} supplyStep={supplyStep} setSupplyStep={setSupplyStep} />
-						</>
-					} />
-				</Route>
+				<Route
+					path="/earn"
+					element={<SupplyMarket walletAddress={walletAddress} setWalletAddress={setWalletAddress} supplyStep={supplyStep} setSupplyStep={setSupplyStep} />} 
+				/>
 			</Routes>
 		</>
 	);

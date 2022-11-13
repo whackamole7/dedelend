@@ -67,8 +67,10 @@
 			right: 0;
 			width: 100%;
 			justify-content: center;
+			column-gap: 40px;
 			background-color: $blue-2;
-			padding: 18px 18px 19px;
+			border-bottom: 1px solid rgba(152, 162, 198, 0.075);
+			padding: 18px 20px 19px;
 		}
 	}
 	
@@ -78,11 +80,17 @@
 
 	@media (max-width: 480px) {
 		&__links {
-			column-gap: 20px;
+			column-gap: 30px;
 		}
 		
 		.btn_tab {
 			flex: 0;
+		}
+	}
+
+	@media (max-width: 350px) {
+		&__links {
+			justify-content: space-between;
 		}
 	}
 }

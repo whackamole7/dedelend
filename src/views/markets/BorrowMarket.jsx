@@ -8,6 +8,7 @@ import { UserStatsContext } from './../../context/context';
 import { connectWallet } from '../../components/utils/wallet';
 import OptionsList from './../../components/OptionsList';
 import { getOptionStats } from './../../components/utils/stats';
+import MarketInfoBoard from './../../components/MarketInfoBoard';
 
 const BorrowMarket = ({ walletAddress, setWalletAddress }) => {
 
@@ -138,6 +139,8 @@ const BorrowMarket = ({ walletAddress, setWalletAddress }) => {
 	return (
 		<div className='block borrow-market'>
 			<h1 className='block__title'>Borrow Market</h1>
+
+			<MarketInfoBoard />
 
 			<div className="borrow-market__items-container">
 				<div className="borrow-market__filter filter">

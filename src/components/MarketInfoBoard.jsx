@@ -8,7 +8,7 @@ const MarketInfoBoard = () => {
 
 
 	return (
-		<div className="info-board app-box block _mobile-fluid">
+		<div className="info-board app-box _mobile-fluid">
 			<div className="info-board__items">
 				<div className="info-board__item">
 					<div className="info-board__item-title">Total Supplied</div>
