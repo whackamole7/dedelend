@@ -16,24 +16,9 @@ const AppRouter = ({ walletAddress, setWalletAddress, dgAddress}) => {
 
 	useEffect(() => {
 		if (loc.pathname === '/' || loc.pathname === "/app.html") {
-			navigate('/options/borrow-market')
+			navigate('/options')
 		}
 	}, [loc.pathname])
-	
-	const links = [
-		{
-			name: 'Borrow Market',
-			to: '/options/borrow-market',
-		},
-		{
-			name: 'Supply Market',
-			to: '/options/supply-market',
-		},
-	]
-	links.find(link => {
-		link.isActive = loc.pathname === link.to;
-		return link.isActive;
-	})
 
 
 	// Supply Market state

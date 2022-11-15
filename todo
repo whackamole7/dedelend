@@ -4,3 +4,6 @@
 - min order: 10 usdc (swapBox)
 
 - exceeds token allowance
+- register popup in perps
+- BTC/ETH current price
+- perps: get money from DG button

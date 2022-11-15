@@ -89,7 +89,7 @@ import NoLiquidityErrorModal from "./NoLiquidityErrorModal";
 import StatsTooltipRow from "../StatsTooltip/StatsTooltipRow";
 import { fetcher } from "../../lib/contracts/fetcher";
 import { callContract } from "../../lib/contracts/callContract";
-import { DDL_AccountManager } from './../../../../components/utils/contracts';
+import { DDL_AccountManager, DDL_AccountManager_abi } from './../../../../components/utils/contracts';
 
 const SWAP_ICONS = {
   [LONG]: longImg,
@@ -332,8 +332,9 @@ export default function SwapBox(props) {
     }
   );
 
+  
   const { data: hasOutdatedUi } = Api.useHasOutdatedUi();
-
+  
   const fromToken = getToken(chainId, fromTokenAddress);
   const toToken = getToken(chainId, toTokenAddress);
   const shortCollateralToken = getTokenInfo(infoTokens, shortCollateralAddress);
@@ -1555,7 +1556,7 @@ export default function SwapBox(props) {
 
     // const contractAddress = getContract(chainId, "PositionRouter");
     // const contract = new ethers.Contract(contractAddress, PositionRouter.abi, library.getSigner());
-    const contract = DDL_AccountManager;
+    const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
     const indexToken = getTokenInfo(infoTokens, indexTokenAddress);
     const tokenSymbol = indexToken.isWrapped ? getConstant(chainId, "nativeTokenSymbol") : indexToken.symbol;
     const successMsg = t`Requested increase of ${tokenSymbol} ${isLong ? "Long" : "Short"} by ${formatAmount(
@@ -1648,6 +1649,7 @@ export default function SwapBox(props) {
 
     increasePosition();
   };
+
 
   function approveFromToken() {
     approveTokens({

@@ -34,7 +34,8 @@ export const PriceProviderBTC = new ethers.Contract(_PriceProviderBTC.address, _
 
 
 // GMX Contracts
-export const DDL_AccountManager = new ethers.Contract(_AccountManager.address, _AccountManager.abi, signer)
+export const DDL_AccountManager = new ethers.Contract(_AccountManager.address, _AccountManager.abi, signer);
+export const DDL_AccountManager_abi = _AccountManager.abi;
 
 export function getDgContract(dgAddress) {
 	const contract = new ethers.Contract(dgAddress, _Doppelganger.abi, signer);

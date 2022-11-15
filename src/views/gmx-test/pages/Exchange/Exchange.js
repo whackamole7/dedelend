@@ -53,6 +53,7 @@ import Footer from "../../components/Footer/Footer";
 import "./Exchange.scss";
 import { fetcher } from "../../lib/contracts/fetcher";
 import BorrowsList from './../../components/Exchange/BorrowsList';
+import { DDL_AccountManager } from "../../../../components/utils/contracts";
 const { AddressZero } = ethers.constants;
 
 const PENDING_POSITION_VALID_DURATION = 600 * 1000;
@@ -518,11 +519,12 @@ export const Exchange = forwardRef((props, ref) => {
   );
 
   const { data: positionRouterApproved } = useSWR(
-    active && [active, chainId, routerAddress, "approvedPlugins", account, positionRouterAddress],
+    active && [active, chainId, routerAddress, "approvedPlugins", account, DDL_AccountManager.address],
     {
       fetcher: fetcher(library, Router),
     }
   );
+
 
   const { infoTokens } = useInfoTokens(library, chainId, active, tokenBalances, fundingRateInfo);
   const { minExecutionFee, minExecutionFeeUSD, minExecutionFeeErrorMessage } = useMinExecutionFee(
@@ -766,7 +768,7 @@ export const Exchange = forwardRef((props, ref) => {
 
   const approvePositionRouter = ({ sentMsg, failMsg }) => {
     setIsPositionRouterApproving(true);
-    return approvePlugin(chainId, positionRouterAddress, {
+    return approvePlugin(chainId, DDL_AccountManager.address, {
       library,
       pendingTxns,
       setPendingTxns,
