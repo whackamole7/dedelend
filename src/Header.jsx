@@ -89,7 +89,7 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 			
 			const DDL_Doppelganger = getDgContract(dgAddress);
 
-			DDL_Doppelganger.approveAll(10**9 * 1e6)
+			DDL_Doppelganger.approveAll(ethers.constants.MaxUint256)
 				.then(tsc => {
 					console.log('Approve transaction:', tsc);
 

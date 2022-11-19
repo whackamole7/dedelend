@@ -1556,7 +1556,10 @@ export default function SwapBox(props) {
 
     // const contractAddress = getContract(chainId, "PositionRouter");
     // const contract = new ethers.Contract(contractAddress, PositionRouter.abi, library.getSigner());
-    const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
+
+    // const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
+    const contract = DDL_AccountManager;
+    
     const indexToken = getTokenInfo(infoTokens, indexTokenAddress);
     const tokenSymbol = indexToken.isWrapped ? getConstant(chainId, "nativeTokenSymbol") : indexToken.symbol;
     const successMsg = t`Requested increase of ${tokenSymbol} ${isLong ? "Long" : "Short"} by ${formatAmount(
@@ -2208,7 +2211,7 @@ export default function SwapBox(props) {
           </div>
         )}
         <div className="Exchange-swap-button-container">
-          <button className="App-cta Exchange-swap-button" onClick={onClickPrimary} disabled={!isPrimaryEnabled()}>
+          <button className="App-cta Exchange-swap-button" onClick={onClickPrimary} disabled={/* !isPrimaryEnabled() */ false}>
             {getPrimaryText()}
           </button>
         </div>
