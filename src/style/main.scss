@@ -99,5 +99,40 @@ h2 {
 	}
 }
 
+ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	margin-bottom: 15px;
+}
+li {
+	display: flex;
+	column-gap: 14.5px;
+	margin-bottom: 10px;
+	&:last-child {
+		margin-bottom: 0;
+	}
+	
+	&::before {
+		content: '';
+		position: relative;
+		top: .4em;
+		display: block;
+		flex-shrink: 0;
+		width: 8px;
+		height: 8px;
+		background-color: $lblue;
+		transform: rotate(45deg);
+	}
+}
+
+.inline-link {
+	color: $lblue;
+
+	&:visited {
+		color: $lblue;
+	}
+}
+
 
 @import './ui.scss';

@@ -3,6 +3,7 @@ import Modal from './Modal';
 import { useState } from 'react';
 import Button from '../button/Button';
 import Loader from './../loader/Loader';
+import { Link } from 'react-router-dom';
 
 const RegisterModal = ({ visible, setVisible, onRegisterClick, onApproveClick, curStep, isLoading }) => {
 	const steps = [
@@ -60,6 +61,10 @@ const RegisterModal = ({ visible, setVisible, onRegisterClick, onApproveClick, c
 			</div>
 			<h1 className='modal__title'>{step.title}</h1>
 			<div className="modal__body">
+				<ul className="modal__list modal__text">
+					<li><span>To use GMX position as collateral you need to register.</span></li>
+					<li><span>For using Hegic Options you don't need to register, so just click <Link className='inline-link' to="/options">here.</Link></span></li>
+				</ul>
 				{step.body}
 				{isLoading ? <Loader /> : step.btn}
 			</div>

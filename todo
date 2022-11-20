@@ -10,5 +10,6 @@
 		- register popup
 		- return funds btn
 		- min order: 10 usdc (swapBox)
-	- style:
-		- jelly toast effect
+	- style: @done
+		- jelly toast effect @done
+		

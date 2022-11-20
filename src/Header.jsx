@@ -59,7 +59,7 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 								setRegisterVisible(false);
 							} else {
 								setRegisterStep(1);
-								// setRegisterVisible(true);
+								setRegisterVisible(true);
 							}
 						})
 				}
@@ -280,7 +280,6 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 		return link.isActive;
 	})
 	
-	
 	return (
 		<header className='header'>
 			<div className="header__content _container">
@@ -295,13 +294,16 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 						connectWallet(setWalletAddress)
 					}}>Connect wallet</Button>}
 
-				<RegisterModal
-					visible={registerVisible}
-					setVisible={setRegisterVisible}
-					onRegisterClick={register}
-					onApproveClick={approveAll}
-					curStep={registerStep}
-					isLoading={registerLoading} />
+				{loc.pathname.startsWith('/perpetuals') && (
+					<RegisterModal
+						visible={registerVisible}
+						setVisible={setRegisterVisible}
+						onRegisterClick={register}
+						onApproveClick={approveAll}
+						curStep={registerStep}
+						isLoading={registerLoading} />
+				)}
+				
 			</div>
 		</header>
 	);
