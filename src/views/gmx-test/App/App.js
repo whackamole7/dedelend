@@ -108,13 +108,9 @@ function getLibrary(provider) {
   return library;
 }
 
-const Zoom = cssTransition({
-  enter: "zoomIn",
-  exit: "zoomOut",
-  appendPosition: false,
-  collapse: true,
-  collapseDuration: 200,
-  duration: 200,
+const Jelly = cssTransition({
+  enter: "jellyIn",
+  exit: "jellyOut",
 });
 
 const arbWsProvider = new ethers.providers.WebSocketProvider(getAlchemyWsUrl());
@@ -462,9 +458,9 @@ function FullApp(props) {
       </div>
       <ToastContainer
         limit={1}
-        transition={Zoom}
+        transition={Jelly}
         position="bottom-right"
-        autoClose={7000}
+        // autoClose={}
         hideProgressBar={true}
         newestOnTop={false}
         closeOnClick={false}

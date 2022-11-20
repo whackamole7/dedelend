@@ -589,8 +589,11 @@
     padding-right: 20px;
   }
   
-  button.Exchange-list-action:hover {
-    color: rgba(255, 255, 255, 1);
+  button.Exchange-list-action {
+    transition: color .2s ease;
+  }
+  button.Exchange-list-action:hover, button.Exchange-list-action:focus-visible {
+    color: #6988FF;
   }
   
   table.Exchange-list {

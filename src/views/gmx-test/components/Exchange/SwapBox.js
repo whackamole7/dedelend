@@ -1559,8 +1559,8 @@ export default function SwapBox(props) {
     // const contractAddress = getContract(chainId, "PositionRouter");
     // const contract = new ethers.Contract(contractAddress, PositionRouter.abi, library.getSigner());
 
-    // const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
-    const contract = DDL_AccountManager;
+    const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
+    // const contract = DDL_AccountManager;
     
     const indexToken = getTokenInfo(infoTokens, indexTokenAddress);
     const tokenSymbol = indexToken.isWrapped ? getConstant(chainId, "nativeTokenSymbol") : indexToken.symbol;

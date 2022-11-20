@@ -270,6 +270,8 @@ export default function OrderEditor(props) {
         className="Exchange-list-modal"
         setIsVisible={() => setEditingOrder(null)}
         label="Edit order"
+
+        isNifty={true}
       >
         {renderMinProfitWarning()}
         <div className="Exchange-swap-section">
@@ -340,6 +342,7 @@ export default function OrderEditor(props) {
       className="Exchange-list-modal"
       setIsVisible={() => setEditingOrder(null)}
       label="Edit order"
+      isNifty={true}
     >
       <div className="Exchange-swap-section">
         <div className="Exchange-swap-section-top">
