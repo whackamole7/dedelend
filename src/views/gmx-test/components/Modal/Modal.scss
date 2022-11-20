@@ -14,6 +14,15 @@
     align-items: center;
     justify-content: center;
     text-align: left;
+
+    // Nifty Modal 3D Sign
+    transition: opacity .3s ease;
+    &-content-wrapper {
+      position: relative;
+      z-index: 20;
+      -webkit-perspective: 1300px;
+      perspective: 1300px;
+    }
   }
   
   .Modal .Tab.block {
@@ -46,6 +55,9 @@
     overflow: auto;
     background: #0D0F29;
     border-radius: 4px;
+
+    // Nifty Modal 3D sign
+		transition: transform .3s ease, opacity .3s ease;
   }
   
   .divider {

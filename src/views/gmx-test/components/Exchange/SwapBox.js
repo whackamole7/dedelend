@@ -897,7 +897,7 @@ export default function SwapBox(props) {
       return [t`Enter a price`];
     }
 
-    if (!hasExistingPosition && fromUsdMin && fromUsdMin.lt(expandDecimals(1, USD_DECIMALS))) {
+    if (!hasExistingPosition && fromUsdMin && fromUsdMin.lt(expandDecimals(10, USD_DECIMALS))) {
       return [t`Min order: 10 USD`];
     }
 
@@ -1091,6 +1091,8 @@ export default function SwapBox(props) {
   };
 
   const isPrimaryEnabled = () => {
+    return true;
+    
     if (IS_NETWORK_DISABLED[chainId]) {
       return false;
     }
@@ -2211,7 +2213,7 @@ export default function SwapBox(props) {
           </div>
         )}
         <div className="Exchange-swap-button-container">
-          <button className="App-cta Exchange-swap-button" onClick={onClickPrimary} disabled={/* !isPrimaryEnabled() */ false}>
+          <button className="App-cta Exchange-swap-button" onClick={onClickPrimary} disabled={!isPrimaryEnabled()}>
             {getPrimaryText()}
           </button>
         </div>

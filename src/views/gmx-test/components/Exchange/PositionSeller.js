@@ -890,6 +890,7 @@ export default function PositionSeller(props) {
           setIsVisible={setIsVisible}
           label={title}
           allowContentTouchMove
+          isNifty={true}
         >
           {flagOrdersEnabled && (
             <Tab

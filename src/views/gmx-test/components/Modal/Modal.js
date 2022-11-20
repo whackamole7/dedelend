@@ -8,7 +8,7 @@ import "./Modal.scss";
 import useLockBodyScroll, { TOUCH_MOVE_CONTAINER_CLASS_NAME } from "../../lib/useLockBodyScroll";
 
 export default function Modal(props) {
-  const { isVisible, setIsVisible, className, zIndex, onAfterOpen, disableBodyScrollLock, allowContentTouchMove } =
+  const { isVisible, setIsVisible, className, zIndex, onAfterOpen, disableBodyScrollLock, allowContentTouchMove, isNifty } =
     props;
 
   const modalRef = useRef(null);
@@ -34,13 +34,23 @@ export default function Modal(props) {
   }, [onAfterOpen]);
 
   const fadeVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
+    hidden: { zIndex: -2, opacity: 0 },
+    visible: { zIndex: 900, opacity: 1 },
   };
-
-  if (!isVisible) {
-    return <></>;
+  const niftyFadeVariants = {
+    hidden: {
+      transform: 'rotateX(-60deg)',
+      opacity: 0,
+    },
+    visible: {
+      transform: 'rotateX(0)',
+      opacity: 1,
+    }
   }
+
+  /* if (!isVisible) {
+    return <></>;
+  } */
 
   return (
     <AnimatePresence>
@@ -52,7 +62,7 @@ export default function Modal(props) {
           animate="visible"
           exit="hidden"
           variants={fadeVariants}
-          transition={{ duration: 0.2 }}
+          transition={{ duration: 0 }}
         >
           <div
             className="Modal-backdrop"
@@ -62,17 +72,28 @@ export default function Modal(props) {
             }}
             onClick={() => setIsVisible(false)}
           ></div>
-          <div className="Modal-content">
-            <div className="Modal-title-bar">
-              <div className="Modal-title">{props.label}</div>
-              <div className="Modal-close-button" onClick={() => setIsVisible(false)}>
-                <MdClose fontSize={20} className="Modal-close-icon" />
+
+          <div className={isNifty && "Modal-content-wrapper"}>
+            <motion.div
+              className={cx("Modal-content")}
+              style={{ transformStyle: 'preserve-3d', transformOrigin: '50% 0' }}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              variants={isNifty && niftyFadeVariants}
+              transition={{ duration: 0 }}
+            >
+              <div className="Modal-title-bar">
+                <div className="Modal-title">{props.label}</div>
+                <div className="Modal-close-button" onClick={() => setIsVisible(false)}>
+                  <MdClose fontSize={20} className="Modal-close-icon" />
+                </div>
               </div>
-            </div>
-            <div className="divider" />
-            <div className={cx("Modal-body", TOUCH_MOVE_CONTAINER_CLASS_NAME)} ref={modalRef}>
-              {props.children}
-            </div>
+              <div className="divider" />
+              <div className={cx("Modal-body", TOUCH_MOVE_CONTAINER_CLASS_NAME)} ref={modalRef}>
+                {props.children}
+              </div>
+            </motion.div>
           </div>
         </motion.div>
       )}

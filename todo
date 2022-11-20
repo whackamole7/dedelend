@@ -1,9 +1,14 @@
-- jelly toast effect
-- GMX Popups animation
+- Change wallet btn
 
-- min order: 10 usdc (swapBox)
+- Options:
+	- BTC/ETH current price (options)
 
-- exceeds token allowance
-- register popup in perps
-- BTC/ETH current price
-- perps: get money from DG button
+- Perps:
+	- code:
+		- leverage x50
+		- register popup
+		- return funds btn
+		- min order: 10 usdc (swapBox)
+	- style:
+		- jelly toast effect
+		- GMX Popups animation
