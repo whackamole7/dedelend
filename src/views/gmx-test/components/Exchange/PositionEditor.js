@@ -464,7 +464,7 @@ export default function PositionEditor(props) {
   return (
     <div className="PositionEditor">
       {position && (
-        <Modal isVisible={isVisible} setIsVisible={setIsVisible} label={title}>
+        <Modal isVisible={isVisible} setIsVisible={setIsVisible} label={title} isNifty={true}>
           <div>
             <Tab options={EDIT_OPTIONS} option={option} setOption={setOption} onChange={resetForm}
               icons={EDIT_ICONS} />

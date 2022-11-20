@@ -73,6 +73,13 @@ export default function Modal(props) {
             onClick={() => setIsVisible(false)}
           ></div>
 
+          {isNifty && (
+            <div className="Modal-close-button" onClick={() => setIsVisible(false)}>
+              <MdClose fontSize={20} className="Modal-close-icon" />
+            </div>
+          )}
+          
+
           <div className={isNifty && "Modal-content-wrapper"}>
             <motion.div
               className={cx("Modal-content")}
@@ -85,9 +92,6 @@ export default function Modal(props) {
             >
               <div className="Modal-title-bar">
                 <div className="Modal-title">{props.label}</div>
-                <div className="Modal-close-button" onClick={() => setIsVisible(false)}>
-                  <MdClose fontSize={20} className="Modal-close-icon" />
-                </div>
               </div>
               <div className="divider" />
               <div className={cx("Modal-body", TOUCH_MOVE_CONTAINER_CLASS_NAME)} ref={modalRef}>

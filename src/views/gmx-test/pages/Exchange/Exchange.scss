@@ -469,9 +469,9 @@
   }
   
   .PositionEditor .Modal-content {
-    position: absolute;
+    // position: absolute;
     max-height: 80vh;
-    overflow: visible;
+    // overflow: visible;
     border: none;
     top: auto;
     bottom: auto;
@@ -1035,10 +1035,6 @@
   }
   .Confirmation-box-main-icon.dot:after {
     content: "•";
-  }
-  
-  .Confirmation-box .Modal-content {
-    width: 43.3rem;
   }
   
   .Confirmation-box-row {

@@ -22,6 +22,14 @@
       z-index: 20;
       -webkit-perspective: 1300px;
       perspective: 1300px;
+
+      .Modal-content {
+        width: 43.3rem;
+
+        @media (max-width: 480px) {
+          width: 90vw;
+        }
+      }
     }
   }
   
@@ -55,6 +63,7 @@
     overflow: auto;
     background: #0D0F29;
     border-radius: 4px;
+    overflow: auto;
 
     // Nifty Modal 3D sign
 		transition: transform .3s ease, opacity .3s ease;
@@ -99,6 +108,7 @@
   }
   
   .Modal-close-button {
+    z-index: 30;
     position: fixed;
     right: 20vw;
     top: 10vh;
@@ -110,10 +120,7 @@
     }
 
     @media (max-width: 768px) {
-      position: absolute;
-      top: auto;
-      bottom: calc(100% + 20px);
-      right: 0;
+      top: 5vh;
     }
   }
   
