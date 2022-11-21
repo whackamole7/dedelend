@@ -16,13 +16,14 @@
 	gap: 12px;
 	background-color: $blue-1;
 	border-radius: 5px;
-	cursor: default;
+	// cursor: default;
 	padding: 10px 15px;
 	
 
 	&__address {
 		font-size: 15px;
 		line-height: calc(19.5/15);
+		color: $white;
 	}
 	
 	&__avatar {

@@ -3,7 +3,7 @@ import React from 'react';
 const Wallet = ({ address }) => {
 	return (
 		<div className="wallet-container">
-			<div className="wallet">
+			<a href={"https://arbiscan.io/address/" + address} target="_blank" className="wallet">
 				<div className="wallet__avatar-wrapper">
 					<div className="wallet__avatar">
 						{/* <img src="./img/1.jpg" alt="Wallet Avatar" /> */}
@@ -14,10 +14,7 @@ const Wallet = ({ address }) => {
 						address.substr(0,5) + '...' + address.substr(-4)
 						: address}
 				</div>
-			</div>
-			<button className="logout-btn" onClick={() => {
-				
-			}}></button>
+			</a>
 		</div>
 	);
 };
