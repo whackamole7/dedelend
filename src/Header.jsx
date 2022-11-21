@@ -48,6 +48,8 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 					setRegisterStep(0);
 					setRegisterVisible(true);
 				} else {
+					setRegisterStep(1);
+					
 					// 0x7cce5a70eb4dc70367AbA2C59f9f66aE4d37C1Fd
 					setDgAddress(res);
 					const dgAddress = res;
@@ -59,7 +61,6 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 					// 		if (res === true) {
 					// 			setRegisterVisible(false);
 					// 		} else {
-					// 			setRegisterStep(1);
 					// 			setRegisterVisible(true);
 					// 		}
 					// 	})
@@ -241,6 +242,7 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 	}, [window.ethereum?.networkVersion])
 
 	useEffect(() => {
+		console.log('tick');
 		if (walletAddress) {
 			checkDgAddress();
 			

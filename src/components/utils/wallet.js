@@ -47,6 +47,10 @@ export const requestAccount = async (setWalletAddress) => {
 			})
 			
 			setWalletAddress(accounts[0])
+
+			window.ethereum.on('accountsChanged', (accounts) => {
+				setWalletAddress(accounts[0])
+			})
 		} catch(e) {
 			console.log(e);
 		}
