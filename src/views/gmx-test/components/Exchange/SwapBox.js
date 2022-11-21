@@ -60,6 +60,7 @@ import {
   useLocalStorageByChainId,
   useLocalStorageSerializeKey,
   usePrevious,
+  MAX_ALLOWED_LEVERAGE,
 } from "../../lib/legacy";
 import { getConstant } from "../../config/chains";
 import * as Api from "../../domain/legacy";
@@ -905,8 +906,8 @@ export default function SwapBox(props) {
       return [t`Min leverage: 1.1x`];
     }
 
-    if (leverage && leverage.gt(30.5 * BASIS_POINTS_DIVISOR)) {
-      return [t`Max leverage: 30.5x`];
+    if (leverage && leverage.gt(MAX_ALLOWED_LEVERAGE)) {
+      return [t`Max leverage: ${(MAX_ALLOWED_LEVERAGE / BASIS_POINTS_DIVISOR).toFixed(1)}x`];
     }
 
     if (!isMarketOrder && entryMarkPrice && triggerPriceUsd && !savedShouldDisableValidationForTesting) {
@@ -1091,8 +1092,6 @@ export default function SwapBox(props) {
   };
 
   const isPrimaryEnabled = () => {
-    return true;
-    
     if (IS_NETWORK_DISABLED[chainId]) {
       return false;
     }
@@ -1523,7 +1522,7 @@ export default function SwapBox(props) {
       toUsdMax, // _sizeDelta
       isLong, // _isLong
       priceLimit, // _acceptablePrice
-      // minExecutionFee, // _executionFee
+      minExecutionFee, // _executionFee
       referralCode, // _referralCode
       AddressZero, // _callbackTarget
     ];
@@ -1558,9 +1557,8 @@ export default function SwapBox(props) {
 
     // const contractAddress = getContract(chainId, "PositionRouter");
     // const contract = new ethers.Contract(contractAddress, PositionRouter.abi, library.getSigner());
-
-    const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
     // const contract = DDL_AccountManager;
+    const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
     
     const indexToken = getTokenInfo(infoTokens, indexTokenAddress);
     const tokenSymbol = indexToken.isWrapped ? getConstant(chainId, "nativeTokenSymbol") : indexToken.symbol;
@@ -1795,6 +1793,10 @@ export default function SwapBox(props) {
     20: "20x",
     25: "25x",
     30: "30x",
+    35: "35x",
+    40: "40x",
+    45: "45x",
+    50: "50x",
   };
 
   if (!fromToken || !toToken) {
@@ -2069,7 +2071,7 @@ export default function SwapBox(props) {
               >
                 <Slider
                   min={1.1}
-                  max={30.5}
+                  max={MAX_ALLOWED_LEVERAGE / BASIS_POINTS_DIVISOR}
                   step={0.1}
                   marks={leverageMarks}
                   handle={leverageSliderHandle}

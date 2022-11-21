@@ -48,20 +48,21 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 					setRegisterStep(0);
 					setRegisterVisible(true);
 				} else {
-					// 0xc0C6f171d71970701A9131DF01A8369F637bE75e
+					// 0x7cce5a70eb4dc70367AbA2C59f9f66aE4d37C1Fd
 					setDgAddress(res);
 					const dgAddress = res;
+					const DG = getDgContract(dgAddress);
 					
-					DDL_AccountManager.isApprovedForAll(dgAddress, DDL_AccountManager.address)
-						.then(res => {
-							console.log(res);
-							if (res === true) {
-								setRegisterVisible(false);
-							} else {
-								setRegisterStep(1);
-								setRegisterVisible(true);
-							}
-						})
+					// DG.isApproved()
+					// 	.then(res => {
+					// 		console.log(res);
+					// 		if (res === true) {
+					// 			setRegisterVisible(false);
+					// 		} else {
+					// 			setRegisterStep(1);
+					// 			setRegisterVisible(true);
+					// 		}
+					// 	})
 				}
 			})
 	}
@@ -87,9 +88,9 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 		if (dgAddress) {
 			setRegisterLoading(true);
 			
-			const DDL_Doppelganger = getDgContract(dgAddress);
+			const DG = getDgContract(dgAddress);
 
-			DDL_Doppelganger.approveAll(ethers.constants.MaxUint256)
+			DG.approveAll(ethers.constants.MaxUint256)
 				.then(tsc => {
 					console.log('Approve transaction:', tsc);
 

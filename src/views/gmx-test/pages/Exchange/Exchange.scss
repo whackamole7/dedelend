@@ -45,6 +45,10 @@
     padding-right: 0.8rem; */
     margin-top: 2.2rem;
     /* margin-bottom: 1.05rem; */
+
+    @media (max-width: 480px) {
+      margin-top: 3rem;
+    }
   }
   
   .Exchange-should-show-position-lines {
@@ -89,6 +93,10 @@
     /* padding: 3.1rem; */
     padding-top: 0rem;
     // margin-top: -1.5rem;
+
+    @media (max-width: 480px) {
+      grid-gap: 2rem;
+    }
   }
   .Exchange-right {
     width: 38.75rem;
@@ -591,6 +599,10 @@
   
   button.Exchange-list-action {
     transition: color .2s ease;
+
+    &[disabled]:hover, &[disabled]:focus-visible {
+      color: #fff;
+    }
   }
   button.Exchange-list-action:hover, button.Exchange-list-action:focus-visible {
     color: #6988FF;
@@ -1337,9 +1349,9 @@
       height: 320px!important;
     }
 
-    .Exchange-right {
-      margin-top: 100px;
-    }
+    // .Exchange-right {
+    //   margin-top: 100px;
+    // }
   }
   
   @media (max-width: 700px) {
@@ -1431,9 +1443,9 @@
       height: 260px!important;
     }
 
-    .Exchange-right {
-      margin-top: 29rem;
-    }
+    // .Exchange-right {
+    //   margin-top: 29rem;
+    // }
 
     .Exchange-swap-box-inner {
       padding: 2rem;

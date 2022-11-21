@@ -6,10 +6,7 @@
 
 - Perps:
 	- code:
-		- leverage x50
-		- register popup
+		- leverage x50 @done
+		- DG.isApproved()
 		- return funds btn
 		- min order: 10 usdc (swapBox)
-	- style: @done
-		- jelly toast effect @done
-		

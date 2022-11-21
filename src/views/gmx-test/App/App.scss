@@ -1186,6 +1186,19 @@
     line-height: calc(16.9/13);
     color: #384263;
     transition: color .2s ease;
+
+    @media (max-width: 1380px) {
+      font-size: 11px;
+      line-height: calc(14.3/11);
+    }
+    @media (max-width: 1100px) {
+      font-size: 13px;
+      line-height: calc(16.9/13);
+    }
+    @media (max-width: 380px) {
+      font-size: 11px;
+      line-height: calc(14.3/11);
+    }
   }
   
   .App-slider .rc-slider-mark-text:hover,
@@ -1469,5 +1482,48 @@
       transform: rotate(360deg);
     }
   }
-  
+}
+
+.Attention-box {
+  border: 1px solid rgba(152, 162, 198, 0.075);
+  padding: 15px 20px;
+  margin: 30px 0;
+
+  &__title {
+    font-size: 20px;
+    line-height: calc(26/20);
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+
+  &__body {
+    font-size: 15px;
+    line-height: calc(19.5/15);
+    color: #747FA6;
+
+    p {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 480px) {
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.ReturnFunds-box {
+  @media (max-width: 1100px) {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 130px;
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 320px;
+  }
 }

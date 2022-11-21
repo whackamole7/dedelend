@@ -44,6 +44,7 @@ import {
   adjustForDecimals,
   IS_NETWORK_DISABLED,
   getChainName,
+  MAX_ALLOWED_LEVERAGE,
 } from "../../lib/legacy";
 import { getConstant } from "../../config/chains";
 import { createDecreaseOrder, useHasOutdatedUi } from "../../domain/legacy";
@@ -66,6 +67,7 @@ import triggerImg from '../../img/ddl/icon_trigger.svg'
 import triggerActiveImg from '../../img/ddl/icon_trigger_active.svg'
 import SlippageInput from './../SlippageInput/SlippageInput';
 import { DDL_AccountManager } from "../../../../components/utils/contracts";
+import { DDL_AccountManager_abi } from './../../../../components/utils/contracts';
 
 const CLOSE_ICONS = {
   Market: marketImg,
@@ -206,7 +208,7 @@ export default function PositionSeller(props) {
 
   const [savedRecieveTokenAddress, setSavedRecieveTokenAddress] = useLocalStorageByChainId(
     chainId,
-    `${CLOSE_POSITION_RECEIVE_TOKEN_KEY}-${position?.indexToken?.symbol}-${position.isLong ? "long" : "short"}`
+    `${CLOSE_POSITION_RECEIVE_TOKEN_KEY}-${position.indexToken.symbol}-${position?.isLong ? "long" : "short"}`
   );
 
   const [swapToToken, setSwapToToken] = useState(() =>
@@ -591,8 +593,8 @@ export default function PositionSeller(props) {
       return t`Min leverage: 1.1x`;
     }
 
-    if (nextLeverage && nextLeverage.gt(30.5 * BASIS_POINTS_DIVISOR)) {
-      return t`Max leverage: 30.5xt`;
+    if (nextLeverage && nextLeverage.gt(MAX_ALLOWED_LEVERAGE)) {
+      return t`Max leverage: ${(MAX_ALLOWED_LEVERAGE / BASIS_POINTS_DIVISOR).toFixed(1)}x`;
     }
 
     if (hasPendingProfit && orderOption !== STOP && !isProfitWarningAccepted) {
@@ -778,7 +780,8 @@ export default function PositionSeller(props) {
     } by ${formatAmount(sizeDelta, USD_DECIMALS, 2)} USD.`;
 
     // const contract = new ethers.Contract(positionRouterAddress, PositionRouter.abi, library.getSigner());
-    const contract = DDL_AccountManager;
+    // const contract = DDL_AccountManager;
+    const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
 
     callContract(chainId, contract, "createDecreasePosition", params, {
       value: minExecutionFee,

@@ -54,6 +54,7 @@ import "./Exchange.scss";
 import { fetcher } from "../../lib/contracts/fetcher";
 import BorrowsList from './../../components/Exchange/BorrowsList';
 import { DDL_AccountManager } from "../../../../components/utils/contracts";
+import ReturnFundsBox from './../../components/Exchange/ReturnFundsBox';
 const { AddressZero } = ethers.constants;
 
 const PENDING_POSITION_VALID_DURATION = 600 * 1000;
@@ -355,8 +356,6 @@ export function getPositionQuery(tokens, nativeTokenAddress) {
 }
 
 export const Exchange = forwardRef((props, ref) => {
-  // console.log(props.dgAddress);
-  
   const {
     savedIsPnlInLeverage,
     setSavedIsPnlInLeverage,
@@ -710,7 +709,7 @@ export const Exchange = forwardRef((props, ref) => {
   }));
 
   const flagOrdersEnabled = true;
-  const [orders] = useAccountOrders(flagOrdersEnabled);
+  const [orders] = useAccountOrders(flagOrdersEnabled, props.dgAddress);
 
   const [isWaitingForPluginApproval, setIsWaitingForPluginApproval] = useState(false);
   const [isWaitingForPositionRouterApproval, setIsWaitingForPositionRouterApproval] = useState(false);
@@ -935,12 +934,16 @@ export const Exchange = forwardRef((props, ref) => {
     );
   };
 
+  const dgHasFunds = true;
+
   return (
     <div className="Exchange page-layout">
       {showBanner && <ExchangeBanner hideBanner={hideBanner} />}
       <div className="Exchange-content">
         <div className="Exchange-left">
           {renderChart()}
+          {dgHasFunds && 
+            <ReturnFundsBox />}
           <div className="Exchange-lists large">{getListSection()}</div>
         </div>
         <div className="Exchange-right">

@@ -22,6 +22,7 @@ import {
   approveTokens,
   IS_NETWORK_DISABLED,
   getChainName,
+  MAX_ALLOWED_LEVERAGE,
 } from "../../lib/legacy";
 import { getContract } from "../../config/Addresses";
 import Tab from "../Tab/Tab";
@@ -228,8 +229,8 @@ export default function PositionEditor(props) {
       return t`Min leverage: 1.1x`;
     }
 
-    if (nextLeverageExcludingPnl && nextLeverageExcludingPnl.gt(30.5 * BASIS_POINTS_DIVISOR)) {
-      return t`Max leverage: 30x`;
+    if (nextLeverageExcludingPnl && nextLeverageExcludingPnl.gt(MAX_ALLOWED_LEVERAGE)) {
+      return t`Max leverage: ${(MAX_ALLOWED_LEVERAGE / BASIS_POINTS_DIVISOR).toFixed(1)}x`;
     }
   };
 

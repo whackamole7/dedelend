@@ -44,6 +44,8 @@ import { arbitrumGraphClient, avalancheGraphClient, nissohGraphClient } from "./
 import { groupBy } from "lodash";
 import { fetcher } from "../lib/contracts/fetcher";
 import { callContract } from "../lib/contracts/callContract";
+import { DDL_AccountManager } from "../../../components/utils/contracts";
+import { DDL_AccountManager_abi } from './../../../components/utils/contracts';
 
 export * from "./prices";
 
@@ -812,8 +814,9 @@ export async function createIncreaseOrder(
     opts.value = fromETH ? amountIn.add(executionFee) : executionFee;
   }
 
-  const orderBookAddress = getContract(chainId, "OrderBook");
-  const contract = new ethers.Contract(orderBookAddress, OrderBook.abi, library.getSigner());
+  // const orderBookAddress = getContract(chainId, "OrderBook");
+  // const contract = new ethers.Contract(orderBookAddress, OrderBook.abi, library.getSigner());
+  const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
 
   return callContract(chainId, contract, "createIncreaseOrder", params, opts);
 }
@@ -844,10 +847,12 @@ export async function createDecreaseOrder(
     isLong,
     triggerPrice,
     triggerAboveThreshold,
+    executionFee,
   ];
   opts.value = executionFee;
-  const orderBookAddress = getContract(chainId, "OrderBook");
-  const contract = new ethers.Contract(orderBookAddress, OrderBook.abi, library.getSigner());
+  // const orderBookAddress = getContract(chainId, "OrderBook");
+  // const contract = new ethers.Contract(orderBookAddress, OrderBook.abi, library.getSigner());
+  const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
 
   return callContract(chainId, contract, "createDecreaseOrder", params, opts);
 }
@@ -864,8 +869,9 @@ export async function cancelSwapOrder(chainId, library, index, opts) {
 export async function cancelDecreaseOrder(chainId, library, index, opts) {
   const params = [index];
   const method = "cancelDecreaseOrder";
-  const orderBookAddress = getContract(chainId, "OrderBook");
-  const contract = new ethers.Contract(orderBookAddress, OrderBook.abi, library.getSigner());
+  // const orderBookAddress = getContract(chainId, "OrderBook");
+  // const contract = new ethers.Contract(orderBookAddress, OrderBook.abi, library.getSigner());
+  const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
 
   return callContract(chainId, contract, method, params, opts);
 }
@@ -873,8 +879,9 @@ export async function cancelDecreaseOrder(chainId, library, index, opts) {
 export async function cancelIncreaseOrder(chainId, library, index, opts) {
   const params = [index];
   const method = "cancelIncreaseOrder";
-  const orderBookAddress = getContract(chainId, "OrderBook");
-  const contract = new ethers.Contract(orderBookAddress, OrderBook.abi, library.getSigner());
+  // const orderBookAddress = getContract(chainId, "OrderBook");
+  // const contract = new ethers.Contract(orderBookAddress, OrderBook.abi, library.getSigner());
+  const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
 
   return callContract(chainId, contract, method, params, opts);
 }
@@ -924,8 +931,9 @@ export async function updateDecreaseOrder(
 ) {
   const params = [index, collateralDelta, sizeDelta, triggerPrice, triggerAboveThreshold];
   const method = "updateDecreaseOrder";
-  const orderBookAddress = getContract(chainId, "OrderBook");
-  const contract = new ethers.Contract(orderBookAddress, OrderBook.abi, library.getSigner());
+  // const orderBookAddress = getContract(chainId, "OrderBook");
+  // const contract = new ethers.Contract(orderBookAddress, OrderBook.abi, library.getSigner());
+  const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
 
   return callContract(chainId, contract, method, params, opts);
 }
@@ -941,8 +949,9 @@ export async function updateIncreaseOrder(
 ) {
   const params = [index, sizeDelta, triggerPrice, triggerAboveThreshold];
   const method = "updateIncreaseOrder";
-  const orderBookAddress = getContract(chainId, "OrderBook");
-  const contract = new ethers.Contract(orderBookAddress, OrderBook.abi, library.getSigner());
+  // const orderBookAddress = getContract(chainId, "OrderBook");
+  // const contract = new ethers.Contract(orderBookAddress, OrderBook.abi, library.getSigner());
+  const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
 
   return callContract(chainId, contract, method, params, opts);
 }
