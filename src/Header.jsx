@@ -55,15 +55,14 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 					const dgAddress = res;
 					const DG = getDgContract(dgAddress);
 					
-					// DG.isApproved()
-					// 	.then(res => {
-					// 		console.log(res);
-					// 		if (res === true) {
-					// 			setRegisterVisible(false);
-					// 		} else {
-					// 			setRegisterVisible(true);
-					// 		}
-					// 	})
+					DG.isApproved()
+						.then(res => {
+							if (res === true) {
+								setRegisterVisible(false);
+							} else {
+								setRegisterVisible(true);
+							}
+						})
 				}
 			})
 	}
@@ -242,7 +241,6 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 	}, [window.ethereum?.networkVersion])
 
 	useEffect(() => {
-		console.log('tick');
 		if (walletAddress) {
 			checkDgAddress();
 			

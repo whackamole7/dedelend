@@ -780,8 +780,7 @@ export default function PositionSeller(props) {
     } by ${formatAmount(sizeDelta, USD_DECIMALS, 2)} USD.`;
 
     // const contract = new ethers.Contract(positionRouterAddress, PositionRouter.abi, library.getSigner());
-    // const contract = DDL_AccountManager;
-    const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
+    const contract = DDL_AccountManager;
 
     callContract(chainId, contract, "createDecreasePosition", params, {
       value: minExecutionFee,

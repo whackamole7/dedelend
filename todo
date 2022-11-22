@@ -1,4 +1,5 @@
 - Change wallet btn
+- tsc messages in toasts
 
 - Options:
 	- BTC/ETH current price (options)
@@ -7,6 +8,7 @@
 - Perps:
 	- code:
 		- leverage x50 @done
-		- DG.isApproved()
+		- DG.isApproved() @done
 		- return funds btn
+			- .withdrawLiquidity(0, ETH_address) => execution reverted err
 		- min order: 10 usdc (swapBox)

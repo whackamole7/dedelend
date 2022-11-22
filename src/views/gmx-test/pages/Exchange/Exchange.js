@@ -480,6 +480,19 @@ export const Exchange = forwardRef((props, ref) => {
   const { data: tokenBalances } = useSWR(active && [active, chainId, readerAddress, "getTokenBalances", account], {
     fetcher: fetcher(library, Reader, [tokenAddresses]),
   });
+  
+  const { data: tokenBalancesDG } = useSWR(active && [active, chainId, readerAddress, "getTokenBalances", props.dgAddress || AddressZero], {
+    fetcher: fetcher(library, Reader, [tokenAddresses]),
+  });
+  const { infoTokens: infoTokensDG } = useInfoTokens(library, chainId, active, tokenBalancesDG);
+
+  const dgFundsAddresses = [];
+  Object.keys(infoTokensDG).forEach(address => {
+    if (infoTokensDG[address].balance?.gt(0)) {
+      dgFundsAddresses.push(address);
+    }
+  })
+  const dgHasFunds = dgFundsAddresses.length;
 
   const { data: positionData, error: positionDataError } = useSWR(
     active && [active, chainId, readerAddress, "getPositions", vaultAddress, props.dgAddress || AddressZero],
@@ -534,6 +547,7 @@ export const Exchange = forwardRef((props, ref) => {
     chainId,
     infoTokens
   );
+  
 
   useEffect(() => {
     const fromToken = getTokenInfo(infoTokens, fromTokenAddress);
@@ -934,8 +948,6 @@ export const Exchange = forwardRef((props, ref) => {
     );
   };
 
-  const dgHasFunds = true;
-
   return (
     <div className="Exchange page-layout">
       {showBanner && <ExchangeBanner hideBanner={hideBanner} />}
@@ -943,7 +955,7 @@ export const Exchange = forwardRef((props, ref) => {
         <div className="Exchange-left">
           {renderChart()}
           {dgHasFunds && 
-            <ReturnFundsBox />}
+            <ReturnFundsBox dgAddress={props.dgAddress} tokenAddresses={dgFundsAddresses} />}
           <div className="Exchange-lists large">{getListSection()}</div>
         </div>
         <div className="Exchange-right">
