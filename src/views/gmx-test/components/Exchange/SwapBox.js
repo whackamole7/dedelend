@@ -1462,7 +1462,6 @@ export default function SwapBox(props) {
   }
 
   const increasePosition = async () => {
-    alert('increasePosition')
     setIsSubmitting(true);
     const tokenAddress0 = fromTokenAddress === AddressZero ? nativeTokenAddress : fromTokenAddress;
     const indexTokenAddress = toTokenAddress === AddressZero ? nativeTokenAddress : toTokenAddress;

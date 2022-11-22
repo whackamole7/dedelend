@@ -552,10 +552,8 @@ function FullApp(props) {
 function GMXInterface(props) {
   // useScrollToTop();
   
-  
   useEffect(() => {
     const defaultLanguage = localStorage.getItem(LANGUAGE_LOCALSTORAGE_KEY) || defaultLocale;
-    console.log(defaultLanguage);
     dynamicActivate(defaultLanguage);
   }, []);
   return (

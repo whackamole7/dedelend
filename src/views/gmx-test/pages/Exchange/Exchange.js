@@ -488,11 +488,15 @@ export const Exchange = forwardRef((props, ref) => {
 
   const dgFundsAddresses = [];
   Object.keys(infoTokensDG).forEach(address => {
+    if (address === AddressZero) {
+      return;
+    }
+    
     if (infoTokensDG[address].balance?.gt(0)) {
       dgFundsAddresses.push(address);
     }
   })
-  const dgHasFunds = dgFundsAddresses.length;
+  const dgHasFunds = Boolean(dgFundsAddresses.length);
 
   const { data: positionData, error: positionDataError } = useSWR(
     active && [active, chainId, readerAddress, "getPositions", vaultAddress, props.dgAddress || AddressZero],
