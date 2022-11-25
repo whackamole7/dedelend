@@ -10,7 +10,7 @@ const Wallet = ({ address }) => {
 					</div>
 				</div>
 				<div className="wallet__address">
-					{window.outerWidth < 768 ?
+					{window.outerWidth < 992 ?
 						address.substr(0,5) + '...' + address.substr(-4)
 						: address}
 				</div>

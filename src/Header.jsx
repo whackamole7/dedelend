@@ -273,7 +273,7 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 		{
 			name: 'Earn',
 			to: '/earn',
-		}
+		},
 	]
 	headerLinks.find(link => {
 		link.isActive = loc.pathname.split('/')[1] === link.to.split('/')[1];

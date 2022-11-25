@@ -1,4 +1,3 @@
-- Change wallet btn
 - tsc messages in toasts
 - active btns hover
 
@@ -8,10 +7,5 @@
 
 - Perps:
 	- code:
-		- leverage x50 @done
-		- DG.isApproved() @done
-		- return funds btn
-			- .withdrawLiquidity(0, ETH_address) => execution reverted err
-		- Short Order cancel: "execution reverted: ERC20: transfer amount exceeds balance"
+		- Trigger Order cancel: "execution reverted: ERC20: transfer amount exceeds balance"
 		- min order: 10 usdc (swapBox)
-		- remove alerts

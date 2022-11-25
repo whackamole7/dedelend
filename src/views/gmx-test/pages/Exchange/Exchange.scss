@@ -382,6 +382,18 @@
     height: auto;
     z-index: 2;
   }
+
+  .ExchangeChart.tv {
+    @media (max-width: 1100px) {
+      margin-bottom: 8.5rem;
+    }
+    @media (max-width: 768px) {
+      margin-bottom: 10rem;
+    }
+    @media (max-width: 480px) {
+      margin-bottom: 30rem;
+    }
+  }
   
   .ExchangeChart.tv .ExchangeChart-top {
     position: absolute;
@@ -399,6 +411,10 @@
     /* top: 6.975rem; */
     top: 14.5rem;
     z-index: 1;
+
+    @media (max-width: 1100px) {
+      height: 320px;
+    }
   }
   .ExchangeChart-bottom-controls {
     display: inline-block;
