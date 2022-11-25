@@ -41,28 +41,30 @@ export default function NoLiquidityErrorModal({
     modalError === "BUFFER" ? `${shortCollateralToken.symbol} Required` : `${fromToken.symbol} Pool Capacity Reached`;
 
   return (
-    <Modal isVisible={Boolean(modalError)} setIsVisible={setModalError} label={label} className="Error-modal font-base">
-      <div>
-        You need to select {swapTokenSymbol} as the "Pay" token to use it for collateral to initiate this trade.
-      </div>
-      <br />
-      <div>
-        As there is not enough liquidity in GLP to swap {fromToken.symbol} to {swapTokenSymbol}, you can use the option
-        below to do so:
-      </div>
-      <br />
-
-      <a href={oneInchSwapUrl} target="_blank" rel="noreferrer">
-        Buy {swapTokenSymbol} on 1inch
-      </a>
-
-      {isShort && (
+    <Modal isVisible={Boolean(modalError)} setIsVisible={setModalError} label={label} isNifty={true} className="Error-modal font-base">
+      <div className="Modal__text">
         <div>
-          Alternatively you can select a different "Collateral In" token.
-          <br />
-          <br />
+          You need to select {swapTokenSymbol} as the "Pay" token to use it for collateral to initiate this trade.
         </div>
-      )}
+        <br />
+        <div>
+          As there is not enough liquidity in GLP to swap {fromToken.symbol} to {swapTokenSymbol}, you can use the option
+          below to do so:
+        </div>
+        <br />
+
+        <a className="Modal__link" href={oneInchSwapUrl} target="_blank" rel="noreferrer">
+          Buy {swapTokenSymbol} on 1inch
+        </a>
+
+        {isShort && (
+          <div>
+            Alternatively you can select a different "Collateral In" token.
+            <br />
+            <br />
+          </div>
+        )}
+      </div>
     </Modal>
   );
 }

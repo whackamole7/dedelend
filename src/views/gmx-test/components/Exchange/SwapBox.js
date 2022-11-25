@@ -1630,7 +1630,6 @@ export default function SwapBox(props) {
     }
 
     if (needOrderBookApproval) {
-      alert('onConfirmationClick: needOrderBookApproval')
       approveOrderBook();
       return;
     }
@@ -1638,13 +1637,11 @@ export default function SwapBox(props) {
     setIsPendingConfirmation(true);
 
     if (isSwap) {
-      alert('onConfirmationClick: isSwap')
       swap();
       return;
     }
 
     if (orderOption === LIMIT) {
-      alert('onConfirmationClick: createIncreaseOrder()')
       createIncreaseOrder();
       return;
     }
@@ -1673,7 +1670,6 @@ export default function SwapBox(props) {
 
   const onClickPrimary = () => {
     if (isStopOrder) {
-      alert('onClickPrimary: stopOrder')
       setOrderOption(MARKET);
       return;
     }
@@ -1684,7 +1680,6 @@ export default function SwapBox(props) {
     }
 
     if (needPositionRouterApproval) {
-      alert('onClickPrimary: needPositionRouterApproval')
       approvePositionRouter({
         sentMsg: t`Enable leverage sent.`,
         failMsg: t`Enable leverage failed.`,
@@ -1693,13 +1688,11 @@ export default function SwapBox(props) {
     }
 
     if (needApproval) {
-      alert('onClickPrimary: needApproval')
       approveFromToken();
       return;
     }
 
     if (needOrderBookApproval) {
-      alert('onClickPrimary: needOrderBookApproval')
       setOrdersToaOpen(true);
       return;
     }
@@ -1707,13 +1700,11 @@ export default function SwapBox(props) {
     const [, modal, errorCode] = getError();
 
     if (modal) {
-      alert('onClickPrimary: modal')
       setModalError(errorCode);
       return;
     }
 
     if (isSwap) {
-      alert('onClickPrimary: swap')
       if (fromTokenAddress === AddressZero && toTokenAddress === nativeTokenAddress) {
         wrap();
         return;

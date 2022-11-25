@@ -15,6 +15,21 @@
     justify-content: center;
     text-align: left;
 
+    &_nifty {
+
+      .Modal__text {
+        color: #747FA6;
+      }
+
+      .Modal__link {
+        color: #6988ff;
+      }
+
+      .Modal-body {
+        padding: 0 30px 30px;
+      }
+    }
+
     // Nifty Modal 3D Sign
     transition: opacity .3s ease;
     &-content-wrapper {
@@ -83,6 +98,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: #fff;
     margin: 2.5rem 3rem 2rem;
 
     @media (max-width: 576px) {

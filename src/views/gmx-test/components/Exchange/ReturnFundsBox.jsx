@@ -9,6 +9,7 @@ import { errAlert } from './../../../../components/utils/error';
 const ReturnFundsBox = ({ dgAddress, tokenAddresses }) => {
 	const [keyId, setKeyId] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
+	const [isVisible, setIsVisible] = useState(true);
 
 	useEffect(() => {
 		if (!dgAddress) {
@@ -22,6 +23,7 @@ const ReturnFundsBox = ({ dgAddress, tokenAddresses }) => {
 
 	const returnFunds = () => {
 		if (!keyId) {
+			alert('No key ID');
 			return;
 		}
 		setIsLoading(true);
@@ -34,18 +36,24 @@ const ReturnFundsBox = ({ dgAddress, tokenAddresses }) => {
 				setIsLoading(false);
 				return;
 			}
+
+			let method = "withdrawLiquidity";
+			let params = [keyId, address];
 			if (address === ethers.constants.AddressZero) {
-				i++;
-				withdrawFunds()
+				method = "withdrawLiquidityETH";
+				params = [keyId];
 			}
 			
-			DDL_AccountManager.withdrawLiquidity(keyId, address)
+			DDL_AccountManager[method](...params)
 				.then(tsc => {
 					console.log('Withdraw transaction:', tsc);
 
 					i++;
 					if (!tokenAddresses[i]) {
-						tsc.wait().then(() => setIsLoading(false));
+						tsc.wait().then(() => {
+							setIsLoading(false);
+							setIsVisible(false);
+						});
 					} else {
 						withdrawFunds();
 					}
@@ -62,15 +70,19 @@ const ReturnFundsBox = ({ dgAddress, tokenAddresses }) => {
 	
 	
 	return (
-		<AttentionBox className="ReturnFunds-box">
-			<p>Your position is closed by the limit order. Your funds currently are stored in your trading account, to get your money back please click on the button below</p>
-			{isLoading ? <Loader />
-				: <Button 
-					className={'btn_small'} 
-					btnActive={true} 
-					onClick={returnFunds}>Return funds</Button>
+		<>
+			{isVisible &&
+				(<AttentionBox className="ReturnFunds-box">
+					<p>Your position is closed by the limit order. Your funds currently are stored in your trading account, to get your money back please click on the button below</p>
+					{isLoading ? <Loader />
+						: <Button 
+							className={'btn_small'} 
+							btnActive={true} 
+							onClick={returnFunds}>Return funds</Button>
+					}
+				</AttentionBox>)
 			}
-		</AttentionBox>
+		</>
 	);
 };
 

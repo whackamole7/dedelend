@@ -481,22 +481,19 @@ export const Exchange = forwardRef((props, ref) => {
     fetcher: fetcher(library, Reader, [tokenAddresses]),
   });
   
-  const { data: tokenBalancesDG } = useSWR(active && [active, chainId, readerAddress, "getTokenBalances", props.dgAddress || AddressZero], {
+  const { data: tokenBalancesDG } = useSWR(active && [active, chainId, readerAddress, "getTokenBalances", props.dgAddress], {
     fetcher: fetcher(library, Reader, [tokenAddresses]),
   });
   const { infoTokens: infoTokensDG } = useInfoTokens(library, chainId, active, tokenBalancesDG);
 
   const dgFundsAddresses = [];
   Object.keys(infoTokensDG).forEach(address => {
-    if (address === AddressZero) {
-      return;
-    }
-    
     if (infoTokensDG[address].balance?.gt(0)) {
       dgFundsAddresses.push(address);
     }
   })
-  const dgHasFunds = Boolean(dgFundsAddresses.length);
+  
+  const dgHasFunds = Boolean(dgFundsAddresses.length && props.dgAddress);
 
   const { data: positionData, error: positionDataError } = useSWR(
     active && [active, chainId, readerAddress, "getPositions", vaultAddress, props.dgAddress || AddressZero],
@@ -917,6 +914,7 @@ export const Exchange = forwardRef((props, ref) => {
         {listSection === "Trades" && (
           <TradeHistory
             account={account}
+            dgAddress={props.dgAddress}
             forSingleAccount={true}
             infoTokens={infoTokens}
             getTokenInfo={getTokenInfo}

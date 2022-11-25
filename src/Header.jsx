@@ -33,7 +33,6 @@ import { errAlert } from './components/utils/error';
 
 
 const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) => {
-	
 	const { setGlobalStats } = useContext(GlobalStatsContext)
 	const { setUserStats } = useContext(UserStatsContext)
 
@@ -50,7 +49,7 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 				} else {
 					setRegisterStep(1);
 					
-					// 0x7cce5a70eb4dc70367AbA2C59f9f66aE4d37C1Fd
+					// 0x3d00Fd29Fa1305576c62d6aDee0d5944F865F2B3
 					setDgAddress(res);
 					const dgAddress = res;
 					const DG = getDgContract(dgAddress);

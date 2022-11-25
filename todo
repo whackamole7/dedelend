@@ -12,4 +12,6 @@
 		- DG.isApproved() @done
 		- return funds btn
 			- .withdrawLiquidity(0, ETH_address) => execution reverted err
+		- Short Order cancel: "execution reverted: ERC20: transfer amount exceeds balance"
 		- min order: 10 usdc (swapBox)
+		- remove alerts

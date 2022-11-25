@@ -86,9 +86,9 @@ export default function TradeHistory(props) {
     return pageIds[pageIndex];
   };
 
-  const { trades, updateTrades } = useTrades(chainId, account, props.forSingleAccount, getAfterId());
+  const { trades, updateTrades } = useTrades(chainId, props.dgAddress, props.forSingleAccount, getAfterId());
 
-  const liquidationsData = useLiquidationsData(chainId, account);
+  const liquidationsData = useLiquidationsData(chainId, props.dgAddress);
   const liquidationsDataMap = useMemo(() => {
     if (!liquidationsData) {
       return null;
