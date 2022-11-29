@@ -462,6 +462,21 @@ export default function PositionEditor(props) {
   };
   const nativeTokenSymbol = getConstant(chainId, "nativeTokenSymbol");
 
+
+  const [hasInputFocus, setHasInputFocus] = useState(false);
+  const [hasInputError, setHasInputError] = useState(false);
+  const checkInputError = (inputVal) => {
+    if (!isPrimaryEnabled() && inputVal !== '') {
+      setHasInputError(true);
+    } else {
+      setHasInputError(false);
+    }
+  }
+
+  useEffect(() => {
+    checkInputError(fromValue);
+  }, [fromValue])
+
   return (
     <div className="PositionEditor">
       {position && (
@@ -471,7 +486,8 @@ export default function PositionEditor(props) {
               icons={EDIT_ICONS} />
             {(isDeposit || isWithdrawal) && (
               <div>
-                <div className="Exchange-swap-section">
+                <div className={"Exchange-swap-section"
+                  + (hasInputError ? " error" : "") + (hasInputFocus ? " hlight" : "")}>
                   <div className="Exchange-swap-section-top">
                     <div className="muted">
                       {convertedAmountFormatted && (
@@ -498,10 +514,10 @@ export default function PositionEditor(props) {
                         value={fromValue}
                         onChange={(e) => setFromValue(e.target.value)}
                         onFocus={(e) => {
-                          e.target.parentElement.parentElement.parentElement.classList.add('hlight');
+                          setHasInputFocus(true);
                         }}
                         onBlur={(e) => {
-                          e.target.parentElement.parentElement.parentElement.classList.remove('hlight');
+                          setHasInputFocus(false);
                         }}
                       />
                       {fromValue !== maxAmountFormattedFree && (

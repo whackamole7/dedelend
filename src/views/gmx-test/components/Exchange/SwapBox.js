@@ -1228,6 +1228,20 @@ export default function SwapBox(props) {
     setToTokenAddress(swapOption, token.address);
   };
 
+  const [hasInputFocus, setHasInputFocus] = useState(false);
+  const [hasInputError, setHasInputError] = useState(false);
+  const checkInputError = (inputVal) => {
+    if (!isPrimaryEnabled() && inputVal !== '') {
+      setHasInputError(true);
+    } else {
+      setHasInputError(false);
+    }
+  }
+
+  useEffect(() => {
+    checkInputError(fromValue);
+  }, [fromValue, toValue])
+  
   const onFromValueChange = (e) => {
     setAnchorOnFromAmount(true);
     setFromValue(e.target.value);
@@ -1856,7 +1870,8 @@ export default function SwapBox(props) {
         </div>
         {showFromAndToSection && (
           <React.Fragment>
-            <div className="Exchange-swap-section">
+            <div className={"Exchange-swap-section"
+               + (hasInputError ? " error" : "") + (hasInputFocus ? " hlight" : "")}>
               <div className="Exchange-swap-section-top">
                 <div className="muted">
                   {fromUsdMin && (
@@ -1880,10 +1895,10 @@ export default function SwapBox(props) {
                     value={fromValue}
                     onChange={onFromValueChange}
                     onFocus={(e) => {
-                      e.target.parentElement.parentElement.parentElement.classList.add('hlight');
+                      setHasInputFocus(true);
                     }}
                     onBlur={(e) => {
-                      e.target.parentElement.parentElement.parentElement.classList.remove('hlight');
+                      setHasInputFocus(false);
                     }}
                   />
                   {shouldShowMaxButton() && (
