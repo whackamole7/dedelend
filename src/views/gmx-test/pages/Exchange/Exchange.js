@@ -944,7 +944,8 @@ export const Exchange = forwardRef((props, ref) => {
         swapOption={swapOption}
         chainId={chainId}
         positions={positions}
-        savedShouldShowPositionLines={savedShouldShowPositionLines}
+        // savedShouldShowPositionLines={savedShouldShowPositionLines}
+        savedShouldShowPositionLines={true}
         orders={orders}
         setToTokenAddress={setToTokenAddress}
       />

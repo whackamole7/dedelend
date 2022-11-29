@@ -325,7 +325,7 @@ export default function OrderEditor(props) {
         )}
         <div className="Exchange-swap-button-container">
           <button
-            className="App-cta Exchange-swap-button Exchange-list-modal-button"
+            className={"App-cta Exchange-swap-button Exchange-list-modal-button" + (isPrimaryEnabled() ? " hlight" : "")}
             onClick={onClickPrimary}
             disabled={!isPrimaryEnabled()}
           >

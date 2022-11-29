@@ -1128,6 +1128,7 @@ export default function SwapBox(props) {
     return true;
   };
 
+
   const getPrimaryText = () => {
     if (isStopOrder) {
       return t`Open a position`;
@@ -1172,7 +1173,7 @@ export default function SwapBox(props) {
     if (needOrderBookApproval) {
       return t`Enable Orders`;
     }
-
+    
     if (!isMarketOrder) return `Create ${orderOption.charAt(0) + orderOption.substring(1).toLowerCase()} Order`;
 
     if (isSwap) {
@@ -1777,7 +1778,7 @@ export default function SwapBox(props) {
   }
 
   const leverageMarks = {
-    2: "2x",
+    1.1: "1.1x",
     5: "5x",
     10: "10x",
     15: "15x",
@@ -2206,7 +2207,7 @@ export default function SwapBox(props) {
           </div>
         )}
         <div className="Exchange-swap-button-container">
-          <button className="App-cta Exchange-swap-button" onClick={onClickPrimary} disabled={!isPrimaryEnabled()}>
+          <button className={"App-cta Exchange-swap-button" + (isPrimaryEnabled() ? " hlight" : "")} onClick={onClickPrimary} disabled={!isPrimaryEnabled()}>
             {getPrimaryText()}
           </button>
         </div>
