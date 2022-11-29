@@ -295,6 +295,12 @@ export default function OrderEditor(props) {
                 className="Exchange-swap-input"
                 value={triggerPriceValue}
                 onChange={onTriggerPriceChange}
+                onFocus={(e) => {
+                  e.target.parentElement.parentElement.parentElement.classList.add('hlight');
+                }}
+                onBlur={(e) => {
+                  e.target.parentElement.parentElement.parentElement.classList.remove('hlight');
+                }}
               />
             </div>
             <div className="PositionEditor-token-symbol">USD</div>
@@ -370,6 +376,12 @@ export default function OrderEditor(props) {
               className="Exchange-swap-input"
               value={triggerRatioValue}
               onChange={onTriggerRatioChange}
+              onFocus={(e) => {
+                e.target.parentElement.parentElement.parentElement.classList.add('hlight');
+              }}
+              onBlur={(e) => {
+                e.target.parentElement.parentElement.parentElement.classList.remove('hlight');
+              }}
             />
           </div>
           {(() => {

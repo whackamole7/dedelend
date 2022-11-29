@@ -21,6 +21,12 @@ const SlippageInput = ({ value, setValue }) => {
 								setValue(val)
 							}
 						}}
+						onFocus={(e) => {
+							e.target.parentElement.parentElement.parentElement.classList.add('hlight');
+						}}
+						onBlur={(e) => {
+							e.target.parentElement.parentElement.parentElement.classList.remove('hlight');
+						}}
 					/>
 				</div>
 			</div>

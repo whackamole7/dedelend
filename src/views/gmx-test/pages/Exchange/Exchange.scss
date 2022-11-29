@@ -874,6 +874,11 @@
     margin-bottom: 1.5rem;
     border-radius: 0.5rem;
     border: 1px solid #384263;
+    transition: border-color .2s ease;
+
+    &.hlight {
+      border-color: #fff;
+    }
   }
   
   .Exchange-swap-option-tabs.Tab.block .Tab-option {

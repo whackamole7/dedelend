@@ -497,6 +497,12 @@ export default function PositionEditor(props) {
                         className="Exchange-swap-input"
                         value={fromValue}
                         onChange={(e) => setFromValue(e.target.value)}
+                        onFocus={(e) => {
+                          e.target.parentElement.parentElement.parentElement.classList.add('hlight');
+                        }}
+                        onBlur={(e) => {
+                          e.target.parentElement.parentElement.parentElement.classList.remove('hlight');
+                        }}
                       />
                       {fromValue !== maxAmountFormattedFree && (
                         <div
