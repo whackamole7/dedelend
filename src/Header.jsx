@@ -43,12 +43,10 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 	async function checkDgAddress() {
 		DDL_AccountManager.doppelgangerMap(walletAddress)
 			.then(res => {
-				if (parseInt(res.split('x')[1], 10) === 0) {
+				if (res === ethers.constants.AddressZero) {
 					setRegisterStep(0);
 					setRegisterVisible(true);
 				} else {
-					setRegisterStep(1);
-					
 					// 0x3d00Fd29Fa1305576c62d6aDee0d5944F865F2B3
 					setDgAddress(res);
 					const dgAddress = res;
@@ -59,6 +57,7 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 							if (res === true) {
 								setRegisterVisible(false);
 							} else {
+								setRegisterStep(1);
 								setRegisterVisible(true);
 							}
 						})

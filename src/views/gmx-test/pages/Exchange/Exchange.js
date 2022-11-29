@@ -493,7 +493,8 @@ export const Exchange = forwardRef((props, ref) => {
     }
   })
   
-  const dgHasFunds = Boolean(dgFundsAddresses.length && props.dgAddress);
+  // const dgHasFunds = Boolean(dgFundsAddresses.length && props.dgAddress);
+  const dgHasFunds = false;
 
   const { data: positionData, error: positionDataError } = useSWR(
     active && [active, chainId, readerAddress, "getPositions", vaultAddress, props.dgAddress || AddressZero],
@@ -799,7 +800,7 @@ export const Exchange = forwardRef((props, ref) => {
       });
   };
 
-  const LIST_SECTIONS = ["Positions", flagOrdersEnabled ? "Orders" : undefined, "Trades", "Borrows"].filter(Boolean);
+  const LIST_SECTIONS = ["Positions", /* flagOrdersEnabled ? "Orders" : undefined */, "Trades", "Borrows"].filter(Boolean);
   let [listSection, setListSection] = useLocalStorageByChainId(chainId, "List-section-v2", LIST_SECTIONS[0]);
   const LIST_SECTIONS_LABELS = {
     Orders: orders.length ? `Orders (${orders.length})` : undefined,

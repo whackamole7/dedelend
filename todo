@@ -7,5 +7,6 @@
 
 - Perps:
 	- code:
-		- Trigger Order cancel: "execution reverted: ERC20: transfer amount exceeds balance"
+		- Exchange: getTokenBalancesDG error: no dgAddress
 		- min order: 10 usdc (swapBox)
+		- ExchangeTV months

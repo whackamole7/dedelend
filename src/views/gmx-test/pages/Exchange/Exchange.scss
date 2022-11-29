@@ -323,7 +323,8 @@
   
   .ExchangeChart {
     position: relative;
-    height: 49.6rem;
+    // height: 49.6rem;
+    height: 55.4rem;
   }
   
   .ExchangeChart-title {
@@ -411,6 +412,11 @@
     /* top: 6.975rem; */
     top: 14.5rem;
     z-index: 1;
+    height: 405px;
+
+    @media (max-width: 1200px) {
+      height: auto;
+    }
 
     @media (max-width: 1100px) {
       height: 320px;
@@ -1262,16 +1268,16 @@
       margin-bottom: 10px;
     }
   
-    .Exchange-swap-box .TokenSelector .Modal-content,
+    /* .Exchange-swap-box .TokenSelector .Modal-content,
     .Exchange-swap-box .Selector .Modal-content {
-      /* display: block;
+      display: block;
       margin: 0;
       padding: 1.5rem;
       box-sizing: border-box;
       height: auto;
       border: 1px solid #1c0e6a;
-      width: 100%; */
-    }
+      width: 100%;
+    } */
   
     .Exchange-swap-box .TokenSelector .Modal-content,
     .Selector .Modal-content {
@@ -1389,9 +1395,9 @@
       font-size: 1.85rem;
     }
   
-    .ExchangeChart-additional-info {
-      // display: none;
-    }
+    // .ExchangeChart-additional-info {
+    //   display: none;
+    // }
   
     // .Exchange-content {
     //   padding: 1.5rem;

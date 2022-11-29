@@ -223,7 +223,8 @@ export default function PositionSeller(props) {
     allowedSlippage = userSlippage * 100;
   }
 
-  const orderOptions = [MARKET, STOP];
+  // const orderOptions = [MARKET, STOP];
+  const orderOptions = [];
   let [orderOption, setOrderOption] = useState(MARKET);
 
   if (!flagOrdersEnabled) {
@@ -894,7 +895,7 @@ export default function PositionSeller(props) {
           allowContentTouchMove
           isNifty={true}
         >
-          {flagOrdersEnabled && (
+          {/* {flagOrdersEnabled && (
             <Tab
               options={orderOptions}
               option={orderOption}
@@ -902,7 +903,7 @@ export default function PositionSeller(props) {
               onChange={onOrderOptionChange}
               icons={CLOSE_ICONS}
             />
-          )}
+          )} */}
           <div className="Exchange-swap-section">
             <div className="Exchange-swap-section-top">
               <div className="muted">

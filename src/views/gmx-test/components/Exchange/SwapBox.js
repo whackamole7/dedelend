@@ -242,7 +242,8 @@ export default function SwapBox(props) {
 
   const [ordersToaOpen, setOrdersToaOpen] = useState(false);
 
-  let [orderOption, setOrderOption] = useLocalStorageSerializeKey([chainId, "Order-option"], MARKET);
+  // let [orderOption, setOrderOption] = useLocalStorageSerializeKey([chainId, "Order-option"], MARKET);
+  let [orderOption, setOrderOption] = useState(MARKET);
   if (!flagOrdersEnabled) {
     orderOption = MARKET;
   }
