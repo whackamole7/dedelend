@@ -609,6 +609,10 @@
     background: none;
     border: none;
     margin: 0 0.3rem;
+
+    &[disabled] {
+      color: #384263;
+    }
   }
   
   table.Exchange-list td.td-btn {
@@ -623,7 +627,7 @@
     transition: color .2s ease;
 
     &[disabled]:hover, &[disabled]:focus-visible {
-      color: #fff;
+      color: #384263;
     }
   }
   button.Exchange-list-action:hover, button.Exchange-list-action:focus-visible {

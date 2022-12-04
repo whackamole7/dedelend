@@ -55,6 +55,7 @@ import { fetcher } from "../../lib/contracts/fetcher";
 import BorrowsList from './../../components/Exchange/BorrowsList';
 import { DDL_AccountManager } from "../../../../components/utils/contracts";
 import ReturnFundsBox from './../../components/Exchange/ReturnFundsBox';
+import { getDgContract, DDL_GMX } from './../../../../components/utils/contracts';
 const { AddressZero } = ethers.constants;
 
 const PENDING_POSITION_VALID_DURATION = 600 * 1000;
@@ -152,7 +153,8 @@ export function getPositions(
   showPnlAfterFees,
   account,
   pendingPositions,
-  updatedPositions
+  updatedPositions,
+  dgAddress
 ) {
   const propsLength = getConstant(chainId, "positionReaderPropsLength");
   const positions = [];
@@ -169,6 +171,7 @@ export function getPositions(
     if (account) {
       contractKey = getPositionContractKey(account, collateralTokens[i], indexTokens[i], isLong[i]);
     }
+
 
     const position = {
       key,
@@ -569,7 +572,8 @@ export const Exchange = forwardRef((props, ref) => {
     savedShowPnlAfterFees,
     account,
     pendingPositions,
-    updatedPositions
+    updatedPositions,
+    props.dgAddress
   );
 
   useImperativeHandle(ref, () => ({
@@ -892,6 +896,7 @@ export const Exchange = forwardRef((props, ref) => {
             minExecutionFeeErrorMessage={minExecutionFeeErrorMessage}
             usdgSupply={usdgSupply}
             totalTokenWeights={totalTokenWeights}
+            dgAddress={props.dgAddress}
           />
         )}
         {listSection === "Orders" && (
@@ -925,7 +930,43 @@ export const Exchange = forwardRef((props, ref) => {
           />
         )}
         {listSection === 'Borrows' && (
-          <BorrowsList />
+          <BorrowsList
+            positionsDataIsLoading={positionsDataIsLoading}
+            pendingPositions={pendingPositions}
+            setPendingPositions={setPendingPositions}
+            setListSection={setListSection}
+            setIsWaitingForPluginApproval={setIsWaitingForPluginApproval}
+            setIsWaitingForPositionRouterApproval={setIsWaitingForPositionRouterApproval}
+            approveOrderBook={approveOrderBook}
+            approvePositionRouter={approvePositionRouter}
+            isPluginApproving={isPluginApproving}
+            isPositionRouterApproving={isPositionRouterApproving}
+            isWaitingForPluginApproval={isWaitingForPluginApproval}
+            isWaitingForPositionRouterApproval={isWaitingForPositionRouterApproval}
+            orderBookApproved={orderBookApproved}
+            positionRouterApproved={positionRouterApproved}
+            positions={positions}
+            positionsMap={positionsMap}
+            infoTokens={infoTokens}
+            active={active}
+            account={account}
+            library={library}
+            pendingTxns={pendingTxns}
+            setPendingTxns={setPendingTxns}
+            flagOrdersEnabled={flagOrdersEnabled}
+            savedIsPnlInLeverage={savedIsPnlInLeverage}
+            chainId={chainId}
+            nativeTokenAddress={nativeTokenAddress}
+            setMarket={setMarket}
+            orders={orders}
+            showPnlAfterFees={savedShowPnlAfterFees}
+            minExecutionFee={minExecutionFee}
+            minExecutionFeeUSD={minExecutionFeeUSD}
+            minExecutionFeeErrorMessage={minExecutionFeeErrorMessage}
+            usdgSupply={usdgSupply}
+            totalTokenWeights={totalTokenWeights}
+            dgAddress={props.dgAddress}
+          />
         )}
       </div>
     );

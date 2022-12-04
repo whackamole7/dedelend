@@ -47,7 +47,7 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 					setRegisterStep(0);
 					setRegisterVisible(true);
 				} else {
-					// 0x3d00Fd29Fa1305576c62d6aDee0d5944F865F2B3
+					// 0x0ec264CA5b6C4D36BCbb7335fc7773F79C5834B1
 					setDgAddress(res);
 					const dgAddress = res;
 					const DG = getDgContract(dgAddress);
@@ -256,7 +256,6 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 				})
 		}
 	}, [walletAddress])
-	
 
 
 	const loc = useLocation();

@@ -28,6 +28,7 @@ import PositionShare from "./PositionShare";
 import PositionDropdown from "./PositionDropdown";
 import StatsTooltipRow from "../StatsTooltip/StatsTooltipRow";
 import CollateralLocked from './CollateralLocked';
+import { getDgContract, DDL_GMX } from './../../../../components/utils/contracts';
 
 const getOrdersForPosition = (account, position, orders, nativeTokenAddress) => {
   if (!orders || orders.length === 0) {
@@ -95,6 +96,7 @@ export default function PositionsList(props) {
     minExecutionFeeErrorMessage,
     usdgSupply,
     totalTokenWeights,
+    dgAddress,
   } = props;
 
   const [positionToEditKey, setPositionToEditKey] = useState(undefined);
@@ -240,6 +242,18 @@ export default function PositionsList(props) {
                   .div(FUNDING_RATE_PRECISION);
                 borrowFeeUSD = formatAmount(borrowFeeRate, USD_DECIMALS, 2);
               }
+
+              // Key id for positions
+              const DG = getDgContract(dgAddress);
+              DG.keyByIndexToken(position.indexToken.address, position.isLong)
+                .then(id => {
+                  position.keyId = id;
+
+                  DDL_GMX.borrowedByCollateral(id)
+                    .then(res => {
+                      position.borrowed = res.borrowed;
+                    })
+                })
 
               return (
                 <div key={position.key} className="App-card">
@@ -453,6 +467,8 @@ export default function PositionsList(props) {
                     >
                       Close
                     </button>
+                    {position.borrowed?.gt(0) &&
+                      <CollateralLocked />}
 
                     
                     {/* <button
@@ -530,6 +546,18 @@ export default function PositionsList(props) {
                 .div(FUNDING_RATE_PRECISION);
               borrowFeeUSD = formatAmount(borrowFeeRate, USD_DECIMALS, 2);
             }
+
+            // Key id for positions
+            const DG = getDgContract(dgAddress);
+            DG.keyByIndexToken(position.indexToken.address, position.isLong)
+              .then(id => {
+                position.keyId = id;
+
+                DDL_GMX.borrowedByCollateral(id)
+                  .then(res => {
+                    position.borrowed = res.borrowed;
+                  })
+              })
 
             return (
               <tr key={position.key}>
@@ -739,7 +767,8 @@ export default function PositionsList(props) {
                   /> */}
                 </td>
                 <td className="td-btn">
-                  
+                  {position.borrowed?.gt(0) &&
+                    <CollateralLocked />}
                 </td>
               </tr>
             );

@@ -443,7 +443,7 @@ export default function ExchangeTVChart(props) {
               Current Price
             </div>
             <div className="ExchangeChart-main-price">
-              {chartToken.maxPrice && formatAmount(chartToken.maxPrice, USD_DECIMALS, 2, true)}
+              ${chartToken.maxPrice && formatAmount(chartToken.maxPrice, USD_DECIMALS, 2, true)}
             </div>
           </div>
           <div>
