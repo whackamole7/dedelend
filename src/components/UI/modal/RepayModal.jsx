@@ -109,8 +109,8 @@ const RepayModal = (props) => {
 
 							res.wait()
 								.then(() => {
-									setInputVal('')
-									updateOptionStats(option.id, option.isETH)
+									setInputVal('');
+									updateOptionStats(option.id, option.isETH);
 								})
 						},
 						err => {
@@ -152,7 +152,8 @@ const RepayModal = (props) => {
 
 							res.wait()
 								.then(() => {
-									setInputVal('')
+									setInputVal('');
+									setIsLoading(false);
 								})
 						}, err => {
 							errAlert(err)
@@ -200,8 +201,9 @@ const RepayModal = (props) => {
 
 							res.wait()
 								.then(() => {
-									setVisible(false)
-									setStep(0)
+									setVisible(false);
+									setStep(0);
+									setIsLoading(false);
 								})
 						},
 						err => {

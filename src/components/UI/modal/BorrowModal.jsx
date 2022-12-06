@@ -2,7 +2,7 @@ import React, {useContext, useState, useEffect} from 'react';
 import Modal from './Modal';
 import { GlobalStatsContext } from './../../../context/context';
 import Form from './../../Form';
-import { OptManager, DDL_GMX } from './../../utils/contracts';
+import { OptManager, DDL_GMX, DDL_AccountManagerToken } from './../../utils/contracts';
 import Loader from './../loader/Loader';
 import { floor, formatForContract } from './../../utils/math';
 import { sepToNumber, separateThousands } from './../../utils/sepThousands';
@@ -96,7 +96,7 @@ const BorrowModal = (props) => {
 							res.wait()
 								.then(() => {
 									setStep(step + 1);
-									updateOptionStats(option.id, option.isETH)
+									updateOptionStats(option.id, option.isETH);
 								})
 						},
 						err => {
@@ -104,8 +104,21 @@ const BorrowModal = (props) => {
 							setIsLoading(false)
 						})
 				} else if (positionReady) {
-					setStep(1)
-					setIsLoading(false)
+					console.log(position);
+					DDL_AccountManagerToken.approve(DDL_GMX.address, position.ddl.keyId)
+						.then(res => {
+							console.log('Approve transaction:', res);
+							
+							res.wait()
+								.then(() => {
+									setStep(step + 1);
+									setIsLoading(false);
+								})
+						},
+						err => {
+							errAlert(err)
+							setIsLoading(false)
+						})
 				}
 				
 			},
@@ -144,6 +157,7 @@ const BorrowModal = (props) => {
 							res.wait()
 								.then(() => {
 									setStep(step + 1);
+									setIsLoading(false);
 								})
 						},
 						err => {
@@ -186,7 +200,8 @@ const BorrowModal = (props) => {
 							
 							res.wait()
 								.then(() => {
-									setInputVal('')
+									setInputVal('');
+									setIsLoading(false);
 								})
 						},
 						err => {

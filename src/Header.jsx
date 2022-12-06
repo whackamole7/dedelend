@@ -54,6 +54,7 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 					
 					DG.isApproved()
 						.then(res => {
+							console.log(res);
 							if (res === true) {
 								setRegisterVisible(false);
 							} else {
