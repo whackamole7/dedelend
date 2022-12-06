@@ -8,7 +8,7 @@ const OptionItem = ({ option, stats, ...props }) => {
 	const [initRepayStep, setInitRepayStep] = useState(0)
 	const [repayDisabled, setRepayDisabled] = useState(true);
 
-	const contract = option.contracts?.[0]
+	const contract = option.contract;
 	
 
 	if (typeof option === 'string') {

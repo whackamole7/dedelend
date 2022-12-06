@@ -47,8 +47,7 @@ export const getUserStats = async (walletAddress) => {
 export const getOptionStats = async (id, isETH) => {
 	console.log('getting option stats', id);
 
-	const contract = isETH ? DDL_ETH : DDL_BTC;
-	const contract_signed = isETH ? DDL_ETH_signed : DDL_BTC_signed;
+	const contract = isETH ? DDL_ETH_signed : DDL_BTC_signed;
 	
 	const intrinsicValue = Number(ethers.utils.formatUnits(await contract.profitByOption(id), 6))
 	const borrowLimit = Number(ethers.utils.formatUnits(await contract.maxBorrowLimit(id), 6))
@@ -66,6 +65,6 @@ export const getOptionStats = async (id, isETH) => {
 			borrowLimitUsed,
 			liqPrice,
 		},
-		contracts: [contract, contract_signed]
+		contract,
 	}
 }

@@ -244,6 +244,56 @@ input[type="text"] {
 		cursor: not-allowed;
 	}
 }
+.modal input[type="text"] {
+	appearance: none;
+	outline: none;
+	box-shadow: none;
+
+	width: 100%;
+	font-size: 15px;
+	line-height: calc(19.5/15);
+	color: $white;
+	background-color: transparent;
+	border: 1px solid $grey;
+	border-radius: 5px;
+	padding: 11.5px 15px;
+
+	transition: all .2s ease;
+	&:focus {
+		border-color: $white;
+		outline: none;
+	}
+
+	&::placeholder {
+		color: $grey;
+	}
+
+	/* Input text states */
+	
+	&.error {
+		border-color: $red;
+		padding-right: 136px;
+
+		& + .msg {
+			display: block;
+			width: 116px;
+			text-align: right;
+			color: $red;
+
+			@media (max-width: 480px) {
+				width: 100px;
+			}
+		}
+
+		@media (max-width: 480px) {
+			padding-right: 110px;
+		}
+	}
+
+	&[disabled] {
+		cursor: not-allowed;
+	}
+}
 /* Input Text end */
 
 /* Modal */
@@ -259,9 +309,12 @@ input[type="text"] {
 	align-items: center;
 	background-color: rgba(3, 10, 33, 0.95);
 	visibility: hidden;
+	transition: opacity .3s ease;
+	opacity: 0;
 	
 	&.active {
 		visibility: visible;
+		opacity: 1;
 	}
 
 	&__content {
@@ -291,19 +344,24 @@ input[type="text"] {
 	}
 
 	&.active &__content {
+		opacity: 1;
 		transform: rotateX(0);
+	}
+	&.active .close-btn {
 		opacity: 1;
 	}
 
 	.close-btn {
-		position: absolute;
-		right: -25vw;
-		bottom: calc(100% + 10vh);
-		z-index: 1;
+		position: fixed;
+		z-index: 30;
+    right: 20vw;
+    top: 10vh;
 		display: flex;
 		align-items: center;
 		gap: 11px;
 		color: $lblue;
+		opacity: 0;
+		transition: opacity .3s ease;
 
 		&::after {
 			content: '';

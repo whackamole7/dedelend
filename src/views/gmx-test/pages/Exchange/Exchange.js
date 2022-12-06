@@ -190,6 +190,7 @@ export function getPositions(
       hasProfit: positionData[i * propsLength + 7].eq(1),
       delta: positionData[i * propsLength + 8],
       markPrice: isLong[i] ? indexToken.minPrice : indexToken.maxPrice,
+      ddl: {},
     };
 
     if (

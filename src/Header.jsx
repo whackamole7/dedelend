@@ -215,7 +215,7 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 					borrowLimitUsed: res.borrowLimitUsed,
 					liqPrice: res.liqPrice ?? '',
 					realVals: res.realVals ?? {},
-					contracts: res.contracts,
+					contract: res.contract,
 					isETH,
 					priorLiqPrice
 				})

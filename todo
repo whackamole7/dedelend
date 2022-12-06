@@ -7,7 +7,10 @@
 
 - Perps:
 	- code:
-		- CollateralLocked - condition?
+		- BorrowsList:
+			- CollateralLocked - condition?
+			- Available, Debt - ?
+		
 		- Exchange: getTokenBalancesDG error: no dgAddress
 		- min order: 10 usdc (swapBox)
 		- ExchangeTV months

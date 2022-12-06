@@ -24,12 +24,11 @@ const Modal = ({children, className, visible, setVisible, resetModal, isObligato
 		<div className={classes.join(' ')} onMouseDown={closeModal}>
 			<div className="modal__content-wrapper">
 				<div className="modal__content" onMouseDown={e => e.stopPropagation()}>
-					{isObligatory ?
-					"" : <button className="close-btn" onClick={closeModal}></button>}
-					
 					{children}
 				</div>
 			</div>
+			{isObligatory ?
+				"" : <button className="close-btn" onClick={closeModal}></button>}
 		</div>
 	);
 };

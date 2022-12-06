@@ -5,6 +5,7 @@ import Tooltip from "../Tooltip/Tooltip";
 import PositionSeller from "./PositionSeller";
 import PositionEditor from "./PositionEditor";
 import OrdersToa from "./OrdersToa";
+import { ethers } from "ethers";
 
 import { ImSpinner2 } from "react-icons/im";
 
@@ -30,6 +31,8 @@ import StatsTooltipRow from "../StatsTooltip/StatsTooltipRow";
 import CollateralLocked from './CollateralLocked';
 import { BigNumber } from "ethers";
 import { getDgContract, DDL_GMX } from './../../../../components/utils/contracts';
+import BorrowModal from './../../../../components/UI/modal/BorrowModal';
+import RepayModal from './../../../../components/UI/modal/RepayModal';
 
 const getOrdersForPosition = (account, position, orders, nativeTokenAddress) => {
   if (!orders || orders.length === 0) {
@@ -62,7 +65,7 @@ const getOrdersForPosition = (account, position, orders, nativeTokenAddress) => 
     });
 };
 
-export default function PositionsList(props) {
+export default function BorrowsList(props) {
   const {
     pendingPositions,
     setPendingPositions,
@@ -110,11 +113,44 @@ export default function PositionsList(props) {
   const [ordersToaOpen, setOrdersToaOpen] = useState(false);
   const [isHigherSlippageAllowed, setIsHigherSlippageAllowed] = useState(false);
 
+
+  const [isModalLoading, setIsModalLoading] = useState(false)
+  const [borrowState, setBorrowState] = useState({
+		isVisible: false,
+		position: {},
+		initStep: 0
+	})
+  const setBorrowVisible = (bool) => {
+		setBorrowState({
+			...borrowState,
+			isVisible: bool
+		})
+	}
+  const [repayState, setRepayState] = useState({
+		isVisible: false,
+		position: {},
+		initStep: 0
+	})
+  const setRepayVisible = (bool) => {
+		setRepayState({
+			...borrowState,
+			isVisible: bool
+		})
+	}
   const borrowPosition = (position) => {
-    console.log(position);
+    setBorrowState({
+      ...borrowState,
+      position,
+      isVisible: true,
+    })
   };
 
   const repayPosition = (position) => {
+    setRepayState({
+      ...repayState,
+      position,
+      isVisible: true,
+    })
   };
 
   const onPositionClick = (position) => {
@@ -243,11 +279,11 @@ export default function PositionsList(props) {
               const DG = getDgContract(dgAddress);
               DG.keyByIndexToken(position.indexToken.address, position.isLong)
                 .then(id => {
-                  position.keyId = id;
+                  position.ddl.keyId = id;
 
                   DDL_GMX.borrowedByCollateral(id)
                     .then(res => {
-                      position.borrowed = res.borrowed;
+                      position.ddl.borrowed = res.borrowed;
                     })
                 })
 
@@ -464,7 +500,7 @@ export default function PositionsList(props) {
                       Repay
                     </button>
 
-                    {position.borrowed?.gt(0) &&
+                    {position.ddl.borrowed?.gt(0) &&
                       <CollateralLocked />}
                   </div>
                 </div>
@@ -536,11 +572,11 @@ export default function PositionsList(props) {
             const DG = getDgContract(dgAddress);
             DG.keyByIndexToken(position.indexToken.address, position.isLong)
               .then(id => {
-                position.keyId = id;
+                position.ddl.keyId = id;
 
                 DDL_GMX.borrowedByCollateral(id)
                   .then(res => {
-                    position.borrowed = res.borrowed;
+                    position.ddl.borrowed = res.borrowed;
                   })
               })
 
@@ -752,7 +788,7 @@ export default function PositionsList(props) {
                   /> */}
                 </td>
                 <td className="td-btn">
-                  {position.borrowed?.gt(0) &&
+                  {position.ddl.borrowed?.gt(0) &&
                     <CollateralLocked />}
                 </td>
               </tr>
@@ -760,6 +796,19 @@ export default function PositionsList(props) {
           })}
         </tbody>
       </table>
+
+      {!!positions.length &&
+        (<BorrowModal
+          state={borrowState}
+          setVisible={setBorrowVisible}
+          isLoading={isModalLoading}
+          setIsLoading={setIsModalLoading} />)}
+      {!!positions.length &&
+        (<RepayModal
+          state={repayState}
+          setVisible={setRepayVisible}
+          isLoading={isModalLoading}
+          setIsLoading={setIsModalLoading} />)}
     </div>
   );
 }

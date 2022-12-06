@@ -56,7 +56,7 @@ const BorrowMarket = ({ walletAddress, setWalletAddress }) => {
 	
 	// Modal window
 	const [borrowModalState, setBorrowModalState] = useState({
-		isVisible: false,
+		isVisible: true,
 		option: {},
 		initStep: 0
 	})
@@ -172,11 +172,11 @@ const BorrowMarket = ({ walletAddress, setWalletAddress }) => {
 					<BorrowModal state={borrowModalState} setVisible={setBorrowModalVisible} walletAddress={walletAddress}
 					updateOptionStats={updateOptionStats}
 					isLoading={isModalLoading}
-					setIsLoading={setIsModalLoading}></BorrowModal>
+					setIsLoading={setIsModalLoading} />
 					<RepayModal state={repayModalState} setVisible={setRepayModalVisible} walletAddress={walletAddress}
 					updateOptionStats={updateOptionStats}
 					isLoading={isModalLoading}
-					setIsLoading={setIsModalLoading}></RepayModal>
+					setIsLoading={setIsModalLoading} />
 
 					<Pagination
 						totalPages={totalPages}
