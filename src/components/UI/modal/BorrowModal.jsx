@@ -8,6 +8,8 @@ import { floor, formatForContract } from './../../utils/math';
 import { sepToNumber, separateThousands } from './../../utils/sepThousands';
 import { errAlert } from './../../utils/error';
 import { ethers } from "ethers";
+import { formatAmount } from '../../../views/gmx-test/lib/legacy';
+import { getLiquidationPrice, USD_DECIMALS } from './../../../views/gmx-test/lib/legacy';
 
 const BorrowModal = (props) => {
 	const {
@@ -21,7 +23,7 @@ const BorrowModal = (props) => {
 	const option = state.option;
 	const contract = option?.contract;
 	const position = state.position;
-	const positionReady = Object.keys(position ?? {}).length;
+	const positionReady = Boolean(Object.keys(position ?? {}).length && position.ddl.borrowed);
 	
 	const {globalStats} = useContext(GlobalStatsContext)
 	const [step, setStep] = useState(state.initStep ?? 0);
@@ -32,9 +34,7 @@ const BorrowModal = (props) => {
 	if (option) {
 		available = floor(option.realVals?.borrowLimit - option.realVals?.borrowLimitUsed, 6);
 	} else if (positionReady) {
-		if (Object.keys(position).length) {
-			available = floor(ethers.utils.formatUnits(position.delta, 30));
-		}
+		available = floor(position.ddl.available);
 	}
 
 	const setMaxVal = () => {
@@ -72,12 +72,8 @@ const BorrowModal = (props) => {
 	}, [inputVal])
 
 	useEffect(() => {
-		if (positionReady) {
-			DDL_GMX.currentBorderPrice(position.ddl.keyId)
-				.then(res => {
-					setLiqPrice(floor(res));
-				});
-		}
+		const liqPrice = getLiquidationPrice(position);
+		setLiqPrice(formatAmount(liqPrice, USD_DECIMALS, 2, true));
 	}, [positionReady])
 
 	useEffect(() => {
@@ -234,7 +230,7 @@ const BorrowModal = (props) => {
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title">Borrow Limit:</div>
-						<div className="modal__info-field-val">{(option ? separateThousands(option.borrowLimit) : separateThousands(available / 2)) + ' USDC'}</div>
+						<div className="modal__info-field-val">{(option ? separateThousands(option.borrowLimit) : separateThousands(available)) + ' USDC'}</div>
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title nowrap">Loan-To-Value:</div>
@@ -251,7 +247,7 @@ const BorrowModal = (props) => {
 						step === 2 ?
 							<div className="modal__info-field modal__info-field_hl">
 								<div className="modal__info-field-title">Liquidation Price:</div>
-								<div className="modal__info-field-val">{separateThousands(liqPrice)}</div>
+								<div className="modal__info-field-val">${separateThousands(liqPrice)}</div>
 							</div>
 							: ""
 					}

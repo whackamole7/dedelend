@@ -676,6 +676,10 @@
   table.Exchange-list tr.Exchange-list-header {
     background: none;
   }
+
+  .BorrowsList .Exchange-list-header {
+    vertical-align: top;
+  }
   
   table.Exchange-list tr.Exchange-list-header th {
     font-weight: 500;

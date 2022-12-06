@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import cx from "classnames";
 import { Trans, t } from "@lingui/macro";
 import Tooltip from "../Tooltip/Tooltip";
@@ -33,6 +33,7 @@ import { BigNumber } from "ethers";
 import { getDgContract, DDL_GMX } from './../../../../components/utils/contracts';
 import BorrowModal from './../../../../components/UI/modal/BorrowModal';
 import RepayModal from './../../../../components/UI/modal/RepayModal';
+import { floor } from './../../../../components/utils/math';
 
 const getOrdersForPosition = (account, position, orders, nativeTokenAddress) => {
   if (!orders || orders.length === 0) {
@@ -112,8 +113,7 @@ export default function BorrowsList(props) {
   const [isPositionShareModalOpen, setIsPositionShareModalOpen] = useState(false);
   const [ordersToaOpen, setOrdersToaOpen] = useState(false);
   const [isHigherSlippageAllowed, setIsHigherSlippageAllowed] = useState(false);
-
-
+  
   const [isModalLoading, setIsModalLoading] = useState(false)
   const [borrowState, setBorrowState] = useState({
 		isVisible: false,
@@ -159,7 +159,7 @@ export default function BorrowsList(props) {
   };
 
   return (
-    <div className="PositionsList">
+    <div className="PositionsList BorrowsList">
       <PositionEditor
         pendingPositions={pendingPositions}
         setPendingPositions={setPendingPositions}
@@ -284,6 +284,7 @@ export default function BorrowsList(props) {
                   DDL_GMX.borrowedByCollateral(id)
                     .then(res => {
                       position.ddl.borrowed = res.borrowed;
+                      setBorrowState(borrowState)
                     })
                 })
 
@@ -370,16 +371,17 @@ export default function BorrowsList(props) {
                     </div> */}
                     <div className="App-card-row">
                       <div className="label">
-                        <Trans>Size</Trans>
+                        <Trans>Available</Trans>
                       </div>
-                      <div>${formatAmount(position.size, USD_DECIMALS, 2, true)}</div>
+                      <div>${floor(position.ddl.available)}</div>
                     </div>
                     <div className="App-card-row">
                       <div className="label">
-                        <Trans>Collateral</Trans>
+                        <Trans>Debt</Trans>
                       </div>
+                      <div>${formatAmount(position.ddl.borrowed, USD_DECIMALS, 2, true)}</div>
                       <div>
-                        <Tooltip
+                        {/* <Tooltip
                           handle={`$${formatAmount(position.collateralAfterFee, USD_DECIMALS, 2, true)}`}
                           position="right-bottom"
                           handleClassName={cx("plain", { negative: position.hasLowCollateral })}
@@ -407,7 +409,7 @@ export default function BorrowsList(props) {
                               </>
                             );
                           }}
-                        />
+                        /> */}
                       </div>
                     </div>
                     {/* <div className="App-card-row">
@@ -466,15 +468,9 @@ export default function BorrowsList(props) {
                   <div className="App-card-content">
                     <div className="App-card-row">
                       <div className="label">
-                        <Trans>Mark Price</Trans>
+                        <Trans>Current Price</Trans>
                       </div>
                       <div>${formatAmount(position.markPrice, USD_DECIMALS, 2, true)}</div>
-                    </div>
-                    <div className="App-card-row">
-                      <div className="label">
-                        <Trans>Entry Price</Trans>
-                      </div>
-                      <div>${formatAmount(position.averagePrice, USD_DECIMALS, 2, true)}</div>
                     </div>
                     <div className="App-card-row">
                       <div className="label">
@@ -482,19 +478,25 @@ export default function BorrowsList(props) {
                       </div>
                       <div>${formatAmount(liquidationPrice, USD_DECIMALS, 2, true)}</div>
                     </div>
+                    <div className="App-card-row">
+                      <div className="label">
+                        <Trans>Borrow APY</Trans>
+                      </div>
+                      <div>{'13.33%'}</div>
+                    </div>
                   </div>
                   <div className="App-card-divider"></div>
                   <div className="App-card-options">
                     <button
                       className="App-button-option App-card-option"
-                      disabled={position.size.eq(0)}
+                      disabled={!position.hasProfit}
                       onClick={() => borrowPosition(position)}
                     >
                       <Trans>Borrow</Trans>
                     </button>
                     <button
                       className="App-button-option App-card-option"
-                      disabled={position.size.eq(0)}
+                      disabled={!position.ddl.borrowed?.gt(0)}
                       onClick={() => repayPosition(position)}
                     >
                       Repay
@@ -520,19 +522,19 @@ export default function BorrowsList(props) {
                 <Trans>Net Value</Trans>
               </th>
               <th>
-                <Trans>Size</Trans>
+                <Trans>Available</Trans>
               </th>
               <th>
-                <Trans>Collateral</Trans>
+                <Trans>Debt</Trans>
               </th>
               <th>
-                <Trans>Mark Price</Trans>
-              </th>
-              <th>
-                <Trans>Entry Price</Trans>
+                <Trans>Current<br/> Price</Trans>
               </th>
               <th>
                 <Trans>Liq. Price</Trans>
+              </th>
+              <th>
+                <Trans>Borrow<br/> APY</Trans>
               </th>
               <th></th>
               <th></th>
@@ -569,16 +571,17 @@ export default function BorrowsList(props) {
             }
 
             // Key id for positions
-            const DG = getDgContract(dgAddress);
-            DG.keyByIndexToken(position.indexToken.address, position.isLong)
-              .then(id => {
-                position.ddl.keyId = id;
+            // const DG = getDgContract(dgAddress);
+            // DG.keyByIndexToken(position.indexToken.address, position.isLong)
+            //   .then(id => {
+            //     position.ddl.keyId = id;
 
-                DDL_GMX.borrowedByCollateral(id)
-                  .then(res => {
-                    position.ddl.borrowed = res.borrowed;
-                  })
-              })
+            //     DDL_GMX.borrowedByCollateral(id)
+            //       .then(res => {
+            //         position.ddl.borrowed = res.borrowed;
+            //       })
+            //   })
+            
 
             return (
               <tr key={position.key}>
@@ -650,7 +653,7 @@ export default function BorrowsList(props) {
                   )}
                 </td>
                 <td>
-                  <div>${formatAmount(position.size, USD_DECIMALS, 2, true)}</div>
+                  <div>${floor(position.ddl.available)}</div>
                   {positionOrders.length > 0 && (
                     <div onClick={() => setListSection && setListSection("Orders")}>
                       <Tooltip
@@ -689,7 +692,8 @@ export default function BorrowsList(props) {
                   )}
                 </td>
                 <td>
-                  <Tooltip
+                  ${formatAmount(position.ddl.borrowed, USD_DECIMALS, 2, true)}
+                  {/* <Tooltip
                     handle={`$${formatAmount(position.collateralAfterFee, USD_DECIMALS, 2, true)}`}
                     position="left-bottom"
                     handleClassName={cx("plain", { negative: position.hasLowCollateral })}
@@ -721,7 +725,7 @@ export default function BorrowsList(props) {
                         </>
                       );
                     }}
-                  />
+                  /> */}
                 </td>
                 <td className="" onClick={() => {
                   // onPositionClick(position)
@@ -748,20 +752,20 @@ export default function BorrowsList(props) {
                   // onPositionClick(position)
                   return;
                 }}>
-                  ${formatAmount(position.averagePrice, USD_DECIMALS, 2, true)}
+                  ${formatAmount(liquidationPrice, USD_DECIMALS, 2, true)}
                 </td>
                 <td className="" onClick={() => {
                   // onPositionClick(position)
                   return;
                 }}>
-                  ${formatAmount(liquidationPrice, USD_DECIMALS, 2, true)}
+                  {'13.3%'}
                 </td>
 
                 <td className="td-btn">
                   <button
                     className="Exchange-list-action"
                     onClick={() => borrowPosition(position)}
-                    // disabled={position.size.eq(0)}
+                    disabled={!position.hasProfit}
                   >
                     Borrow
                   </button>
@@ -770,7 +774,7 @@ export default function BorrowsList(props) {
                   <button
                     className="Exchange-list-action"
                     onClick={() => repayPosition(position)}
-                    disabled={position.size.eq(0)}
+                    disabled={!position.ddl.borrowed?.gt(0)}
                   >
                     Repay
                   </button>

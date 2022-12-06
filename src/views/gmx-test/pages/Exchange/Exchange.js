@@ -192,6 +192,8 @@ export function getPositions(
       markPrice: isLong[i] ? indexToken.minPrice : indexToken.maxPrice,
       ddl: {},
     };
+    position.ddl.available = position.hasProfit ? ethers.utils.formatUnits(position.delta, 30) : 0;
+
 
     if (
       updatedPositions &&
@@ -511,7 +513,6 @@ export const Exchange = forwardRef((props, ref) => {
     }
   );
 
-
   const positionsDataIsLoading = active && !positionData && !positionDataError;
 
   const { data: fundingRateInfo } = useSWR([active, chainId, readerAddress, "getFundingRates"], {
@@ -575,7 +576,10 @@ export const Exchange = forwardRef((props, ref) => {
     pendingPositions,
     updatedPositions,
     props.dgAddress
-  );
+  )
+
+  
+  
 
   useImperativeHandle(ref, () => ({
     onUpdatePosition(key, size, collateral, averagePrice, entryFundingRate, reserveAmount, realisedPnl) {

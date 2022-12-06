@@ -879,8 +879,12 @@
     }
 
     transition: color .2s ease;
-    &:hover, &:focus-visible {
+    &:not([disabled]):hover, &:focus-visible {
       color: #6988FF;
+    }
+
+    &[disabled] {
+      color: #384263;
     }
   }
   

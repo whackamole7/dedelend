@@ -8,25 +8,34 @@ import { sepToNumber, separateThousands } from './../../utils/sepThousands';
 import { floor, formatForContract } from './../../utils/math';
 import { errAlert } from './../../utils/error';
 import { ethers } from "ethers";
+import { formatAmount, getLiquidationPrice, USD_DECIMALS } from './../../../views/gmx-test/lib/legacy';
 
 
-const RepayModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoading}) => {
+const RepayModal = (props) => {
+	const {
+		state, 
+		setVisible, 
+		updateOptionStats, 
+		isLoading, 
+		setIsLoading
+	} = props;
+
 	const option = state.option;
 	const contract = option?.contract;
 	const position = state.position;
-	const positionReady = Object.keys(position ?? {}).length;
+	const positionReady = Boolean(Object.keys(position ?? {}).length && position.ddl.borrowed);
 
 	const {globalStats} = useContext(GlobalStatsContext)
 	const [inputVal, setInputVal] = useState('')
 	const [step, setStep] = useState(0);
-	const [liqPrice, setLiqPrice] = useState('—')
-
+	const [liqPrice, setLiqPrice] = useState('—');
+	
 	let repay, available;
 	if (option) {
 		repay = option.realVals?.borrowLimitUsed;
 	} else if (positionReady) {
 		repay = Number(ethers.utils.formatUnits(position.ddl.borrowed, 6));
-		available = floor(ethers.utils.formatUnits(position.delta, 30));
+		available = floor(position.ddl.available);
 	}
 
 	const setMaxVal = () => {
@@ -70,11 +79,13 @@ const RepayModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoadi
 	
 	useEffect(() => {
 		if (positionReady) {
-			DDL_GMX.currentBorderPrice(position.ddl.keyId)
+			const liqPrice = getLiquidationPrice(position);
+			setLiqPrice(formatAmount(liqPrice, USD_DECIMALS, 2, true));
+			/* DDL_GMX.currentBorderPrice(position.ddl.keyId)
 				.then(res => {
 					const liqPrice = ethers.utils.formatUnits(res, 8);
 					setLiqPrice(floor(liqPrice));
-				});
+				}); */
 		}
 	}, [positionReady])
 	
@@ -232,7 +243,7 @@ const RepayModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoadi
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title">Borrow Limit:</div>
-						<div className="modal__info-field-val">{(option ? separateThousands(option.borrowLimit) : separateThousands(available / 2)) + ' USDC'}</div>
+						<div className="modal__info-field-val">{(option ? separateThousands(option.borrowLimit) : separateThousands(available)) + ' USDC'}</div>
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title nowrap">Loan-To-Value:</div>
@@ -248,7 +259,7 @@ const RepayModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoadi
 						step === 0 ?
 							<div className="modal__info-field modal__info-field_hl">
 								<div className="modal__info-field-title">Liquidation Price:</div>
-								<div className="modal__info-field-val">{separateThousands(liqPrice)}</div>
+								<div className="modal__info-field-val">${separateThousands(liqPrice)}</div>
 							</div>
 							: ""
 					}
