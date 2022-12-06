@@ -72,10 +72,11 @@ const RepayModal = ({state, setVisible, updateOptionStats, isLoading, setIsLoadi
 		if (positionReady) {
 			DDL_GMX.currentBorderPrice(position.ddl.keyId)
 				.then(res => {
-					setLiqPrice(floor(res));
+					const liqPrice = ethers.utils.formatUnits(res, 8);
+					setLiqPrice(floor(liqPrice));
 				});
 		}
-	}, [])
+	}, [positionReady])
 	
 	useEffect(() => {
 		setStep(state.initStep ?? 0)

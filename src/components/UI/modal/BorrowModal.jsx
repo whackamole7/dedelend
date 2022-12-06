@@ -78,7 +78,7 @@ const BorrowModal = (props) => {
 					setLiqPrice(floor(res));
 				});
 		}
-	}, [])
+	}, [positionReady])
 
 	useEffect(() => {
 		setStep(state.initStep ?? 0)

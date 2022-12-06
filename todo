@@ -10,6 +10,7 @@
 		- BorrowsList:
 			- CollateralLocked - condition?
 			- Available, Debt - ?
+			- caller is not token token owner or approved
 		
 		- Exchange: getTokenBalancesDG error: no dgAddress
 		- min order: 10 usdc (swapBox)
