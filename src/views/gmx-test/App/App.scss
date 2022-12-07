@@ -1532,21 +1532,3 @@
     margin-top: 320px;
   }
 }
-
-
-.btn-tooltip-container {
-  position: relative;
-}
-.btn-tooltip {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 10;
-
-  .Tooltip-popup {
-    cursor: default;
-    right: -5px;
-  }
-}

@@ -8,8 +8,11 @@
 - Perps:
 	- code:
 		- BorrowsList:
-			- Borrowing: Vault - invalid _averagePrice
+			- getApproved()
 		
 		- Exchange: getTokenBalancesDG error: no dgAddress
 		- min order: 10 usdc (swapBox)
 		- ExchangeTV months
+		
+	- style:
+		- btn-tooltip z-index

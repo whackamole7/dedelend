@@ -8,10 +8,11 @@ import StatsTooltipRow from '../StatsTooltip/StatsTooltipRow';
 import { floor } from './../../../../components/utils/math';
 import CollateralLocked from './CollateralLocked';
 import { DDL_AccountManagerToken, getDgContract } from '../../../../components/utils/contracts';
-import { DDL_GMX } from './../../../../components/utils/contracts';
+import { DDL_GMX, WETH_address } from './../../../../components/utils/contracts';
 import { useState, useEffect } from 'react';
 import { Trans } from '@lingui/macro';
 import { BigNumber } from 'ethers';
+import { ADDRESS_ZERO } from '@uniswap/v3-sdk';
 
 const BorrowsItem = (props) => {
 	const {
@@ -62,7 +63,7 @@ const BorrowsItem = (props) => {
 		if (!DG) {
 			return
 		}
-		DG.keyByIndexToken(position.indexToken.address, position.isLong)
+		DG.keyByIndexToken((position.indexToken.address === ADDRESS_ZERO ? WETH_address : position.indexToken.address), position.isLong)
 			.then(id => {
 				position.ddl.keyId = id;
 
@@ -251,7 +252,7 @@ const BorrowsItem = (props) => {
 	
 				<td className="td-btn">
 					<button
-						className="Exchange-list-action btn-tooltip-container"
+						className="Exchange-list-action"
 						onClick={() => borrowPosition(position)}
 						disabled={typeof borrowed === 'undefined' || !position.hasProfit}
 					>
@@ -391,6 +392,19 @@ const BorrowsItem = (props) => {
 						onClick={() => borrowPosition()}
 					>
 						<Trans>Borrow</Trans>
+						{(typeof borrowed === 'undefined' || !position.hasProfit)
+							&& <Tooltip
+								className="btn-tooltip"
+								position="right-bottom"
+								enabled={true}
+								handle=""
+								renderContent={() => {
+									return (
+										<div>
+											You can't lock position if it's unprofitable
+										</div>
+									);
+								}} />}
 					</button>
 					<button
 						className="App-button-option App-card-option"

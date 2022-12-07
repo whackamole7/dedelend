@@ -13,6 +13,8 @@ import _AccountManagerToken from "../../deployments/arbitrum_ddl/accountManagerT
 import _Doppelganger from "../../deployments/arbitrum_ddl/Doppelganger.json";
 import _DDL_GMX from "../../deployments/arbitrum_ddl/DDL_GMX.json";
 
+import _Vault from "../../deployments/arbitrum_ddl/vault.json";
+import _WETH from "../../deployments/arbitrum_ddl/WETH.json";
 
 // Options Contracts
 export const DDL_ETH = new ethers.Contract(_DDL_ETH.address, _DDL_ETH.abi, mmProvider ?? netProvider);
@@ -41,6 +43,9 @@ export const DDL_AccountManager_abi = _AccountManager.abi;
 export const DDL_AccountManagerToken = new ethers.Contract(_AccountManagerToken.address, _AccountManagerToken.abi, signer);
 
 export const DDL_GMX = new ethers.Contract(_DDL_GMX.address, _DDL_GMX.abi, signer);
+
+export const Vault = new ethers.Contract(_Vault.address, _Vault.abi, signer);
+export const WETH_address = _WETH.address;
 
 
 export function getDgContract(dgAddress) {

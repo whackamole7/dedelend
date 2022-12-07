@@ -37,7 +37,7 @@ const RepayModal = (props) => {
 			}
 	
 			const liqPrice = formatAmount(getLiquidationPrice(position), USD_DECIMALS, 2, true);
-			const avail = position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0;
+			const avail = (position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0) / 2;
 
 			let repay;
 			if (position.ddl?.borrowed) {
@@ -48,7 +48,7 @@ const RepayModal = (props) => {
 		}
 	}, [state, position.ddl?.borrowed]);
 	
-	let repay, available;
+	let repay;
 	if (option) {
 		repay = option.realVals?.borrowLimitUsed;
 	}

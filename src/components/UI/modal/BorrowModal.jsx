@@ -37,7 +37,7 @@ const BorrowModal = (props) => {
 			}
 	
 			const liqPrice = formatAmount(getLiquidationPrice(position), USD_DECIMALS, 2, true);
-			const avail = position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0;
+			const avail = (position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0) / 2;
 
 			setPositionStats({ liqPrice, avail });
 		}
@@ -113,7 +113,7 @@ const BorrowModal = (props) => {
 				} else if (position) {
 					// setStep(step + 1);
 					// setIsLoading(false);
-					
+
 					DDL_AccountManagerToken.approve(DDL_GMX.address, position.ddl.keyId)
 						.then(res => {
 							console.log('Approve transaction:', res);
