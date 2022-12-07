@@ -23,28 +23,43 @@ const RepayModal = (props) => {
 	const option = state.option;
 	const contract = option?.contract;
 	const position = state.position;
-	const positionReady = Boolean(Object.keys(position ?? {}).length && position.ddl.borrowed);
 
 	const {globalStats} = useContext(GlobalStatsContext)
 	const [inputVal, setInputVal] = useState('')
-	const [step, setStep] = useState(0);
+	const [step, setStep] = useState(state.initStep ?? 0);
 	const [liqPrice, setLiqPrice] = useState('—');
+	const [positionStats, setPositionStats] = useState({});
+
+	useEffect(() => {
+		if (position) {
+			if (!Object.keys(position).length) {
+				return;
+			}
+	
+			const liqPrice = formatAmount(getLiquidationPrice(position), USD_DECIMALS, 2, true);
+			const avail = position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0;
+
+			let repay;
+			if (position.ddl?.borrowed) {
+				repay = Number(ethers.utils.formatUnits(position.ddl.borrowed, 6));
+			}
+
+			setPositionStats({ liqPrice, avail, repay });
+		}
+	}, [state, position.ddl?.borrowed]);
 	
 	let repay, available;
 	if (option) {
 		repay = option.realVals?.borrowLimitUsed;
-	} else if (positionReady) {
-		repay = Number(ethers.utils.formatUnits(position.ddl.borrowed, 6));
-		available = floor(position.ddl.available);
 	}
 
 	const setMaxVal = () => {
-		setInputVal(repay)
+		setInputVal(option ? repay : positionStats.repay)
 	}
 
 	useEffect(() => {
-		if (sepToNumber(inputVal) > repay) {
-			setInputVal(repay)
+		if (sepToNumber(inputVal) > (option ? repay : positionStats.repay)) {
+			setInputVal(option ? repay : positionStats.repay)
 		}
 
 		if (option) {
@@ -77,22 +92,11 @@ const RepayModal = (props) => {
 		}
 	}, [inputVal])
 	
-	useEffect(() => {
-		if (positionReady) {
-			const liqPrice = getLiquidationPrice(position);
-			setLiqPrice(formatAmount(liqPrice, USD_DECIMALS, 2, true));
-			/* DDL_GMX.currentBorderPrice(position.ddl.keyId)
-				.then(res => {
-					const liqPrice = ethers.utils.formatUnits(res, 8);
-					setLiqPrice(floor(liqPrice));
-				}); */
-		}
-	}, [positionReady])
+	
 	
 	useEffect(() => {
 		setStep(state.initStep ?? 0)
-	}, [state.initStep])
-	
+	}, [state])
 
 	const steps = [
 		{
@@ -145,7 +149,7 @@ const RepayModal = (props) => {
 								setIsLoading(false)
 							}
 						})
-				} else if (positionReady) {
+				} else if (position) {
 					DDL_GMX.repay(position.ddl.keyId, formatForContract(inputVal))
 						.then(res => {
 							console.log('Repay transaction:', res);
@@ -194,7 +198,7 @@ const RepayModal = (props) => {
 							errAlert(err)
 							setIsLoading(false)
 						})
-				} else if (positionReady) {
+				} else if (position) {
 					DDL_GMX.unlock(position.ddl.keyId)
 						.then(res => {
 							console.log('Unlock transaction:', res);
@@ -224,7 +228,6 @@ const RepayModal = (props) => {
 		setStep(state.initStep ?? 0)
 	}
 
-
 	return (
 		<Modal className={'modal_borrow'} visible={state.isVisible} setVisible={setVisible} resetModal={resetModal}>
 			<h1 className='modal__title'>Repay USDC</h1>
@@ -245,7 +248,7 @@ const RepayModal = (props) => {
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title">Borrow Limit:</div>
-						<div className="modal__info-field-val">{(option ? separateThousands(option.borrowLimit) : separateThousands(available)) + ' USDC'}</div>
+						<div className="modal__info-field-val">{(option ? separateThousands(option.borrowLimit) : separateThousands(floor(positionStats.avail))) + ' USDC'}</div>
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title nowrap">Loan-To-Value:</div>
@@ -255,13 +258,13 @@ const RepayModal = (props) => {
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title">Repay:</div>
-						<div className="modal__info-field-val highlighted">{separateThousands(repay) + ' USDC'}</div>
+						<div className="modal__info-field-val highlighted">{separateThousands(option ? repay : positionStats.repay) + ' USDC'}</div>
 					</div>
 					{
 						step === 0 ?
 							<div className="modal__info-field modal__info-field_hl">
 								<div className="modal__info-field-title">Liquidation Price:</div>
-								<div className="modal__info-field-val">${separateThousands(liqPrice)}</div>
+								<div className="modal__info-field-val">${separateThousands(option ? liqPrice : positionStats.liqPrice)}</div>
 							</div>
 							: ""
 					}
@@ -271,7 +274,7 @@ const RepayModal = (props) => {
 						isLoading ?
 							<Loader />
 							:
-							<Form maxVal={repay} inputProps={steps[step].inputProps} btnText={steps[step].title} onSubmit={steps[step].onSubmit}
+							<Form maxVal={option ? repay : positionStats.repay} inputProps={steps[step].inputProps} btnText={steps[step].title} onSubmit={steps[step].onSubmit}
 							isStep={step < steps.length - 1}
 							modalVisible={state.isVisible}
 							btnIsActive={steps[step].btnIsActive}

@@ -28,7 +28,8 @@ import PositionShare from "./PositionShare";
 import PositionDropdown from "./PositionDropdown";
 import StatsTooltipRow from "../StatsTooltip/StatsTooltipRow";
 import CollateralLocked from './CollateralLocked';
-import { getDgContract, DDL_GMX } from './../../../../components/utils/contracts';
+import { getDgContract, DDL_GMX, DDL_AccountManagerToken } from './../../../../components/utils/contracts';
+import PositionsItem from './PositionsItem';
 
 const getOrdersForPosition = (account, position, orders, nativeTokenAddress) => {
   if (!orders || orders.length === 0) {
@@ -98,6 +99,7 @@ export default function PositionsList(props) {
     totalTokenWeights,
     dgAddress,
   } = props;
+  
 
   const [positionToEditKey, setPositionToEditKey] = useState(undefined);
   const [positionToSellKey, setPositionToSellKey] = useState(undefined);
@@ -243,246 +245,24 @@ export default function PositionsList(props) {
                 borrowFeeUSD = formatAmount(borrowFeeRate, USD_DECIMALS, 2);
               }
 
-              // Key id for positions
-              const DG = getDgContract(dgAddress);
-              DG.keyByIndexToken(position.indexToken.address, position.isLong)
-                .then(id => {
-                  position.keyId = id;
-
-                  DDL_GMX.borrowedByCollateral(id)
-                    .then(res => {
-                      position.borrowed = res.borrowed;
-                    })
-                })
-
               return (
-                <div key={position.key} className="App-card">
-                  {/* <div className="App-card-title">
-                    <span className="Exchange-list-title">{position.indexToken.symbol}</span>
-                  </div> */}
-                  <div className="App-card-divider"></div>
-                  <div className="App-card-content">
-                    <div className="App-card-row">
-                      <div className="label">
-                        <Trans>Position</Trans>
-                      </div>
-                      <div>
-                        <div className="Exchange-list-token">{position.indexToken.symbol}</div>
-                        <span
-                          className={cx("Exchange-list-side", {
-                            positive: position.isLong,
-                            negative: !position.isLong,
-                          })}
-                        ><span className="Exchange-list-leverage">{formatAmount(position.leverage, 4, 2, true)}x&nbsp;</span>
-                          {position.isLong ? t`Long` : t`Short`}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="App-card-row">
-                      <div className="label">
-                        <Trans>Net Value</Trans>
-                      </div>
-                      <div>
-                        <Tooltip
-                          handle={`$${formatAmount(position.netValue, USD_DECIMALS, 2, true)}`}
-                          position="right-bottom"
-                          handleClassName="plain"
-                          renderContent={() => {
-                            return (
-                              <>
-                                Net Value:{" "}
-                                {showPnlAfterFees
-                                  ? "Initial Collateral - Fees + PnL"
-                                  : "Initial Collateral - Borrow Fee + PnL"}
-                                <br />
-                                <br />
-                                <StatsTooltipRow
-                                  label="Initial Collateral"
-                                  value={formatAmount(position.collateral, USD_DECIMALS, 2, true)}
-                                />
-                                <StatsTooltipRow label="PnL" value={position.deltaBeforeFeesStr} showDollar={false} />
-                                <StatsTooltipRow
-                                  label="Borrow Fee"
-                                  value={formatAmount(position.fundingFee, USD_DECIMALS, 2, true)}
-                                />
-                                <StatsTooltipRow
-                                  label="Open + Close fee"
-                                  value={formatAmount(position.positionFee, USD_DECIMALS, 2, true)}
-                                />
-                                <StatsTooltipRow
-                                  label="PnL After Fees"
-                                  value={`${position.deltaAfterFeesStr} (${position.deltaAfterFeesPercentageStr})`}
-                                  showDollar={false}
-                                />
-                              </>
-                            );
-                          }}
-                        />
-                      </div>
-                    </div>
-                    {/* <div className="App-card-row">
-                      <div className="label">
-                        <Trans>Leverage</Trans>
-                      </div>
-                      <div>
-                        {formatAmount(position.leverage, 4, 2, true)}x&nbsp;
-                        <span
-                          className={cx("Exchange-list-side", {
-                            positive: position.isLong,
-                            negative: !position.isLong,
-                          })}
-                        >
-                          {position.isLong ? t`Long` : t`Short`}
-                        </span>
-                      </div>
-                    </div> */}
-                    <div className="App-card-row">
-                      <div className="label">
-                        <Trans>Size</Trans>
-                      </div>
-                      <div>${formatAmount(position.size, USD_DECIMALS, 2, true)}</div>
-                    </div>
-                    <div className="App-card-row">
-                      <div className="label">
-                        <Trans>Collateral</Trans>
-                      </div>
-                      <div>
-                        <Tooltip
-                          handle={`$${formatAmount(position.collateralAfterFee, USD_DECIMALS, 2, true)}`}
-                          position="right-bottom"
-                          handleClassName={cx("plain", { negative: position.hasLowCollateral })}
-                          renderContent={() => {
-                            return (
-                              <>
-                                {position.hasLowCollateral && (
-                                  <div>
-                                    WARNING: This position has a low amount of collateral after deducting borrowing
-                                    fees, deposit more collateral to reduce the position's liquidation risk.
-                                    <br />
-                                    <br />
-                                  </div>
-                                )}
-                                <StatsTooltipRow
-                                  label="Initial Collateral"
-                                  value={formatAmount(position.collateral, USD_DECIMALS, 2, true)}
-                                />
-                                <StatsTooltipRow
-                                  label="Borrow Fee"
-                                  value={formatAmount(position.fundingFee, USD_DECIMALS, 2, true)}
-                                />
-                                <StatsTooltipRow label={t`Borrow Fee / Day`} value={borrowFeeUSD} />
-                                <span>Use the "Edit" button to deposit or withdraw collateral.</span>
-                              </>
-                            );
-                          }}
-                        />
-                      </div>
-                    </div>
-                    {/* <div className="App-card-row">
-                      <div className="label">
-                        <Trans>PnL</Trans>
-                      </div>
-                      <div>
-                        <span
-                          className={cx("Exchange-list-info-label", {
-                            positive: hasPositionProfit && positionDelta.gt(0),
-                            negative: !hasPositionProfit && positionDelta.gt(0),
-                            muted: positionDelta.eq(0),
-                          })}
-                        >
-                          {position.deltaStr} ({position.deltaPercentageStr})
-                        </span>
-                      </div>
-                    </div> */}
-                    {/* <div className="App-card-row">
-                      <div className="label">
-                        <Trans>Orders</Trans>
-                      </div>
-                      <div>
-                        {positionOrders.length === 0 && "None"}
-                        {positionOrders.map((order) => {
-                          const orderText = () => (
-                            <>
-                              {order.triggerAboveThreshold ? ">" : "<"} {formatAmount(order.triggerPrice, 30, 2, true)}:
-                              {order.type === INCREASE ? " +" : " -"}${formatAmount(order.sizeDelta, 30, 2, true)}
-                            </>
-                          );
-                          if (order.error) {
-                            return (
-                              <div key={`${order.isLong}-${order.type}-${order.index}`} className="Position-list-order">
-                                <Tooltip
-                                  className="order-error"
-                                  handle={orderText()}
-                                  position="right-bottom"
-                                  handleClassName="plain"
-                                  renderContent={() => <span className="negative">{order.error}</span>}
-                                />
-                              </div>
-                            );
-                          } else {
-                            return (
-                              <div key={`${order.isLong}-${order.type}-${order.index}`} className="Position-list-order">
-                                {orderText()}
-                              </div>
-                            );
-                          }
-                        })}
-                      </div>
-                    </div> */}
-                  </div>
-                  <div className="App-card-divider"></div>
-                  <div className="App-card-content">
-                    <div className="App-card-row">
-                      <div className="label">
-                        <Trans>Mark Price</Trans>
-                      </div>
-                      <div>${formatAmount(position.markPrice, USD_DECIMALS, 2, true)}</div>
-                    </div>
-                    <div className="App-card-row">
-                      <div className="label">
-                        <Trans>Entry Price</Trans>
-                      </div>
-                      <div>${formatAmount(position.averagePrice, USD_DECIMALS, 2, true)}</div>
-                    </div>
-                    <div className="App-card-row">
-                      <div className="label">
-                        <Trans>Liq. Price</Trans>
-                      </div>
-                      <div>${formatAmount(liquidationPrice, USD_DECIMALS, 2, true)}</div>
-                    </div>
-                  </div>
-                  <div className="App-card-divider"></div>
-                  <div className="App-card-options">
-                    <button
-                      className="App-button-option App-card-option"
-                      disabled={position.size.eq(0)}
-                      onClick={() => editPosition(position)}
-                    >
-                      <Trans> Edit</Trans>
-                    </button>
-                    <button
-                      className="App-button-option App-card-option"
-                      disabled={position.size.eq(0)}
-                      onClick={() => sellPosition(position)}
-                    >
-                      Close
-                    </button>
-                    {position.borrowed?.gt(0) &&
-                      <CollateralLocked />}
-
-                    
-                    {/* <button
-                      className="Exchange-list-action App-button-option App-card-option"
-                      onClick={() => {
-                        setPositionToShare(position);
-                        setIsPositionShareModalOpen(true);
-                      }}
-                      disabled={position.size.eq(0)}
-                    >
-                      <Trans>Share</Trans>
-                    </button> */}
-                  </div>
-                </div>
+                <PositionsItem
+                  key={position.key}
+                  position={position}
+                  onPositionClick={onPositionClick}
+                  setListSection={setListSection}
+                  positionOrders={positionOrders}
+                  showPnlAfterFees={showPnlAfterFees}
+                  hasPositionProfit={hasPositionProfit}
+                  positionDelta={positionDelta}
+                  liquidationPrice={liquidationPrice}
+                  cx={cx}
+                  borrowFeeUSD={borrowFeeUSD}
+                  editPosition={editPosition}
+                  sellPosition={sellPosition}
+                  dgAddress={dgAddress}
+                  isLarge={false}
+                />
               );
             })}
           </div>
@@ -547,230 +327,25 @@ export default function PositionsList(props) {
               borrowFeeUSD = formatAmount(borrowFeeRate, USD_DECIMALS, 2);
             }
 
-            // Key id for positions
-            const DG = getDgContract(dgAddress);
-            DG.keyByIndexToken(position.indexToken.address, position.isLong)
-              .then(id => {
-                position.keyId = id;
-
-                DDL_GMX.borrowedByCollateral(id)
-                  .then(res => {
-                    position.borrowed = res.borrowed;
-                  })
-              })
 
             return (
-              <tr key={position.key}>
-                <td className="clickable" onClick={() => onPositionClick(position)}>
-                  <div className="Exchange-list-title">
-                    {position.indexToken.symbol}
-                    {position.hasPendingChanges && <ImSpinner2 className="spin position-loading-icon" />}
-                  </div>
-                  <div className="Exchange-list-info-label">
-                    {position.leverage && (
-                      <span className="muted">{formatAmount(position.leverage, 4, 2, true)}x&nbsp;</span>
-                    )}
-                    <span className={cx({ positive: position.isLong, negative: !position.isLong })}>
-                      {position.isLong ? "Long" : "Short"}
-                    </span>
-                  </div>
-                </td>
-                <td>
-                  <div>
-                    {!position.netValue && "Opening..."}
-                    {position.netValue && (
-                      <Tooltip
-                        handle={`$${formatAmount(position.netValue, USD_DECIMALS, 2, true)}`}
-                        position="left-bottom"
-                        handleClassName="plain"
-                        renderContent={() => {
-                          return (
-                            <>
-                              Net Value:{" "}
-                              {showPnlAfterFees
-                                ? t`Initial Collateral - Fees + PnL`
-                                : t`Initial Collateral - Borrow Fee + PnL`}
-                              <br />
-                              <br />
-                              <StatsTooltipRow
-                                label={t`Initial Collateralt`}
-                                value={formatAmount(position.collateral, USD_DECIMALS, 2, true)}
-                              />
-                              <StatsTooltipRow label={`PnL`} value={position.deltaBeforeFeesStr} showDollar={false} />
-                              <StatsTooltipRow
-                                label={t`Borrow Fee`}
-                                value={formatAmount(position.fundingFee, USD_DECIMALS, 2, true)}
-                              />
-                              <StatsTooltipRow
-                                label={`Open + Close fee`}
-                                value={formatAmount(position.positionFee, USD_DECIMALS, 2, true)}
-                              />
-                              <StatsTooltipRow
-                                label={`PnL After Fees`}
-                                value={`${position.deltaAfterFeesStr} (${position.deltaAfterFeesPercentageStr})`}
-                                showDollar={false}
-                              />
-                            </>
-                          );
-                        }}
-                      />
-                    )}
-                  </div>
-                  {position.deltaStr && (
-                    <div
-                      className={cx("Exchange-list-info-label", {
-                        positive: hasPositionProfit && positionDelta.gt(0),
-                        negative: !hasPositionProfit && positionDelta.gt(0),
-                        muted: positionDelta.eq(0),
-                      })}
-                    >
-                      {position.deltaStr} ({position.deltaPercentageStr})
-                    </div>
-                  )}
-                </td>
-                <td>
-                  <div>${formatAmount(position.size, USD_DECIMALS, 2, true)}</div>
-                  {positionOrders.length > 0 && (
-                    <div onClick={() => setListSection && setListSection("Orders")}>
-                      <Tooltip
-                        handle={`Orders (${positionOrders.length})`}
-                        position="left-bottom"
-                        handleClassName={cx(
-                          ["Exchange-list-info-label", "Exchange-position-list-orders", "plain", "clickable"],
-                          { muted: !hasOrderError, negative: hasOrderError }
-                        )}
-                        renderContent={() => {
-                          return (
-                            <>
-                              <strong>Active Orders</strong>
-                              {positionOrders.map((order) => {
-                                return (
-                                  <div
-                                    key={`${order.isLong}-${order.type}-${order.index}`}
-                                    className="Position-list-order"
-                                  >
-                                    {order.triggerAboveThreshold ? ">" : "<"}{" "}
-                                    {formatAmount(order.triggerPrice, 30, 2, true)}:
-                                    {order.type === INCREASE ? " +" : " -"}${formatAmount(order.sizeDelta, 30, 2, true)}
-                                    {order.error && (
-                                      <>
-                                        , <span className="negative">{order.error}</span>
-                                      </>
-                                    )}
-                                  </div>
-                                );
-                              })}
-                            </>
-                          );
-                        }}
-                      />
-                    </div>
-                  )}
-                </td>
-                <td>
-                  <Tooltip
-                    handle={`$${formatAmount(position.collateralAfterFee, USD_DECIMALS, 2, true)}`}
-                    position="left-bottom"
-                    handleClassName={cx("plain", { negative: position.hasLowCollateral })}
-                    renderContent={() => {
-                      return (
-                        <>
-                          {position.hasLowCollateral && (
-                            <div>
-                              <Trans>
-                                WARNING: This position has a low amount of collateral after deducting borrowing fees,
-                                deposit more collateral to reduce the position's liquidation risk.
-                              </Trans>
-                              <br />
-                              <br />
-                            </div>
-                          )}
-
-                          <StatsTooltipRow
-                            label={t`Initial Collateral`}
-                            value={formatAmount(position.collateral, USD_DECIMALS, 2, true)}
-                          />
-                          <StatsTooltipRow
-                            label={t`Borrow Fee`}
-                            value={formatAmount(position.fundingFee, USD_DECIMALS, 2, true)}
-                          />
-                          <StatsTooltipRow label={t`Borrow Fee / Day`} value={borrowFeeUSD} />
-                          <br />
-                          <Trans>Use the "Edit" button to deposit or withdraw collateral.</Trans>
-                        </>
-                      );
-                    }}
-                  />
-                </td>
-                <td className="" onClick={() => {
-                  // onPositionClick(position)
-                  return;
-                }}>
-                  <Tooltip
-                    handle={`$${formatAmount(position.markPrice, USD_DECIMALS, 2, true)}`}
-                    position="left-bottom"
-                    handleClassName="plain"
-                    renderContent={() => {
-                      return (
-                        <div>
-                          Click on a row to select the position's market, then use the swap box to increase your
-                          position size if needed.
-                          <br />
-                          <br />
-                          Use the "Close" button to reduce your position size, or to set stop-loss / take-profit orders.
-                        </div>
-                      );
-                    }}
-                  />
-                </td>
-                <td className="" onClick={() => {
-                  // onPositionClick(position)
-                  return;
-                }}>
-                  ${formatAmount(position.averagePrice, USD_DECIMALS, 2, true)}
-                </td>
-                <td className="" onClick={() => {
-                  // onPositionClick(position)
-                  return;
-                }}>
-                  ${formatAmount(liquidationPrice, USD_DECIMALS, 2, true)}
-                </td>
-
-                <td className="td-btn">
-                  <button
-                    className="Exchange-list-action"
-                    onClick={() => editPosition(position)}
-                    // disabled={position.size.eq(0)}
-                  >
-                    Edit
-                  </button>
-                </td>
-                <td className="td-btn">
-                  <button
-                    className="Exchange-list-action"
-                    onClick={() => sellPosition(position)}
-                    disabled={position.size.eq(0)}
-                  >
-                    Close
-                  </button>
-                  {/* <PositionDropdown
-                    handleEditCollateral={() => {
-                      editPosition(position);
-                    }}
-                    handleShare={() => {
-                      setPositionToShare(position);
-                      setIsPositionShareModalOpen(true);
-                    }}
-                    handleMarketSelect={() => {
-                      onPositionClick(position);
-                    }}
-                  /> */}
-                </td>
-                <td className="td-btn">
-                  {position.borrowed?.gt(0) &&
-                    <CollateralLocked />}
-                </td>
-              </tr>
+              <PositionsItem
+                key={position.key}
+                position={position}
+                onPositionClick={onPositionClick}
+                setListSection={setListSection}
+                positionOrders={positionOrders}
+                showPnlAfterFees={showPnlAfterFees}
+                hasPositionProfit={hasPositionProfit}
+                positionDelta={positionDelta}
+                liquidationPrice={liquidationPrice}
+                cx={cx}
+                borrowFeeUSD={borrowFeeUSD}
+                editPosition={editPosition}
+                sellPosition={sellPosition}
+                dgAddress={dgAddress}
+                isLarge={true}
+              />
             );
           })}
         </tbody>

@@ -4,6 +4,7 @@ import { useWeb3React } from "@web3-react/core";
 import useSWR from "swr";
 import { ethers } from "ethers";
 import cx from "classnames";
+import { BigNumber } from "ethers";
 
 import {
   FUNDING_RATE_PRECISION,
@@ -154,7 +155,6 @@ export function getPositions(
   account,
   pendingPositions,
   updatedPositions,
-  dgAddress
 ) {
   const propsLength = getConstant(chainId, "positionReaderPropsLength");
   const positions = [];
@@ -192,7 +192,7 @@ export function getPositions(
       markPrice: isLong[i] ? indexToken.minPrice : indexToken.maxPrice,
       ddl: {},
     };
-    position.ddl.available = position.hasProfit ? ethers.utils.formatUnits(position.delta, 30) : 0;
+    position.ddl.available = position.hasProfit ? position.delta : BigNumber.from(0);
 
 
     if (

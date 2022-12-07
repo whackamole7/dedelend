@@ -23,27 +23,38 @@ const BorrowModal = (props) => {
 	const option = state.option;
 	const contract = option?.contract;
 	const position = state.position;
-	const positionReady = Boolean(Object.keys(position ?? {}).length && position.ddl.borrowed);
 	
-	const {globalStats} = useContext(GlobalStatsContext)
+	const {globalStats} = useContext(GlobalStatsContext);
 	const [step, setStep] = useState(state.initStep ?? 0);
-	const [inputVal, setInputVal] = useState('')
-	const [liqPrice, setLiqPrice] = useState('—')
+	const [inputVal, setInputVal] = useState('');
+	const [liqPrice, setLiqPrice] = useState('—');
+	const [positionStats, setPositionStats] = useState({});
+
+	useEffect(() => {
+		if (position) {
+			if (!Object.keys(position).length) {
+				return;
+			}
+	
+			const liqPrice = formatAmount(getLiquidationPrice(position), USD_DECIMALS, 2, true);
+			const avail = position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0;
+
+			setPositionStats({ liqPrice, avail });
+		}
+	}, [state]);
 
 	let available;
 	if (option) {
 		available = floor(option.realVals?.borrowLimit - option.realVals?.borrowLimitUsed, 6);
-	} else if (positionReady) {
-		available = floor(position.ddl.available);
 	}
 
 	const setMaxVal = () => {
-		setInputVal(available)
+		setInputVal(option ? available : positionStats.avail);
 	}
 
 	useEffect(() => {
-		if (sepToNumber(inputVal) > available) {
-			setInputVal(available)
+		if (sepToNumber(inputVal) > (option ? available : positionStats.avail)) {
+			setInputVal(option ? available : positionStats.avail);
 		}
 
 		if (option) {
@@ -71,10 +82,6 @@ const BorrowModal = (props) => {
 		}
 	}, [inputVal])
 
-	useEffect(() => {
-		const liqPrice = getLiquidationPrice(position);
-		setLiqPrice(formatAmount(liqPrice, USD_DECIMALS, 2, true));
-	}, [positionReady])
 
 	useEffect(() => {
 		setStep(state.initStep ?? 0)
@@ -103,8 +110,10 @@ const BorrowModal = (props) => {
 							errAlert(err)
 							setIsLoading(false)
 						})
-				} else if (positionReady) {
-					console.log(position);
+				} else if (position) {
+					// setStep(step + 1);
+					// setIsLoading(false);
+					
 					DDL_AccountManagerToken.approve(DDL_GMX.address, position.ddl.keyId)
 						.then(res => {
 							console.log('Approve transaction:', res);
@@ -149,7 +158,7 @@ const BorrowModal = (props) => {
 							errAlert(err)
 							setIsLoading(false)
 						})
-				} else if (positionReady) {
+				} else if (position) {
 					DDL_GMX.lockCollateral(position.ddl.keyId)
 						.then(res => {
 							console.log('Lock Collateral transaction:', res);
@@ -193,8 +202,8 @@ const BorrowModal = (props) => {
 							errAlert(err)
 							setIsLoading(false)
 						})
-				} else if (positionReady) {
-					DDL_GMX.borrow(formatForContract(inputVal))
+				} else if (position) {
+					DDL_GMX.borrow(position.ddl.keyId, formatForContract(inputVal))
 						.then(res => {
 							console.log('Borrow transaction:', res);
 							
@@ -245,7 +254,7 @@ const BorrowModal = (props) => {
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title">Borrow Limit:</div>
-						<div className="modal__info-field-val">{(option ? separateThousands(option.borrowLimit) : separateThousands(available)) + ' USDC'}</div>
+						<div className="modal__info-field-val">{(option ? separateThousands(option.borrowLimit) : separateThousands(floor(positionStats.avail))) + ' USDC'}</div>
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title nowrap">Loan-To-Value:</div>
@@ -256,13 +265,13 @@ const BorrowModal = (props) => {
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title">Available:</div>
-						<div className="modal__info-field-val highlighted">{separateThousands(floor(available)) + ' USDC'}</div>
+						<div className="modal__info-field-val highlighted">{separateThousands(floor(option ? available : positionStats.avail)) + ' USDC'}</div>
 					</div>
 					{
 						step === 2 ?
 							<div className="modal__info-field modal__info-field_hl">
 								<div className="modal__info-field-title">Liquidation Price:</div>
-								<div className="modal__info-field-val">${separateThousands(liqPrice)}</div>
+								<div className="modal__info-field-val">${separateThousands(option ? liqPrice : positionStats.liqPrice)}</div>
 							</div>
 							: ""
 					}
@@ -272,7 +281,7 @@ const BorrowModal = (props) => {
 						isLoading ?
 							<Loader />
 							:
-							<Form maxVal={available} inputProps={steps[step].inputProps} btnText={steps[step].title} onSubmit={steps[step].onSubmit}
+							<Form maxVal={option ? available : positionStats.avail} inputProps={steps[step].inputProps} btnText={steps[step].title} onSubmit={steps[step].onSubmit}
 							modalVisible={state.isVisible}
 							btnIsActive={steps[step].btnIsActive}
 							maxWarningMsg={'Limit is exceed'}

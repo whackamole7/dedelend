@@ -8,9 +8,7 @@
 - Perps:
 	- code:
 		- BorrowsList:
-			- CollateralLocked - condition?
-			- Available, Debt - ?
-			- caller is not token owner or approved
+			- Borrowing: Vault - invalid _averagePrice
 		
 		- Exchange: getTokenBalancesDG error: no dgAddress
 		- min order: 10 usdc (swapBox)
