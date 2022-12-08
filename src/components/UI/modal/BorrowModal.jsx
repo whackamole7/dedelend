@@ -37,9 +37,10 @@ const BorrowModal = (props) => {
 			}
 	
 			const liqPrice = formatAmount(getLiquidationPrice(position), USD_DECIMALS, 2, true);
-			const avail = (position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0) / 2;
+			const borrowLimit = (position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0) / 2;
+			const avail = borrowLimit - position.ddl.borrowed;
 
-			setPositionStats({ liqPrice, avail });
+			setPositionStats({ liqPrice, borrowLimit, avail });
 		}
 	}, [state]);
 
@@ -254,12 +255,12 @@ const BorrowModal = (props) => {
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title">Borrow Limit:</div>
-						<div className="modal__info-field-val">{(option ? separateThousands(option.borrowLimit) : separateThousands(floor(positionStats.avail))) + ' USDC'}</div>
+						<div className="modal__info-field-val">{(option ? separateThousands(option.borrowLimit) : separateThousands(floor(positionStats.borrowLimit))) + ' USDC'}</div>
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title nowrap">Loan-To-Value:</div>
 						<div className="modal__info-field-val">
-							{(option ? floor((option.borrowLimitUsed / option.intrinsicValue) * 100) : '?') + '%'}
+							{(option ? floor((option.borrowLimitUsed / option.intrinsicValue) * 100) : floor(position.ddl?.borrowed / positionStats.borrowLimit)) + '%'}
 						</div>
 						
 					</div>

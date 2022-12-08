@@ -640,6 +640,10 @@
   .PositionsList .Exchange-list {
     border-top-left-radius: 0;
   }
+  .BorrowsList .Exchange-list {
+    border-top-left-radius: 5px;
+  }
+
   
   table.Exchange-list th,
   table.Exchange-list td {
@@ -647,7 +651,7 @@
     line-height: calc(19.5/15);
     text-align: left;
     color: #747FA6;
-    padding: 15px 20px;
+    padding: 15px;
   }
   table.Exchange-list td.clickable {
     color: #fff;

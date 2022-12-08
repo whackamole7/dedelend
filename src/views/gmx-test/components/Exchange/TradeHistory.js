@@ -465,10 +465,10 @@ export default function TradeHistory(props) {
               <div>
                 <div className="muted TradeHistory-time">
                   {formatDateTime(tradeData.timestamp)}
-                  {(!account || account.length === 0) && (
+                  {(!props.dgAddress || props.dgAddress.length === 0) && (
                     <span>
                       {" "}
-                      (<Link to={`/actions/${tradeData.account}`}>{tradeData.account}</Link>)
+                      (<Link to={`/actions/${tradeData.props.dgAddress}`}>{tradeData.props.dgAddress}</Link>)
                     </span>
                   )}
                 </div>

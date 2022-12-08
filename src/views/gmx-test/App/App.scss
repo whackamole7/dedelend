@@ -868,7 +868,7 @@
   }
   
   a.App-button-option,
-  button.App-button-option {
+  .App-button-option {
     cursor: pointer;
     color: #fff;
     margin: 0;
@@ -1531,4 +1531,40 @@
   @media (max-width: 480px) {
     margin-top: 320px;
   }
+}
+
+
+.btn-tooltip.App-button-option {
+  margin-right: 20px;
+}
+
+.btn-tooltip .Tooltip-popup {
+  right: -5px;
+  cursor: default;
+
+  @media (max-width: 1300px) {
+    left: 0;
+    right: auto;
+
+    &::before {
+      right: auto;
+      left: 18px;
+    }
+  }
+}
+
+.btn-tooltip {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  height: 20px;
+  width: 50px;
+  cursor: not-allowed;
+  text-align: center;
+}
+
+.pos-relative {
+  position: relative;
 }

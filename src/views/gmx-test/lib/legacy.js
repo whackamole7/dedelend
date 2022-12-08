@@ -1557,6 +1557,7 @@ export const trimZeroDecimals = (amount) => {
 
 export const limitDecimals = (amount, maxDecimals) => {
   let amountStr = amount.toString();
+  
   if (maxDecimals === undefined) {
     return amountStr;
   }

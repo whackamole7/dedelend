@@ -77,26 +77,29 @@ const BorrowsItem = (props) => {
 							
 							// Borrowed
 							DDL_GMX.borrowedByCollateral(id)
-							.then(res => {
-								position.ddl.borrowed = res.borrowed;
-								setCurPosition(position);
+								.then(res => {
+									position.ddl.borrowed = res.borrowed;
+									setCurPosition(position);
 
-								if (res.borrowed.gt(0)) {
-									setRepayStep(0);
-								} else {
-									setRepayStep(1);
-								}
-								setBorrowed(res.borrowed);
-							})
+									if (res.borrowed.gt(0)) {
+										setRepayStep(0);
+									} else {
+										setRepayStep(1);
+									}
+									setBorrowed(res.borrowed);
+								})
 						} else {
-							setBorrowed(BigNumber.from(0));
-							
-							if (false) {
-								// isApproved? 
-								setBorrowStep(1);
-							} else {
-								setBorrowStep(0);
-							}
+							DDL_AccountManagerToken.getApproved(id)
+								.then(addr => {
+									if (addr === DDL_GMX.address) {
+										setBorrowStep(1);
+									} else {
+										setBorrowStep(0);
+									}
+
+									position.ddl.borrowed = BigNumber.from(0);
+									setBorrowed(BigNumber.from(0));
+								})
 						}
 					});
 			})
@@ -250,27 +253,38 @@ const BorrowsItem = (props) => {
 					{'13.3%'}
 				</td>
 	
-				<td className="td-btn">
-					<button
-						className="Exchange-list-action"
-						onClick={() => borrowPosition(position)}
-						disabled={typeof borrowed === 'undefined' || !position.hasProfit}
-					>
-						Borrow
-						{(typeof borrowed === 'undefined' || !position.hasProfit)
-							&& <Tooltip
-										className="btn-tooltip"
-										position="right-bottom"
-										enabled={true}
-										handle=""
-										renderContent={() => {
-											return (
-												<div>
-													You can't lock position if it's unprofitable
-												</div>
-											);
-										}} />}
-					</button>
+				<td className="td-btn pos-relative">
+					{(typeof borrowed === 'undefined' || !position.hasProfit) ?
+						<>
+							<Tooltip
+								className="btn-tooltip"
+								position="right-bottom"
+								enabled={true}
+								handle=""
+								renderContent={() => {
+									return (
+										<div>
+											You can't lock position if it's unprofitable
+										</div>
+									);
+								}} />
+							<button
+								className="Exchange-list-action"
+								onClick={() => borrowPosition(position)}
+								disabled={typeof borrowed === 'undefined' || !position.hasProfit}
+							>
+								Borrow
+							</button>
+						</>
+						
+						:
+						<button
+							className="Exchange-list-action"
+							onClick={() => borrowPosition(position)}
+							disabled={typeof borrowed === 'undefined' || !position.hasProfit}
+						>
+							Borrow
+						</button>}
 				</td>
 				<td className="td-btn">
 					<button
@@ -386,14 +400,10 @@ const BorrowsItem = (props) => {
 				</div>
 				<div className="App-card-divider"></div>
 				<div className="App-card-options">
-					<button
-						className="App-button-option App-card-option"
-						disabled={typeof borrowed === 'undefined' || !position.hasProfit}
-						onClick={() => borrowPosition()}
-					>
-						<Trans>Borrow</Trans>
-						{(typeof borrowed === 'undefined' || !position.hasProfit)
-							&& <Tooltip
+					<div className="pos-relative App-button-option">
+						{(typeof borrowed === 'undefined' || !position.hasProfit) ?
+						<>
+							<Tooltip
 								className="btn-tooltip"
 								position="right-bottom"
 								enabled={true}
@@ -404,8 +414,25 @@ const BorrowsItem = (props) => {
 											You can't lock position if it's unprofitable
 										</div>
 									);
-								}} />}
-					</button>
+								}} />
+							<button
+								className="App-button-option App-card-option"
+								disabled={typeof borrowed === 'undefined' || !position.hasProfit}
+								onClick={() => borrowPosition()}
+							>
+								<Trans>Borrow</Trans>
+							</button>
+						</>
+						:
+						<button
+							className="App-button-option App-card-option"
+							disabled={typeof borrowed === 'undefined' || !position.hasProfit}
+							onClick={() => borrowPosition()}
+						>
+							<Trans>Borrow</Trans>
+						</button>}
+					</div>
+				
 					<button
 						className="App-button-option App-card-option"
 						disabled={typeof borrowed === 'undefined' || !isLocked}

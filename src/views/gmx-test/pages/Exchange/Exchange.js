@@ -487,7 +487,7 @@ export const Exchange = forwardRef((props, ref) => {
     fetcher: fetcher(library, Reader, [tokenAddresses]),
   });
   
-  const { data: tokenBalancesDG } = useSWR(active && [active, chainId, readerAddress, "getTokenBalances", props.dgAddress], {
+  /* const { data: tokenBalancesDG } = useSWR(active && [active, chainId, readerAddress, "getTokenBalances", props.dgAddress], {
     fetcher: fetcher(library, Reader, [tokenAddresses]),
   });
   const { infoTokens: infoTokensDG } = useInfoTokens(library, chainId, active, tokenBalancesDG);
@@ -497,7 +497,7 @@ export const Exchange = forwardRef((props, ref) => {
     if (infoTokensDG[address].balance?.gt(0)) {
       dgFundsAddresses.push(address);
     }
-  })
+  }) */
   
   // const dgHasFunds = Boolean(dgFundsAddresses.length && props.dgAddress);
   const dgHasFunds = false;
@@ -1004,8 +1004,8 @@ export const Exchange = forwardRef((props, ref) => {
       <div className="Exchange-content">
         <div className="Exchange-left">
           {renderChart()}
-          {dgHasFunds && 
-            <ReturnFundsBox dgAddress={props.dgAddress} tokenAddresses={dgFundsAddresses} />}
+          {/* {dgHasFunds && 
+            <ReturnFundsBox dgAddress={props.dgAddress} tokenAddresses={dgFundsAddresses} />} */}
           <div className="Exchange-lists large">{getListSection()}</div>
         </div>
         <div className="Exchange-right">

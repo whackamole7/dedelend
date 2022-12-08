@@ -372,6 +372,8 @@ export function useTrades(chainId, account, forSingleAccount, afterId) {
     fetcher: (...args) => fetch(...args).then((res) => res.json()),
   });
 
+  
+
   if (trades) {
     trades.sort((item0, item1) => {
       const data0 = item0.data;
