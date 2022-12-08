@@ -260,7 +260,7 @@ const BorrowModal = (props) => {
 					<div className="modal__info-field">
 						<div className="modal__info-field-title nowrap">Loan-To-Value:</div>
 						<div className="modal__info-field-val">
-							{(option ? floor((option.borrowLimitUsed / option.intrinsicValue) * 100) : floor(position.ddl?.borrowed / positionStats.borrowLimit)) + '%'}
+							{(option ? floor((option.borrowLimitUsed / option.intrinsicValue) * 100) : (positionStats.borrowLimit !== 0 ? floor(position.ddl?.borrowed / positionStats.borrowLimit) : 0)) + '%'}
 						</div>
 						
 					</div>

@@ -40,26 +40,24 @@ const AppRouter = ({ walletAddress, setWalletAddress, dgAddress}) => {
 
 	
 	return (
-		<>
-			<Routes>
-				<Route
-					path="/options"
-					element={<BorrowMarket walletAddress={walletAddress} setWalletAddress={setWalletAddress} />} 
-				/>
-				<Route path="/perpetuals" element={
-					<GMXInterface
-						connectWallet={() => {
-							connectWallet(setWalletAddress)
-						}}
-						walletAddress={walletAddress} 
-						dgAddress={dgAddress} />
-				} />
-				<Route
-					path="/earn"
-					element={<SupplyMarket walletAddress={walletAddress} setWalletAddress={setWalletAddress} supplyStep={supplyStep} setSupplyStep={setSupplyStep} />} 
-				/>
-			</Routes>
-		</>
+		<Routes>
+			<Route
+				path="/options"
+				element={<BorrowMarket walletAddress={walletAddress} setWalletAddress={setWalletAddress} />} 
+			/>
+			<Route path="/perpetuals" element={
+				<GMXInterface
+					connectWallet={() => {
+						connectWallet(setWalletAddress)
+					}}
+					walletAddress={walletAddress} 
+					dgAddress={dgAddress} />
+			} />
+			<Route
+				path="/earn"
+				element={<SupplyMarket walletAddress={walletAddress} setWalletAddress={setWalletAddress} supplyStep={supplyStep} setSupplyStep={setSupplyStep} />} 
+			/>
+		</Routes>
 	);
 };
 

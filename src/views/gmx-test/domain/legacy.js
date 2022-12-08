@@ -119,6 +119,7 @@ export function useInfoTokens(library, chainId, active, tokenBalances, fundingRa
     refreshWhenHidden: true,
   });
 
+
   return {
     infoTokens: getInfoTokens(
       tokens,

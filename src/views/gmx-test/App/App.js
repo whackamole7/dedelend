@@ -246,7 +246,7 @@ function FullApp(props) {
     localStorage.setItem(SHOULD_EAGER_CONNECT_LOCALSTORAGE_KEY, true);
     localStorage.setItem(CURRENT_PROVIDER_LOCALSTORAGE_KEY, providerName);
     activateInjectedProvider(providerName);
-    connectInjectedWallet();
+    // connectInjectedWallet();
   };
 
   const [walletModalVisible, setWalletModalVisible] = useState(false);
@@ -433,13 +433,6 @@ function FullApp(props) {
     <>
       <div className="App GMX-Interface">
         <div className="App-content">
-          {/* <Header
-            disconnectAccountAndCloseSettings={disconnectAccountAndCloseSettings}
-            openSettings={openSettings}
-            setWalletModalVisible={setWalletModalVisible}
-            redirectPopupTimestamp={redirectPopupTimestamp}
-            showRedirectModal={showRedirectModal}
-          /> */}
           <Exchange
             ref={exchangeRef}
             savedShowPnlAfterFees={savedShowPnlAfterFees}
@@ -477,31 +470,6 @@ function FullApp(props) {
         shouldHideRedirectModal={shouldHideRedirectModal}
         removeRedirectPopupTimestamp={removeRedirectPopupTimestamp}
       />
-      <Modal
-        className="Connect-wallet-modal"
-        isVisible={walletModalVisible}
-        setIsVisible={setWalletModalVisible}
-        label="Connect Wallet"
-      >
-        <button className="Wallet-btn MetaMask-btn" onClick={activateMetaMask}>
-          <img src={metamaskImg} alt="MetaMask" />
-          <div>
-            <Trans>MetaMask</Trans>
-          </div>
-        </button>
-        <button className="Wallet-btn CoinbaseWallet-btn" onClick={activateCoinBase}>
-          <img src={coinbaseImg} alt="Coinbase Wallet" />
-          <div>
-            <Trans>Coinbase Wallet</Trans>
-          </div>
-        </button>
-        <button className="Wallet-btn WalletConnect-btn" onClick={activateWalletConnect}>
-          <img src={walletConnectImg} alt="WalletConnect" />
-          <div>
-            <Trans>WalletConnect</Trans>
-          </div>
-        </button>
-      </Modal>
       <Modal
         className="App-settings"
         isVisible={isSettingsVisible}
@@ -550,12 +518,11 @@ function FullApp(props) {
 }
 
 function GMXInterface(props) {
-  // useScrollToTop();
-  
   useEffect(() => {
     const defaultLanguage = localStorage.getItem(LANGUAGE_LOCALSTORAGE_KEY) || defaultLocale;
     dynamicActivate(defaultLanguage);
   }, []);
+
   return (
     <SWRConfig value={{ refreshInterval: 5000 }}>
       <Web3ReactProvider getLibrary={getLibrary}>

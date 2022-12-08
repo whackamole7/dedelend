@@ -73,7 +73,6 @@ function App() {
 				DeDeLend is in beta. Use at your own risk
 			</Warning>
 		</>
-		
 	);
 }
 

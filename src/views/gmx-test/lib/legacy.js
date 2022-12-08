@@ -2132,8 +2132,11 @@ export function isMobileDevice(navigator) {
 
 export function setTokenUsingIndexPrices(token, indexPrices, nativeTokenAddress) {
   if (!indexPrices) {
+    console.log('return');
     return;
   }
+
+  console.log('-------------------WENT THROUGH')
 
   const tokenAddress = token.isNative ? nativeTokenAddress : token.address;
 

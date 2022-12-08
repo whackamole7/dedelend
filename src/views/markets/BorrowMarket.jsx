@@ -56,7 +56,7 @@ const BorrowMarket = ({ walletAddress, setWalletAddress }) => {
 	
 	// Modal window
 	const [borrowModalState, setBorrowModalState] = useState({
-		isVisible: true,
+		isVisible: false,
 		option: {},
 		initStep: 0
 	})

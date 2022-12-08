@@ -43,7 +43,7 @@ const RepayModal = (props) => {
 
 			setPositionStats({ liqPrice, borrowLimit, repay });
 		}
-	}, [state, position.ddl?.borrowed]);
+	}, [state, position?.ddl?.borrowed]);
 	
 	let repay;
 	if (option) {
