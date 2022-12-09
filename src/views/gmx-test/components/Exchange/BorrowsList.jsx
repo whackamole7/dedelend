@@ -353,6 +353,7 @@ export default function BorrowsList(props) {
                 liquidationPrice={liquidationPrice}
                 cx={cx}
                 dgAddress={dgAddress}
+                isModalLoading={isModalLoading}
                 isLarge={true}
                  />
             );

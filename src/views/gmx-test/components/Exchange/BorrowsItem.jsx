@@ -11,7 +11,7 @@ import { DDL_AccountManagerToken, getDgContract } from '../../../../components/u
 import { DDL_GMX, WETH_address } from './../../../../components/utils/contracts';
 import { useState, useEffect } from 'react';
 import { Trans } from '@lingui/macro';
-import { BigNumber } from 'ethers';
+import { ethers, BigNumber } from 'ethers';
 import { ADDRESS_ZERO } from '@uniswap/v3-sdk';
 
 const BorrowsItem = (props) => {
@@ -31,6 +31,7 @@ const BorrowsItem = (props) => {
 		liquidationPrice,
 		cx,
 		dgAddress,
+		isModalLoading,
 		isLarge,
 	} = props;
 
@@ -39,6 +40,7 @@ const BorrowsItem = (props) => {
 	const [isLocked, setIsLocked] = useState(false);
 	const [borrowStep, setBorrowStep] = useState(0);
 	const [repayStep, setRepayStep] = useState(0);
+	const [available, setAvailable] = useState(0);
 	
 	const borrowPosition = () => {
 		setBorrowState({
@@ -58,6 +60,24 @@ const BorrowsItem = (props) => {
 	}
 
 	useEffect(() => {
+		if (borrowed) {
+			setBorrowState({
+				...borrowState,
+				initStep: borrowStep,
+				position: curPosition,
+			})
+			setRepayState({
+				...repayState,
+				initStep: repayStep,
+				position: curPosition
+			})
+		}
+		
+	}, [curPosition, repayStep, borrowStep])
+
+	useEffect(() => {
+		console.log('item update');
+		
 		// Key id for positions
 		const DG = getDgContract(dgAddress);
 		if (!DG) {
@@ -79,6 +99,11 @@ const BorrowsItem = (props) => {
 							DDL_GMX.borrowedByCollateral(id)
 								.then(res => {
 									position.ddl.borrowed = res.borrowed;
+									const borrowLimit = (position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0) / 2;
+									const availableRaw = borrowLimit - ethers.utils.formatUnits(curPosition.ddl.borrowed, 6);
+									const available = availableRaw < 0 ? 0 : availableRaw;
+									position.ddl.available = available;
+									setAvailable(available);
 									setCurPosition(position);
 
 									if (res.borrowed.gt(0)) {
@@ -98,13 +123,18 @@ const BorrowsItem = (props) => {
 									}
 
 									position.ddl.borrowed = BigNumber.from(0);
+									const borrowLimit = (position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0) / 2;
+									const availableRaw = borrowLimit - ethers.utils.formatUnits(curPosition.ddl.borrowed, 6);
+									const available = availableRaw < 0 ? 0 : availableRaw;
+									position.ddl.available = available;
+									setCurPosition(position);
+									setAvailable(available);
 									setBorrowed(BigNumber.from(0));
 								})
 						}
 					});
 			})
-	}, [dgAddress, borrowState, repayState])
-	
+	}, [dgAddress, borrowState, repayState, isModalLoading])
 
 	return (
 		<>
@@ -178,7 +208,7 @@ const BorrowsItem = (props) => {
 					)}
 				</td>
 				<td>
-					<div>${formatAmount(position.ddl.available, USD_DECIMALS, 2, true)}</div>
+					<div>${available.toFixed(2)}</div>
 					{positionOrders.length > 0 && (
 						<div onClick={() => setListSection && setListSection("Orders")}>
 							<Tooltip
@@ -217,7 +247,7 @@ const BorrowsItem = (props) => {
 					)}
 				</td>
 				<td>
-					${borrowed ? formatAmount(borrowed, USD_DECIMALS, 2, true) : '...'}
+					${borrowed ? formatAmount(borrowed, 6, 2, true) : '...'}
 				</td>
 				<td className="" onClick={() => {
 					// onPositionClick(position)
@@ -366,13 +396,13 @@ const BorrowsItem = (props) => {
 						<div className="label">
 							<Trans>Available</Trans>
 						</div>
-						<div>${formatAmount(position.ddl.available, USD_DECIMALS, 2, true)}</div>
+						<div>${available.toFixed(2)}</div>
 					</div>
 					<div className="App-card-row">
 						<div className="label">
 							<Trans>Debt</Trans>
 						</div>
-						<div>${formatAmount(borrowed, USD_DECIMALS, 2, true)}</div>
+						<div>${formatAmount(borrowed, 6, 2, true)}</div>
 						<div>
 						</div>
 					</div>

@@ -192,7 +192,6 @@ export function getPositions(
       markPrice: isLong[i] ? indexToken.minPrice : indexToken.maxPrice,
       ddl: {},
     };
-    position.ddl.available = position.hasProfit ? position.delta : BigNumber.from(0);
 
 
     if (

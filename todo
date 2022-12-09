@@ -8,6 +8,7 @@
 - Perps:
 	- code:
 		- fetcher error, low update freq	
+		- available - negative val
 		
 		- min order: 10 usdc (swapBox)
 		- ExchangeTV months

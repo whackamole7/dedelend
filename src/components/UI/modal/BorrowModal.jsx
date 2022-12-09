@@ -31,6 +31,8 @@ const BorrowModal = (props) => {
 	const [positionStats, setPositionStats] = useState({});
 
 	useEffect(() => {
+		console.log('borrow modal update');
+
 		if (position) {
 			if (!Object.keys(position).length) {
 				return;
@@ -38,9 +40,12 @@ const BorrowModal = (props) => {
 	
 			const liqPrice = formatAmount(getLiquidationPrice(position), USD_DECIMALS, 2, true);
 			const borrowLimit = (position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0) / 2;
-			const avail = borrowLimit - position.ddl.borrowed;
+			const availableRaw = borrowLimit - ethers.utils.formatUnits(position.ddl.borrowed, 6);
+			const available = availableRaw < 0 ? 0 : availableRaw;
 
-			setPositionStats({ liqPrice, borrowLimit, avail });
+			const loanToValue = borrowLimit !== 0 ? (ethers.utils.formatUnits(position.ddl.borrowed, 6) / borrowLimit) : 0;
+
+			setPositionStats({ liqPrice, borrowLimit, loanToValue, available });
 		}
 	}, [state]);
 
@@ -50,12 +55,12 @@ const BorrowModal = (props) => {
 	}
 
 	const setMaxVal = () => {
-		setInputVal(option ? available : positionStats.avail);
+		setInputVal(option ? available : position.ddl?.available);
 	}
 
 	useEffect(() => {
-		if (sepToNumber(inputVal) > (option ? available : positionStats.avail)) {
-			setInputVal(option ? available : positionStats.avail);
+		if (sepToNumber(inputVal) > 0 && sepToNumber(inputVal) > (option ? available : position.ddl?.available)) {
+			setInputVal(option ? available : position.ddl?.available);
 		}
 
 		if (option) {
@@ -232,7 +237,7 @@ const BorrowModal = (props) => {
 	]
 
 	const resetModal = () => {
-		setStep(state.initStep ?? 0)
+		setStep(state.initStep ?? 0);
 	}
 
 	return (
@@ -260,13 +265,13 @@ const BorrowModal = (props) => {
 					<div className="modal__info-field">
 						<div className="modal__info-field-title nowrap">Loan-To-Value:</div>
 						<div className="modal__info-field-val">
-							{(option ? floor((option.borrowLimitUsed / option.intrinsicValue) * 100) : (positionStats.borrowLimit !== 0 ? floor(position.ddl?.borrowed / positionStats.borrowLimit) : 0)) + '%'}
+							{(option ? floor((option.borrowLimitUsed / option.intrinsicValue) * 100) : floor(positionStats.loanToValue > 1 ? 1 : positionStats.loanToValue) * 100) + '%'}
 						</div>
 						
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title">Available:</div>
-						<div className="modal__info-field-val highlighted">{separateThousands(floor(option ? available : positionStats.avail)) + ' USDC'}</div>
+						<div className="modal__info-field-val highlighted">{separateThousands(floor(option ? available : positionStats.available)) + ' USDC'}</div>
 					</div>
 					{
 						step === 2 ?
@@ -282,7 +287,7 @@ const BorrowModal = (props) => {
 						isLoading ?
 							<Loader />
 							:
-							<Form maxVal={option ? available : positionStats.avail} inputProps={steps[step].inputProps} btnText={steps[step].title} onSubmit={steps[step].onSubmit}
+							<Form maxVal={option ? available : position.ddl?.available} inputProps={steps[step].inputProps} btnText={steps[step].title} onSubmit={steps[step].onSubmit}
 							modalVisible={state.isVisible}
 							btnIsActive={steps[step].btnIsActive}
 							maxWarningMsg={'Limit is exceed'}

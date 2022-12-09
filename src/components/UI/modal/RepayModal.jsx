@@ -30,7 +30,10 @@ const RepayModal = (props) => {
 	const [liqPrice, setLiqPrice] = useState('—');
 	const [positionStats, setPositionStats] = useState({});
 
+
 	useEffect(() => {
+		console.log('repay modal update');
+		
 		if (position) {
 			if (!Object.keys(position).length) {
 				return;
@@ -40,10 +43,11 @@ const RepayModal = (props) => {
 			const borrowLimit = (position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0) / 2;
 
 			const repay = Number(ethers.utils.formatUnits(position.ddl.borrowed, 6));
+			const loanToValue = borrowLimit !== 0 ? (ethers.utils.formatUnits(position.ddl.borrowed, 6) / borrowLimit) : 0;
 
-			setPositionStats({ liqPrice, borrowLimit, repay });
+			setPositionStats({ liqPrice, borrowLimit, repay, loanToValue });
 		}
-	}, [state, position?.ddl?.borrowed]);
+	}, [state]);
 	
 	let repay;
 	if (option) {
@@ -55,7 +59,7 @@ const RepayModal = (props) => {
 	}
 
 	useEffect(() => {
-		if (sepToNumber(inputVal) > (option ? repay : positionStats.repay)) {
+		if (sepToNumber(inputVal) > 0 && sepToNumber(inputVal) > (option ? repay : positionStats.repay)) {
 			setInputVal(option ? repay : positionStats.repay)
 		}
 
@@ -118,7 +122,7 @@ const RepayModal = (props) => {
 							console.log(err);
 
 							if (err.message.includes('transfer amount exceeds allowance')) {
-								USDC_signed.approve(contract.address, 10**9 * 1e6)
+								USDC_signed.approve(contract.address, ethers.constants.MaxUint256)
 								.then(res => {
 									res.wait()
 										.then(() => {
@@ -157,8 +161,36 @@ const RepayModal = (props) => {
 									setIsLoading(false);
 								})
 						}, err => {
-							errAlert(err)
-							setIsLoading(false)
+							console.log(err);
+							
+							if (err.message.includes('transfer amount exceeds allowance')) {
+								USDC_signed.approve(DDL_GMX.address, ethers.constants.MaxUint256)
+									.then(res => {
+										res.wait()
+											.then(() => {
+												DDL_GMX.repay(position.ddl.keyId, formatForContract(inputVal))
+													.then(res => {
+														console.log('Repay transaction:', res);
+
+														res.wait()
+															.then(() => {
+																setInputVal('');
+																setIsLoading(false);
+															})
+													}, err => {
+														errAlert(err)
+														setIsLoading(false)
+													})
+											})
+										
+									}, err => {
+										errAlert(err)
+										setIsLoading(false)
+									})
+							} else {
+								errAlert(err)
+								setIsLoading(false)
+							}
 						})
 				}
 				
@@ -250,12 +282,12 @@ const RepayModal = (props) => {
 					<div className="modal__info-field">
 						<div className="modal__info-field-title nowrap">Loan-To-Value:</div>
 							<div className="modal__info-field-val">
-								{(option ? floor((option.borrowLimitUsed / option.intrinsicValue) * 100) : floor(position.ddl?.borrowed / positionStats.borrowLimit)) + '%'}
+								{(option ? floor((option.borrowLimitUsed / option.intrinsicValue) * 100) : floor((positionStats.loanToValue > 1 ? 1 : positionStats.loanToValue) * 100)) + '%'}
 							</div>
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title">Repay:</div>
-						<div className="modal__info-field-val highlighted">{separateThousands(option ? repay : positionStats.repay) + ' USDC'}</div>
+						<div className="modal__info-field-val highlighted">{separateThousands(option ? repay : floor(positionStats.repay)) + ' USDC'}</div>
 					</div>
 					{
 						step === 0 ?
