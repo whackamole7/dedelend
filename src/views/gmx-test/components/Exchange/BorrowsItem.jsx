@@ -27,7 +27,6 @@ const BorrowsItem = (props) => {
 		repayState, 
 		setRepayState,
 		hasOrderError,
-		liquidationPrice,
 		cx,
 		dgAddress,
 		isModalLoading,
@@ -40,6 +39,7 @@ const BorrowsItem = (props) => {
 	const [borrowStep, setBorrowStep] = useState(0);
 	const [repayStep, setRepayStep] = useState(0);
 	const [available, setAvailable] = useState(0);
+	const [liqPrice, setLiqPrice] = useState(null);
 	
 	const borrowPosition = () => {
 		setBorrowState({
@@ -59,19 +59,6 @@ const BorrowsItem = (props) => {
 			setStep: setRepayStep,
 		})
 	}
-
-	/* useEffect(() => {
-		if (borrowed) {
-			setBorrowState({
-				...borrowState,
-				position: curPosition,
-			})
-			setRepayState({
-				...repayState,
-				position: curPosition
-			})
-		}
-	}, [curPosition]) */
 
 	useEffect(() => {
 		if (borrowed) {
@@ -114,7 +101,13 @@ const BorrowsItem = (props) => {
 									const available = availableRaw < 0 ? 0 : availableRaw;
 									position.ddl.available = available;
 									setAvailable(available);
-									setCurPosition(position);
+									DDL_GMX.currentBorderPrice(id)
+										.then(res => {
+											setLiqPrice(res);
+											position.ddl.liqPrice = res;
+											setCurPosition(position);
+										})
+									
 
 									if (res.borrowed.gt(0)) {
 										setRepayStep(0);
@@ -127,12 +120,6 @@ const BorrowsItem = (props) => {
 						} else {
 							DDL_AccountManagerToken.getApproved(id)
 								.then(addr => {
-									if (addr === DDL_GMX.address) {
-										setBorrowStep(1);
-									} else {
-										setBorrowStep(0);
-									}
-
 									position.ddl.borrowed = BigNumber.from(0);
 									const borrowLimit = (position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0) / 2;
 									const availableRaw = borrowLimit - ethers.utils.formatUnits(curPosition.ddl.borrowed, 6);
@@ -140,6 +127,13 @@ const BorrowsItem = (props) => {
 									position.ddl.available = available;
 									setCurPosition(position);
 									setAvailable(available);
+
+									if (addr === DDL_GMX.address) {
+										setBorrowStep(1);
+									} else {
+										setBorrowStep(0);
+									}
+									
 									setBorrowed(BigNumber.from(0));
 								})
 						}
@@ -287,7 +281,7 @@ const BorrowsItem = (props) => {
 					// onPositionClick(position)
 					return;
 				}}>
-					${formatAmount(liquidationPrice, USD_DECIMALS, 2, true)}
+					{liqPrice ? `$${formatAmount(liqPrice, 8, 2, true)}` : '—'}
 				</td>
 				<td className="" onClick={() => {
 					// onPositionClick(position)
@@ -432,7 +426,7 @@ const BorrowsItem = (props) => {
 						<div className="label">
 							<Trans>Liq. Price</Trans>
 						</div>
-						<div>${formatAmount(liquidationPrice, USD_DECIMALS, 2, true)}</div>
+						<div>{liqPrice ? `$${formatAmount(liqPrice, 8, 2, true)}` : '—'}</div>
 					</div>
 					<div className="App-card-row">
 						<div className="label">

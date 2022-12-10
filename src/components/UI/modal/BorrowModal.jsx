@@ -38,7 +38,7 @@ const BorrowModal = (props) => {
 			}
 			
 			console.log('borrow');
-			const liqPrice = formatAmount(getLiquidationPrice(position), USD_DECIMALS, 2, true);
+			const liqPrice = formatAmount(position.ddl.liqPrice, 8, 2, true);
 			const borrowLimit = (position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0) / 2;
 			
 			const availableRaw = borrowLimit - ethers.utils.formatUnits(position.ddl.borrowed, 6);
@@ -94,12 +94,6 @@ const BorrowModal = (props) => {
 		}
 	}, [inputVal])
 
-
-	useEffect(() => {
-		if (option) {
-			setStep(state.initStep ?? 0);
-		}
-	}, [state.initStep])
 	
 
 	const steps = [
@@ -225,6 +219,7 @@ const BorrowModal = (props) => {
 								.then(() => {
 									setInputVal('');
 									setIsLoading(false);
+									setVisible(false);
 								})
 						},
 						err => {

@@ -1802,7 +1802,7 @@ export const formatAmount = (amount, tokenDecimals, displayDecimals, useCommas, 
   if (!defaultValue) {
     defaultValue = "...";
   }
-  if (amount === undefined || amount.toString().length === 0) {
+  if (amount === undefined || amount.toString().length === 0 || amount === '—') {
     return defaultValue;
   }
   if (displayDecimals === undefined) {

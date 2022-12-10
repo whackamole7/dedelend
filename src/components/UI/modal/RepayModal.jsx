@@ -39,7 +39,7 @@ const RepayModal = (props) => {
 
 			console.log('repay');
 	
-			const liqPrice = formatAmount(getLiquidationPrice(position), USD_DECIMALS, 2, true);
+			const liqPrice = formatAmount(position.ddl.liqPrice, 8, 2, true);
 			const borrowLimit = (position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0) / 2;
 
 			const repay = Number(ethers.utils.formatUnits(position.ddl.borrowed, 6));
@@ -98,13 +98,6 @@ const RepayModal = (props) => {
 		}
 	}, [inputVal])
 	
-	
-	
-	useEffect(() => {
-		if (option) {
-			setStep(state.initStep ?? 0)
-		}
-	}, [state])
 
 	const steps = [
 		{
