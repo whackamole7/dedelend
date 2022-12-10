@@ -26,18 +26,18 @@ const RepayModal = (props) => {
 
 	const {globalStats} = useContext(GlobalStatsContext)
 	const [inputVal, setInputVal] = useState('')
-	const [step, setStep] = useState(state.initStep ?? 0);
+	const [step, setStep] = [state.step ?? 0, state.setStep];
 	const [liqPrice, setLiqPrice] = useState('—');
 	const [positionStats, setPositionStats] = useState({});
 
 
 	useEffect(() => {
-		console.log('repay modal update');
-		
 		if (position) {
 			if (!Object.keys(position).length) {
 				return;
 			}
+
+			console.log('repay');
 	
 			const liqPrice = formatAmount(getLiquidationPrice(position), USD_DECIMALS, 2, true);
 			const borrowLimit = (position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0) / 2;
@@ -45,7 +45,12 @@ const RepayModal = (props) => {
 			const repay = Number(ethers.utils.formatUnits(position.ddl.borrowed, 6));
 			const loanToValue = borrowLimit !== 0 ? (ethers.utils.formatUnits(position.ddl.borrowed, 6) / borrowLimit) : 0;
 
-			setPositionStats({ liqPrice, borrowLimit, repay, loanToValue });
+			setPositionStats({ 
+				liqPrice, 
+				borrowLimit, 
+				repay, 
+				loanToValue: loanToValue > 1 ? 1 : loanToValue 
+			});
 		}
 	}, [state]);
 	
@@ -96,7 +101,9 @@ const RepayModal = (props) => {
 	
 	
 	useEffect(() => {
-		setStep(state.initStep ?? 0)
+		if (option) {
+			setStep(state.initStep ?? 0)
+		}
 	}, [state])
 
 	const steps = [
@@ -254,7 +261,7 @@ const RepayModal = (props) => {
 	]
 
 	const resetModal = () => {
-		setStep(state.initStep ?? 0)
+		// setStep(state.initStep ?? 0)
 	}
 
 	return (
@@ -282,7 +289,7 @@ const RepayModal = (props) => {
 					<div className="modal__info-field">
 						<div className="modal__info-field-title nowrap">Loan-To-Value:</div>
 							<div className="modal__info-field-val">
-								{(option ? floor((option.borrowLimitUsed / option.intrinsicValue) * 100) : floor((positionStats.loanToValue > 1 ? 1 : positionStats.loanToValue) * 100)) + '%'}
+								{(option ? floor((option.borrowLimitUsed / option.intrinsicValue) * 100) : floor((positionStats.loanToValue) * 100)) + '%'}
 							</div>
 					</div>
 					<div className="modal__info-field">

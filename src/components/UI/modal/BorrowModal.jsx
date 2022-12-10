@@ -23,29 +23,35 @@ const BorrowModal = (props) => {
 	const option = state.option;
 	const contract = option?.contract;
 	const position = state.position;
+
 	
 	const {globalStats} = useContext(GlobalStatsContext);
-	const [step, setStep] = useState(state.initStep ?? 0);
+	const [step, setStep] = [state.step ?? 0, state.setStep];
 	const [inputVal, setInputVal] = useState('');
 	const [liqPrice, setLiqPrice] = useState('—');
 	const [positionStats, setPositionStats] = useState({});
 
 	useEffect(() => {
-		console.log('borrow modal update');
-
 		if (position) {
 			if (!Object.keys(position).length) {
 				return;
 			}
-	
+			
+			console.log('borrow');
 			const liqPrice = formatAmount(getLiquidationPrice(position), USD_DECIMALS, 2, true);
 			const borrowLimit = (position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0) / 2;
+			
 			const availableRaw = borrowLimit - ethers.utils.formatUnits(position.ddl.borrowed, 6);
 			const available = availableRaw < 0 ? 0 : availableRaw;
 
 			const loanToValue = borrowLimit !== 0 ? (ethers.utils.formatUnits(position.ddl.borrowed, 6) / borrowLimit) : 0;
 
-			setPositionStats({ liqPrice, borrowLimit, loanToValue, available });
+			setPositionStats({ 
+				liqPrice, 
+				borrowLimit, 
+				loanToValue: loanToValue > 1 ? 1 : loanToValue, 
+				available
+			});
 		}
 	}, [state]);
 
@@ -90,7 +96,9 @@ const BorrowModal = (props) => {
 
 
 	useEffect(() => {
-		setStep(state.initStep ?? 0)
+		if (option) {
+			setStep(state.initStep ?? 0);
+		}
 	}, [state.initStep])
 	
 
@@ -237,7 +245,7 @@ const BorrowModal = (props) => {
 	]
 
 	const resetModal = () => {
-		setStep(state.initStep ?? 0);
+		// setStep(state.initStep ?? 0);
 	}
 
 	return (
@@ -265,7 +273,7 @@ const BorrowModal = (props) => {
 					<div className="modal__info-field">
 						<div className="modal__info-field-title nowrap">Loan-To-Value:</div>
 						<div className="modal__info-field-val">
-							{(option ? floor((option.borrowLimitUsed / option.intrinsicValue) * 100) : floor(positionStats.loanToValue > 1 ? 1 : positionStats.loanToValue) * 100) + '%'}
+							{(option ? floor((option.borrowLimitUsed / option.intrinsicValue) * 100) : floor(positionStats.loanToValue) * 100) + '%'}
 						</div>
 						
 					</div>

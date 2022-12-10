@@ -4,8 +4,8 @@ import { OptManager } from './utils/contracts';
 import { separateThousands } from './utils/sepThousands';
 
 const OptionItem = ({ option, stats, ...props }) => {
-	const [initBorrowStep, setInitBorrowStep] = useState(0)
-	const [initRepayStep, setInitRepayStep] = useState(0)
+	const [borrowStep, setBorrowStep] = useState(0)
+	const [repayStep, setRepayStep] = useState(0)
 	const [repayDisabled, setRepayDisabled] = useState(true);
 
 	const contract = option.contract;
@@ -25,24 +25,24 @@ const OptionItem = ({ option, stats, ...props }) => {
 				OptManager.ownerOf(option.id)
 					.then(owner => {
 						if (owner == contract.address) {
-							setInitBorrowStep(2)
+							setBorrowStep(2)
 							setRepayDisabled(false)
 
 							if (option.realVals?.borrowLimitUsed <= 0) {
-								setInitRepayStep(1)
+								setRepayStep(1)
 							} else {
-								setInitRepayStep(0)
+								setRepayStep(0)
 							}
 							
 						} else {
-							setInitBorrowStep(1)
+							setBorrowStep(1)
 							setRepayDisabled(true)
 						}
 					})
 				
 			} else {
-				setInitBorrowStep(0)
-				setInitRepayStep(0)
+				setBorrowStep(0)
+				setRepayStep(0)
 				setRepayDisabled(true)
 			}
 		})
@@ -103,7 +103,8 @@ const OptionItem = ({ option, stats, ...props }) => {
 						...props.borrowModalState,
 						isVisible: true,
 						option,
-						initStep: initBorrowStep
+						step: borrowStep,
+						setStep: setBorrowStep
 					})
 				}}>Borrow</Button>
 				<Button className={"btn_small"} disabled={
@@ -113,7 +114,8 @@ const OptionItem = ({ option, stats, ...props }) => {
 						...props.repayModalState,
 						isVisible: true,
 						option,
-						initStep: initRepayStep
+						step: repayStep,
+						setStep: setRepayStep
 					})
 				}}>Repay</Button>
 			</div>

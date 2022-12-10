@@ -105,11 +105,16 @@ export default function BorrowsList(props) {
   const [ordersToaOpen, setOrdersToaOpen] = useState(false);
   const [isHigherSlippageAllowed, setIsHigherSlippageAllowed] = useState(false);
   
-  const [isModalLoading, setIsModalLoading] = useState(false)
+  const [isModalLoading, setIsModalLoading] = useState(false);
   const [borrowState, setBorrowState] = useState({
 		isVisible: false,
 		position: {},
-		initStep: 0
+		step: 0
+	})
+  const [repayState, setRepayState] = useState({
+		isVisible: false,
+		position: {},
+		step: 0
 	})
   const setBorrowVisible = (bool) => {
 		setBorrowState({
@@ -117,11 +122,6 @@ export default function BorrowsList(props) {
 			isVisible: bool
 		})
 	}
-  const [repayState, setRepayState] = useState({
-		isVisible: false,
-		position: {},
-		initStep: 0
-	})
   const setRepayVisible = (bool) => {
 		setRepayState({
 			...repayState,

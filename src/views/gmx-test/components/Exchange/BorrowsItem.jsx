@@ -5,7 +5,6 @@ import { ImSpinner2 } from 'react-icons/im';
 import { t } from '@lingui/macro';
 import { USD_DECIMALS, INCREASE } from './../../lib/legacy';
 import StatsTooltipRow from '../StatsTooltip/StatsTooltipRow';
-import { floor } from './../../../../components/utils/math';
 import CollateralLocked from './CollateralLocked';
 import { DDL_AccountManagerToken, getDgContract } from '../../../../components/utils/contracts';
 import { DDL_GMX, WETH_address } from './../../../../components/utils/contracts';
@@ -45,56 +44,67 @@ const BorrowsItem = (props) => {
 	const borrowPosition = () => {
 		setBorrowState({
 			...borrowState,
-			position: curPosition,
-			initStep: borrowStep,
 			isVisible: true,
+			position: curPosition,
+			step: borrowStep,
+			setStep: setBorrowStep,
 		})
 	}
 	const repayPosition = () => {
 		setRepayState({
 			...repayState,
-			position: curPosition,
-			initStep: repayStep,
 			isVisible: true,
+			position: curPosition,
+			step: repayStep,
+			setStep: setRepayStep,
 		})
 	}
+
+	/* useEffect(() => {
+		if (borrowed) {
+			setBorrowState({
+				...borrowState,
+				position: curPosition,
+			})
+			setRepayState({
+				...repayState,
+				position: curPosition
+			})
+		}
+	}, [curPosition]) */
 
 	useEffect(() => {
 		if (borrowed) {
 			setBorrowState({
 				...borrowState,
-				initStep: borrowStep,
+				step: borrowStep,
 				position: curPosition,
 			})
 			setRepayState({
 				...repayState,
-				initStep: repayStep,
-				position: curPosition
+				step: repayStep,
+				position: curPosition,
 			})
 		}
-		
-	}, [curPosition, repayStep, borrowStep])
+	}, [repayStep, borrowStep])
 
+	// Key id for positions
+	const DG = getDgContract(dgAddress);
 	useEffect(() => {
-		console.log('item update');
-		
-		// Key id for positions
-		const DG = getDgContract(dgAddress);
 		if (!DG) {
-			return
+			return;
 		}
+		
 		DG.keyByIndexToken((position.indexToken.address === ADDRESS_ZERO ? WETH_address : position.indexToken.address), position.isLong)
 			.then(id => {
 				position.ddl.keyId = id;
 
-				// Initial Steps
+				// Steps
 				DDL_AccountManagerToken.ownerOf(id)
 					.then(owner => {
 						const isLocked = owner === DDL_GMX.address;
 						setIsLocked(isLocked);
 						if (isLocked) {
-							setBorrowStep(2);
-							
 							// Borrowed
 							DDL_GMX.borrowedByCollateral(id)
 								.then(res => {
@@ -111,6 +121,7 @@ const BorrowsItem = (props) => {
 									} else {
 										setRepayStep(1);
 									}
+									setBorrowStep(2);
 									setBorrowed(res.borrowed);
 								})
 						} else {
@@ -134,7 +145,9 @@ const BorrowsItem = (props) => {
 						}
 					});
 			})
-	}, [dgAddress, borrowState, repayState, isModalLoading])
+
+			console.log(borrowState.position.isLong, repayState.position.isLong);
+	}, [dgAddress, borrowState, repayState, isModalLoading]);
 
 	return (
 		<>
