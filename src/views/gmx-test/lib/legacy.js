@@ -1799,10 +1799,14 @@ export function useAccountOrders(flagOrdersEnabled, overrideAccount) {
 }
 
 export const formatAmount = (amount, tokenDecimals, displayDecimals, useCommas, defaultValue) => {
+  if (amount === null) {
+    return;
+  }
+  
   if (!defaultValue) {
     defaultValue = "...";
   }
-  if (amount === undefined || amount.toString().length === 0 || amount === '—') {
+  if (amount === undefined || amount.toString().length === 0) {
     return defaultValue;
   }
   if (displayDecimals === undefined) {

@@ -104,10 +104,7 @@ const BorrowsItem = (props) => {
 									DDL_GMX.currentBorderPrice(id)
 										.then(res => {
 											setLiqPrice(res);
-											position.ddl.liqPrice = res;
-											setCurPosition(position);
 										})
-									
 
 									if (res.borrowed.gt(0)) {
 										setRepayStep(0);
@@ -118,6 +115,8 @@ const BorrowsItem = (props) => {
 									setBorrowed(res.borrowed);
 								})
 						} else {
+							setLiqPrice(null);
+							
 							DDL_AccountManagerToken.getApproved(id)
 								.then(addr => {
 									position.ddl.borrowed = BigNumber.from(0);

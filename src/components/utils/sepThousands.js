@@ -1,5 +1,5 @@
 export const separateThousands = (num, symb = ",") => {
-	if (typeof num === 'undefined') {
+	if (typeof num === 'undefined' || num === null) {
 		return '';
 	}
 	

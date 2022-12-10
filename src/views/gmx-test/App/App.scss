@@ -1534,6 +1534,10 @@
 }
 
 
+.Tooltip-popup {
+  text-align: center;
+}
+
 .btn-tooltip.App-button-option {
   margin-right: 20px;
 }
@@ -1562,7 +1566,6 @@
   height: 20px;
   width: 50px;
   cursor: not-allowed;
-  text-align: center;
 }
 
 .pos-relative {

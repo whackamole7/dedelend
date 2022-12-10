@@ -28,7 +28,7 @@ const BorrowModal = (props) => {
 	const {globalStats} = useContext(GlobalStatsContext);
 	const [step, setStep] = [state.step ?? 0, state.setStep];
 	const [inputVal, setInputVal] = useState('');
-	const [liqPrice, setLiqPrice] = useState('—');
+	const [liqPrice, setLiqPrice] = useState(null);
 	const [positionStats, setPositionStats] = useState({});
 
 	useEffect(() => {
@@ -38,7 +38,11 @@ const BorrowModal = (props) => {
 			}
 			
 			console.log('borrow');
-			const liqPrice = formatAmount(position.ddl.liqPrice, 8, 2, true);
+
+			DDL_GMX.currentBorderPrice(position.ddl.keyId)
+				.then(res => {
+					setLiqPrice(res);
+				})
 			const borrowLimit = (position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0) / 2;
 			
 			const availableRaw = borrowLimit - ethers.utils.formatUnits(position.ddl.borrowed, 6);
@@ -46,8 +50,7 @@ const BorrowModal = (props) => {
 
 			const loanToValue = borrowLimit !== 0 ? (ethers.utils.formatUnits(position.ddl.borrowed, 6) / borrowLimit) : 0;
 
-			setPositionStats({ 
-				liqPrice, 
+			setPositionStats({
 				borrowLimit, 
 				loanToValue: loanToValue > 1 ? 1 : loanToValue, 
 				available
@@ -280,7 +283,7 @@ const BorrowModal = (props) => {
 						step === 2 ?
 							<div className="modal__info-field modal__info-field_hl">
 								<div className="modal__info-field-title">Liquidation Price:</div>
-								<div className="modal__info-field-val">${separateThousands(option ? liqPrice : positionStats.liqPrice)}</div>
+								<div className="modal__info-field-val">${option ? separateThousands(liqPrice) : formatAmount(liqPrice, 8, 2, true)}</div>
 							</div>
 							: ""
 					}
