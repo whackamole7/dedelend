@@ -664,8 +664,35 @@
     padding: 15px 20px;
   }
   
-  table.Exchange-list tr {
-    border-bottom: 1px solid rgba(152, 162, 198, 0.075);
+  table.Exchange-list .Exchange-list-header {
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 20px;
+      right: 20px;
+      display: block;
+      background-color: rgba(152, 162, 198, 0.075);
+      height: 1px;
+    }
+  }
+  table.Exchange-list {
+    td, th {
+      &:first-child {
+        padding-left: 20px;
+      }
+      &:last-child {
+        padding-right: 20px;
+      }
+    }
+
+    th {
+      font-size: 14px;
+      line-height: calc(18.2/14);
+    }
+    
   }
   
   table.Exchange-list tr:last-child {
@@ -688,8 +715,8 @@
   table.Exchange-list tr.Exchange-list-header th {
     font-weight: 500;
     white-space: nowrap;
-    padding-top: 1.4rem;
-    padding-bottom: 1.4rem;
+    // padding-top: 1.4rem;
+    // padding-bottom: 1.4rem;
   }
   
   table.Exchange-list th {

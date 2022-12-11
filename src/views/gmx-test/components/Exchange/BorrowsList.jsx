@@ -292,13 +292,13 @@ export default function BorrowsList(props) {
                 <Trans>Debt</Trans>
               </th>
               <th>
-                <Trans>Current<br/> Price</Trans>
+                <Trans>Current Price</Trans>
               </th>
               <th>
                 <Trans>Liq. Price</Trans>
               </th>
               <th>
-                <Trans>Borrow<br/> APY</Trans>
+                <Trans>Borrow APY</Trans>
               </th>
               <th></th>
               <th></th>

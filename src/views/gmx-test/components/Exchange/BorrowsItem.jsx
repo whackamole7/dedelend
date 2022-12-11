@@ -101,6 +101,7 @@ const BorrowsItem = (props) => {
 									const available = availableRaw < 0 ? 0 : availableRaw;
 									position.ddl.available = available;
 									setAvailable(available);
+									setCurPosition(position);
 									DDL_GMX.currentBorderPrice(id)
 										.then(res => {
 											setLiqPrice(res);

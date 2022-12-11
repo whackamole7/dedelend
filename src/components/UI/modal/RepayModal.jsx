@@ -6,9 +6,10 @@ import { USDC_signed, DDL_GMX } from '../../utils/contracts';
 import Loader from './../loader/Loader';
 import { sepToNumber, separateThousands } from './../../utils/sepThousands';
 import { floor, formatForContract } from './../../utils/math';
-import { errAlert } from './../../utils/error';
+import { errAlert } from '../../utils/notifications';
 import { ethers } from "ethers";
-import { formatAmount, getLiquidationPrice, USD_DECIMALS } from './../../../views/gmx-test/lib/legacy';
+import { formatAmount, USD_DECIMALS } from './../../../views/gmx-test/lib/legacy';
+import { notifySuccess } from './../../utils/notifications';
 
 
 const RepayModal = (props) => {
@@ -153,47 +154,43 @@ const RepayModal = (props) => {
 							}
 						})
 				} else if (position) {
-					DDL_GMX.repay(position.ddl.keyId, formatForContract(inputVal))
-						.then(res => {
-							console.log('Repay transaction:', res);
+					const proceedRepay = () => {
+						DDL_GMX.repay(position.ddl.keyId, formatForContract(inputVal))
+							.then(res => {
+								console.log('Repay transaction:', res);
 
-							res.wait()
-								.then(() => {
-									setInputVal('');
-									setIsLoading(false);
-								})
-						}, err => {
-							console.log(err);
-							
-							if (err.message.includes('transfer amount exceeds allowance')) {
-								USDC_signed.approve(DDL_GMX.address, ethers.constants.MaxUint256)
-									.then(res => {
-										res.wait()
-											.then(() => {
-												DDL_GMX.repay(position.ddl.keyId, formatForContract(inputVal))
-													.then(res => {
-														console.log('Repay transaction:', res);
-
-														res.wait()
-															.then(() => {
-																setInputVal('');
-																setIsLoading(false);
-															})
-													}, err => {
-														errAlert(err)
-														setIsLoading(false)
-													})
-											})
-										
-									}, err => {
-										errAlert(err)
-										setIsLoading(false)
+								res.wait()
+									.then(() => {
+										notifySuccess(`Repayed ${sepToNumber(inputVal).toFixed(2)} USDC`, res.hash);
+										setInputVal('');
+										setIsLoading(false);
 									})
-							} else {
+							},
+							err => {
+								console.log(err);
+									
+								if (err.message.includes('transfer amount exceeds allowance')) {
+									approveUSDC();
+								} else {
+									errAlert(err);
+									setIsLoading(false);
+								}
+							});
+					}
+					const approveUSDC = () => {
+						USDC_signed.approve(DDL_GMX.address, ethers.constants.MaxUint256)
+							.then(res => {
+								res.wait()
+									.then(() => {
+										proceedRepay();
+									})
+							}, err => {
 								errAlert(err)
 								setIsLoading(false)
-							}
-						})
+							})
+					}
+
+					proceedRepay();
 				}
 				
 			},

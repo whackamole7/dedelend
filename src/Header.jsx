@@ -29,7 +29,7 @@ import { getGlobalStats, getUserStats, getOptionStats } from './components/utils
 import { useLocation } from 'react-router-dom';
 import Tabs from './components/Tabs';
 import RegisterModal from './components/UI/modal/RegisterModal';
-import { errAlert } from './components/utils/error';
+import { errAlert } from './components/utils/notifications';
 
 
 const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) => {

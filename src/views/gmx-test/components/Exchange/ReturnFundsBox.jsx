@@ -4,7 +4,7 @@ import Button from './../../../../components/UI/button/Button';
 import { getDgContract, DDL_AccountManager } from '../../../../components/utils/contracts';
 import { ethers } from 'ethers';
 import Loader from './../../../../components/UI/loader/Loader';
-import { errAlert } from './../../../../components/utils/error';
+import { errAlert } from '../../../../components/utils/notifications';
 
 const ReturnFundsBox = ({ dgAddress, tokenAddresses }) => {
 	const [keyId, setKeyId] = useState(null);

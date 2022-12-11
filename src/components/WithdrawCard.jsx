@@ -6,7 +6,7 @@ import { DDL_POOL_signed } from './utils/contracts';
 import Loader from './UI/loader/Loader';
 import { getUserStats } from './utils/stats';
 import { formatForContract } from './utils/math';
-import { errAlert } from './utils/error';
+import { errAlert } from './utils/notifications';
 
 const WithdrawCard = (props) => {
 	const {userStats, setUserStats} = useContext(UserStatsContext)

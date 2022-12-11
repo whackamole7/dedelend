@@ -6,10 +6,11 @@ import { OptManager, DDL_GMX, DDL_AccountManagerToken } from './../../utils/cont
 import Loader from './../loader/Loader';
 import { floor, formatForContract } from './../../utils/math';
 import { sepToNumber, separateThousands } from './../../utils/sepThousands';
-import { errAlert } from './../../utils/error';
+import { errAlert } from '../../utils/notifications';
 import { ethers } from "ethers";
 import { formatAmount } from '../../../views/gmx-test/lib/legacy';
-import { getLiquidationPrice, USD_DECIMALS } from './../../../views/gmx-test/lib/legacy';
+import { USD_DECIMALS } from './../../../views/gmx-test/lib/legacy';
+import { notifySuccess } from './../../utils/notifications';
 
 const BorrowModal = (props) => {
 	const {
@@ -220,6 +221,7 @@ const BorrowModal = (props) => {
 							
 							res.wait()
 								.then(() => {
+									notifySuccess(`Borrowed ${sepToNumber(inputVal).toFixed(2)} USDC`, res.hash);
 									setInputVal('');
 									setIsLoading(false);
 									setVisible(false);
