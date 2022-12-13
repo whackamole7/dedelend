@@ -465,7 +465,6 @@ export const Exchange = forwardRef((props, ref) => {
     if (localStorage.getItem('Short-warning-show') === 'false') {
       return;
     }
-    
     const isStable = Boolean(stableTokens.find(token => token.address === tokenAddr));
 
     if (isStable && tokenAddr !== USDC.address) {
@@ -479,8 +478,10 @@ export const Exchange = forwardRef((props, ref) => {
   }
 
   useEffect(() => {
-    showShortWarning(fromTokenAddress);
-  }, [])
+    if (swapOption === SHORT) {
+      showShortWarning(fromTokenAddress);
+    }
+  }, [swapOption])
 
   const setFromTokenAddress = useCallback(
     (selectedSwapOption, address) => {
@@ -1123,12 +1124,12 @@ export const Exchange = forwardRef((props, ref) => {
                   ...shortWarningState,
                   notShowAgain: e.target.checked
                 })
-
-                console.log(e.target.checked);
               }} />
 						<label>Don't show me this message again</label>
 					</div>
           <Button btnActive={true} onClick={() => {
+            console.log(shortWarningState);
+            
             if (shortWarningState.notShowAgain) {
               localStorage.setItem('Short-warning-show', false);
             }
