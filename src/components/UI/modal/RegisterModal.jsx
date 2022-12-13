@@ -1,6 +1,5 @@
 import React from 'react';
 import Modal from './Modal';
-import { useState } from 'react';
 import Button from '../button/Button';
 import Loader from './../loader/Loader';
 import { Link } from 'react-router-dom';

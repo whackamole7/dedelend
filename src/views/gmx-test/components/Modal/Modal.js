@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import cx from "classnames";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -12,6 +12,12 @@ export default function Modal(props) {
     props;
 
   const modalRef = useRef(null);
+
+  const [isActive, setIsActive] = useState(isVisible);
+
+  function closeModal() {
+    setIsVisible(false);
+  }
 
   useLockBodyScroll(modalRef, isVisible, {
     disableLock: false,
@@ -34,8 +40,8 @@ export default function Modal(props) {
   }, [onAfterOpen]);
 
   const fadeVariants = {
-    hidden: { zIndex: -2, opacity: 0 },
-    visible: { zIndex: 900, opacity: 1 },
+    hidden: { opacity: 0, visibility: 'hidden' },
+    visible: { opacity: 1, visibility: 'visible' },
   };
   const niftyFadeVariants = {
     hidden: {
@@ -48,15 +54,11 @@ export default function Modal(props) {
     }
   }
 
-  /* if (!isVisible) {
-    return <></>;
-  } */
-
   return (
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          className={cx("Modal", isNifty && "Modal_nifty", className)}
+          className={cx("Modal", isNifty && "Modal_nifty", isNifty && isActive && "active", className)}
           style={{ zIndex }}
           initial="hidden"
           animate="visible"
@@ -70,11 +72,11 @@ export default function Modal(props) {
               overflow: isVisible ? "hidden" : "visible",
               position: "fixed",
             }}
-            onClick={() => setIsVisible(false)}
+            onClick={closeModal}
           ></div>
 
           {isNifty && (
-            <div className="Modal-close-button" onClick={() => setIsVisible(false)}>
+            <div className="Modal-close-button" onClick={closeModal}>
               <MdClose fontSize={20} className="Modal-close-icon" />
             </div>
           )}

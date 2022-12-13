@@ -90,7 +90,7 @@ import NoLiquidityErrorModal from "./NoLiquidityErrorModal";
 import StatsTooltipRow from "../StatsTooltip/StatsTooltipRow";
 import { fetcher } from "../../lib/contracts/fetcher";
 import { callContract } from "../../lib/contracts/callContract";
-import { DDL_AccountManager, DDL_AccountManager_abi } from './../../../../components/utils/contracts';
+import { DDL_AccountManager, DDL_AccountManager_abi, USDC } from './../../../../components/utils/contracts';
 
 const SWAP_ICONS = {
   [LONG]: longImg,
@@ -203,6 +203,7 @@ export default function SwapBox(props) {
     "Short-Collateral-Address",
     getTokenBySymbol(chainId, defaultCollateralSymbol).address
   );
+  
   const isLong = swapOption === LONG;
   const isShort = swapOption === SHORT;
   const isSwap = swapOption === SWAP;
@@ -2119,7 +2120,7 @@ export default function SwapBox(props) {
                 </div>
 
                 <div className="align-right">
-                  <TokenSelector
+                  {/* <TokenSelector
                     label="Collateral In"
                     chainId={chainId}
                     tokenAddress={shortCollateralAddress}
@@ -2127,7 +2128,8 @@ export default function SwapBox(props) {
                     tokens={stableTokens}
                     showTokenImgInDropdown={true}
                     disabled={false}
-                  />
+                  /> */}
+                  USDC
                 </div>
               </div>
             )}
@@ -2480,7 +2482,7 @@ export default function SwapBox(props) {
           onConfirmationClick={onConfirmationClick}
           setIsConfirming={setIsConfirming}
           hasExistingPosition={hasExistingPosition}
-          shortCollateralAddress={shortCollateralAddress}
+          shortCollateralAddress={USDC.address}
           shortCollateralToken={shortCollateralToken}
           leverage={leverage}
           existingPosition={existingPosition}

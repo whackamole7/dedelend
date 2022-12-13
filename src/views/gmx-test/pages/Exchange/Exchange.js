@@ -54,9 +54,12 @@ import Footer from "../../components/Footer/Footer";
 import "./Exchange.scss";
 import { fetcher } from "../../lib/contracts/fetcher";
 import BorrowsList from './../../components/Exchange/BorrowsList';
-import { DDL_AccountManager } from "../../../../components/utils/contracts";
+import { DDL_AccountManager, USDC } from "../../../../components/utils/contracts";
 import ReturnFundsBox from './../../components/Exchange/ReturnFundsBox';
 import { getDgContract, DDL_GMX } from './../../../../components/utils/contracts';
+import { ARBITRUM } from './../../lib/legacy';
+import Modal from './../../../../components/UI/modal/Modal';
+import Button from './../../../../components/UI/button/Button';
 const { AddressZero } = ethers.constants;
 
 const PENDING_POSITION_VALID_DURATION = 600 * 1000;
@@ -443,8 +446,48 @@ export const Exchange = forwardRef((props, ref) => {
   const fromTokenAddress = tokenSelection[swapOption].from;
   const toTokenAddress = tokenSelection[swapOption].to;
 
+  const tokens = getTokens(chainId);
+  const stableTokens = tokens.filter((token) => token.isStable);
+
+  const [shortWarningState, setShortWarningState] = useState({
+    visible: false,
+    tokenName: '...',
+    notShowAgain: false,
+  })
+  const setShortWarningVisible = (bool) => {
+    setShortWarningState({
+      ...shortWarningState,
+      visible: bool
+    })
+  }
+
+  function showShortWarning(tokenAddr) {
+    if (localStorage.getItem('Short-warning-show') === 'false') {
+      return;
+    }
+    
+    const isStable = Boolean(stableTokens.find(token => token.address === tokenAddr));
+
+    if (isStable && tokenAddr !== USDC.address) {
+      const token = getToken(ARBITRUM, tokenAddr);
+      
+      setShortWarningState({
+        visible: true,
+        tokenName: token.name
+      })
+    }
+  }
+
+  useEffect(() => {
+    showShortWarning(fromTokenAddress);
+  }, [])
+
   const setFromTokenAddress = useCallback(
     (selectedSwapOption, address) => {
+      if (selectedSwapOption === SHORT) {
+        showShortWarning(address);
+      }
+      
       const newTokenSelection = JSON.parse(JSON.stringify(tokenSelection));
       newTokenSelection[selectedSwapOption].from = address;
       setTokenSelection(newTokenSelection);
@@ -479,7 +522,7 @@ export const Exchange = forwardRef((props, ref) => {
   const [isConfirming, setIsConfirming] = useState(false);
   const [isPendingConfirmation, setIsPendingConfirmation] = useState(false);
 
-  const tokens = getTokens(chainId);
+  // const tokens = getTokens(chainId);
 
   const tokenAddresses = tokens.map((token) => token.address);
   const { data: tokenBalances } = useSWR(active && [active, chainId, readerAddress, "getTokenBalances", account], {
@@ -1063,7 +1106,37 @@ export const Exchange = forwardRef((props, ref) => {
         </div>
         <div className="Exchange-lists small">{getListSection()}</div>
       </div>
-      {/* <Footer /> */}
+      <Modal
+        className="modal_warning"
+        visible={shortWarningState.visible}
+        setVisible={setShortWarningVisible}>
+        <h1 className='modal__title'>Read this before open Short</h1>
+        <div className="modal__body">
+          <div className="modal__text">
+            <p>Only USDC is allowed as collateral for short positions. DeDeLend will swap {shortWarningState.tokenName} to USDC to open the short position.</p>
+            <p>By clicking on the «Confirm» button you confirm that you have been advised of this</p>
+          </div>
+          <div className="input-container modal__checkbox">
+						<input type="checkbox"
+              onChange={(e) => {
+                setShortWarningState({
+                  ...shortWarningState,
+                  notShowAgain: e.target.checked
+                })
+
+                console.log(e.target.checked);
+              }} />
+						<label>Don't show me this message again</label>
+					</div>
+          <Button btnActive={true} onClick={() => {
+            if (shortWarningState.notShowAgain) {
+              localStorage.setItem('Short-warning-show', false);
+            }
+            setShortWarningVisible(false);
+          }}>Confirm</Button>
+        </div>
+      </Modal>
+      
     </div>
   );
 });

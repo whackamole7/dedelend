@@ -16,7 +16,6 @@
     text-align: left;
 
     &_nifty {
-
       .Modal__text {
         color: #747FA6;
       }
@@ -28,10 +27,14 @@
       .Modal-body {
         padding: 0 30px 30px;
       }
+
+      &:not(.active) {
+        z-index: -20;
+      }
     }
 
     // Nifty Modal 3D Sign
-    transition: opacity .3s ease;
+    transition: opacity .3s ease-out;
     &-content-wrapper {
       position: relative;
       z-index: 20;

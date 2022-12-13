@@ -309,7 +309,7 @@ input[type="text"] {
 	align-items: center;
 	background-color: rgba(3, 10, 33, 0.95);
 	visibility: hidden;
-	transition: opacity .3s ease;
+	transition: opacity .3s ease-out;
 	opacity: 0;
 	
 	&.active {
@@ -357,6 +357,7 @@ input[type="text"] {
     right: 20vw;
     top: 10vh;
 		display: flex;
+		justify-content: flex-end;
 		align-items: center;
 		gap: 11px;
 		color: $lblue;
@@ -383,13 +384,9 @@ input[type="text"] {
 			bottom: calc(100% + 30px);
 		}
 
-		@media (max-width: 1200px) {
-			right: -20vw;
-		}
-
 		@media (max-width: 768px) {
-			right: 0;
 			bottom: calc(100% + 20px);
+			right: 50px;
 		}
 
 		@media (max-width: 480px) {
@@ -506,7 +503,7 @@ input[type="text"] {
 		}
 	}
 
-	&.modal_register &__content {
+	&.modal_register &__content, &.modal_warning &__content {
 		width: 665px;
 
 		@media (max-width: 768px) {
@@ -546,6 +543,35 @@ input[type="text"] {
 			margin-top: 5px;
 		}
 	}
+
+	&.modal_warning {
+		.modal {
+			&__title {
+				margin-bottom: 10px;
+			}
+
+			&__checkbox {
+				margin-top: 16px;
+
+				input:checked + label {
+					color: #fff;
+				}
+				label {
+					color: #384263;
+					transition: color .2s ease;
+				}
+			}
+		}
+
+		p {
+			margin: 10px 0;
+		}
+		
+		button {
+			width: 100%;
+			margin-top: 20px;
+		}
+	}
 }
 /* Modal end */
 
@@ -580,7 +606,12 @@ input[type="text"] {
 
 		& + label {
 			display: flex;
-			align-items: center;
+			align-items: flex-start;
+
+			&::before, &::after {
+				position: relative;
+				top: 1px;
+			}
 
 			&::before {
 				content: '';
@@ -620,6 +651,7 @@ input[type="text"] {
 	input[type="checkbox"] {
 		& + label {
 			&::before {
+				flex-shrink: 0;
 				width: 20px;
 				height: 20px;
 				background-color: $grey;

@@ -140,7 +140,6 @@ const BorrowsItem = (props) => {
 					});
 			})
 
-			console.log(borrowState.position.isLong, repayState.position.isLong);
 	}, [dgAddress, borrowState, repayState, isModalLoading]);
 
 	return (

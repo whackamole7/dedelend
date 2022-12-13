@@ -256,7 +256,10 @@ function FullApp(props) {
     useLocalStorage(REDIRECT_POPUP_TIMESTAMP_KEY);
   const [selectedToPage, setSelectedToPage] = useState("");
   // const connectWallet = () => setWalletModalVisible(true);
-  const connectWallet = props.connectWallet;
+  const connectWallet = () => {
+    props.connectWallet();
+    attemptActivateWallet("MetaMask");
+  };
 
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
   const [savedSlippageAmount, setSavedSlippageAmount] = useLocalStorageSerializeKey(

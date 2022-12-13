@@ -38,8 +38,6 @@ const RepayModal = (props) => {
 				return;
 			}
 
-			console.log('repay');
-
 			DDL_GMX.currentBorderPrice(position.ddl.keyId)
 				.then(res => {
 					setLiqPrice(res);

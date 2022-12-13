@@ -37,8 +37,6 @@ const BorrowModal = (props) => {
 			if (!Object.keys(position).length) {
 				return;
 			}
-			
-			console.log('borrow');
 
 			DDL_GMX.currentBorderPrice(position.ddl.keyId)
 				.then(res => {
