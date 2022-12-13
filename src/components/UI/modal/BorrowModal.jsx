@@ -7,7 +7,7 @@ import Loader from './../loader/Loader';
 import { floor, formatForContract } from './../../utils/math';
 import { sepToNumber, separateThousands } from './../../utils/sepThousands';
 import { errAlert } from '../../utils/notifications';
-import { ethers } from "ethers";
+import { ethers, BigNumber } from "ethers";
 import { formatAmount } from '../../../views/gmx-test/lib/legacy';
 import { USD_DECIMALS } from './../../../views/gmx-test/lib/legacy';
 import { notifySuccess } from './../../utils/notifications';
@@ -18,7 +18,8 @@ const BorrowModal = (props) => {
 		setVisible, 
 		isLoading, 
 		setIsLoading,
-		updateOptionStats, 
+		updateOptionStats,
+		updateTrigger,
 	} = props;
 	
 	const option = state.option;
@@ -33,40 +34,6 @@ const BorrowModal = (props) => {
 	const [positionStats, setPositionStats] = useState({});
 
 	useEffect(() => {
-		if (position) {
-			if (!Object.keys(position).length) {
-				return;
-			}
-
-			DDL_GMX.currentBorderPrice(position.ddl.keyId)
-				.then(res => {
-					setLiqPrice(res);
-				})
-			const borrowLimit = (position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0) / 2;
-			
-			const availableRaw = borrowLimit - ethers.utils.formatUnits(position.ddl.borrowed, 6);
-			const available = availableRaw < 0 ? 0 : availableRaw;
-
-			const loanToValue = borrowLimit !== 0 ? (ethers.utils.formatUnits(position.ddl.borrowed, 6) / borrowLimit) : 0;
-
-			setPositionStats({
-				borrowLimit, 
-				loanToValue: loanToValue > 1 ? 1 : loanToValue, 
-				available
-			});
-		}
-	}, [state]);
-
-	let available;
-	if (option) {
-		available = floor(option.realVals?.borrowLimit - option.realVals?.borrowLimitUsed, 6);
-	}
-
-	const setMaxVal = () => {
-		setInputVal(option ? available : position.ddl?.available);
-	}
-
-	useEffect(() => {
 		if (sepToNumber(inputVal) > 0 && sepToNumber(inputVal) > (option ? available : position.ddl?.available)) {
 			setInputVal(option ? available : position.ddl?.available);
 		}
@@ -78,7 +45,7 @@ const BorrowModal = (props) => {
 
 			let classic, result;
 			const prior = option.priorLiqPrice;
-			const val = sepToNumber(inputVal)
+			const val = sepToNumber(inputVal);
 	
 			const isCALL = option.name.includes('CALL')
 	
@@ -93,10 +60,53 @@ const BorrowModal = (props) => {
 			}
 			
 			setLiqPrice(floor(result))
-		}
-	}, [inputVal])
+		} else if (position) {
+			if (!Object.keys(position).length) {
+				return;
+			}
+			
+			console.log('borrow', position.ddl.borrowed / 10**6);
+			
+			const borrowLimit = (position.hasProfit ? (position.delta / 10**USD_DECIMALS) : 0) / 2;
+			const borrowed = position.ddl.borrowed / 10**6;
+			const available = Math.max(borrowLimit - borrowed, 0);
 
-	
+			// Loan-To-Value
+			const input = sepToNumber(inputVal ?? 0);
+			const loanToValue = borrowLimit !== 0 ? ((borrowed + input) / borrowLimit) : 0;
+
+			// Liq.Price
+			let liqPrice;
+			const size = position.size.toString() / 10**30;
+			const entryPrice = position.averagePrice.toString() / 10**30;
+			const amount = size / entryPrice;
+			if (position.isLong) {
+				liqPrice = entryPrice + ((amount / (borrowed + input)) * 1.2);
+			} else {
+				liqPrice = entryPrice - ((amount / (borrowed + input)) * 1.2);
+			}
+
+			if (!isFinite(liqPrice)) {
+				liqPrice = position.ddl.liqPrice / 10**8;
+			}
+
+			setPositionStats({
+				borrowLimit,
+				available,
+				loanToValue: Math.min(loanToValue, 1),
+				liqPrice,
+			});
+		}
+	}, [state, inputVal, updateTrigger]);
+
+	let available;
+	if (option) {
+		available = floor(option.realVals?.borrowLimit - option.realVals?.borrowLimitUsed, 6);
+	}
+
+	const setMaxVal = () => {
+		setInputVal(option ? available : position.ddl?.available);
+	}
 
 	const steps = [
 		{
@@ -222,7 +232,7 @@ const BorrowModal = (props) => {
 									notifySuccess(`Borrowed ${sepToNumber(inputVal).toFixed(2)} USDC`, res.hash);
 									setInputVal('');
 									setIsLoading(false);
-									setVisible(false);
+									// setVisible(false);
 								})
 						},
 						err => {
@@ -271,7 +281,7 @@ const BorrowModal = (props) => {
 					<div className="modal__info-field">
 						<div className="modal__info-field-title nowrap">Loan-To-Value:</div>
 						<div className="modal__info-field-val">
-							{(option ? floor((option.borrowLimitUsed / option.intrinsicValue) * 100) : floor(positionStats.loanToValue) * 100) + '%'}
+							{(option ? floor((option.borrowLimitUsed / option.intrinsicValue) * 100) : (positionStats.loanToValue * 100).toFixed(2)) + '%'}
 						</div>
 						
 					</div>
@@ -283,7 +293,7 @@ const BorrowModal = (props) => {
 						step === 2 ?
 							<div className="modal__info-field modal__info-field_hl">
 								<div className="modal__info-field-title">Liquidation Price:</div>
-								<div className="modal__info-field-val">${option ? separateThousands(liqPrice) : formatAmount(liqPrice, 8, 2, true)}</div>
+								<div className="modal__info-field-val">${option ? separateThousands(liqPrice) : separateThousands(positionStats.liqPrice?.toFixed(2))}</div>
 							</div>
 							: ""
 					}

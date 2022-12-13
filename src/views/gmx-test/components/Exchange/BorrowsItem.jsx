@@ -30,6 +30,8 @@ const BorrowsItem = (props) => {
 		cx,
 		dgAddress,
 		isModalLoading,
+		updateTrigger,
+		setUpdateTrigger,
 		isLarge,
 	} = props;
 
@@ -82,6 +84,10 @@ const BorrowsItem = (props) => {
 			return;
 		}
 		
+		if (position.indexToken.symbol === 'ETH' && position.isLong) {
+			console.log('tick');
+		}
+		
 		DG.keyByIndexToken((position.indexToken.address === ADDRESS_ZERO ? WETH_address : position.indexToken.address), position.isLong)
 			.then(id => {
 				position.ddl.keyId = id;
@@ -96,15 +102,18 @@ const BorrowsItem = (props) => {
 							DDL_GMX.borrowedByCollateral(id)
 								.then(res => {
 									position.ddl.borrowed = res.borrowed;
-									const borrowLimit = (position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0) / 2;
-									const availableRaw = borrowLimit - ethers.utils.formatUnits(curPosition.ddl.borrowed, 6);
-									const available = availableRaw < 0 ? 0 : availableRaw;
+									const borrowLimit = (position.hasProfit ? (position.delta / 10**USD_DECIMALS) : 0) / 2;
+									const availableRaw = borrowLimit - position.ddl.borrowed / 10**6;
+									const available = Math.max(availableRaw, 0);
 									position.ddl.available = available;
 									setAvailable(available);
-									setCurPosition(position);
 									DDL_GMX.currentBorderPrice(id)
 										.then(res => {
 											setLiqPrice(res);
+											position.ddl.liqPrice = res;
+											console.log('curPosition ');
+											setCurPosition(position);
+											setUpdateTrigger(Math.random());
 										})
 
 									if (res.borrowed.gt(0)) {
@@ -121,12 +130,13 @@ const BorrowsItem = (props) => {
 							DDL_AccountManagerToken.getApproved(id)
 								.then(addr => {
 									position.ddl.borrowed = BigNumber.from(0);
-									const borrowLimit = (position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0) / 2;
-									const availableRaw = borrowLimit - ethers.utils.formatUnits(curPosition.ddl.borrowed, 6);
-									const available = availableRaw < 0 ? 0 : availableRaw;
+									const borrowLimit = (position.hasProfit ? (position.delta / 10**USD_DECIMALS) : 0) / 2;
+									const availableRaw = borrowLimit - position.ddl.borrowed / 10**6;
+									const available = Math.max(availableRaw, 0);
 									position.ddl.available = available;
-									setCurPosition(position);
 									setAvailable(available);
+									setCurPosition(position);
+									setUpdateTrigger(Math.random());
 
 									if (addr === DDL_GMX.address) {
 										setBorrowStep(1);

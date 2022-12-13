@@ -246,7 +246,7 @@ function FullApp(props) {
     localStorage.setItem(SHOULD_EAGER_CONNECT_LOCALSTORAGE_KEY, true);
     localStorage.setItem(CURRENT_PROVIDER_LOCALSTORAGE_KEY, providerName);
     activateInjectedProvider(providerName);
-    // connectInjectedWallet();
+    connectInjectedWallet();
   };
 
   const [walletModalVisible, setWalletModalVisible] = useState(false);

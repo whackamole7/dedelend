@@ -18,7 +18,8 @@ const RepayModal = (props) => {
 		setVisible, 
 		updateOptionStats, 
 		isLoading, 
-		setIsLoading
+		setIsLoading,
+		updateTrigger
 	} = props;
 
 	const option = state.option;
@@ -26,43 +27,11 @@ const RepayModal = (props) => {
 	const position = state.position;
 
 	const {globalStats} = useContext(GlobalStatsContext)
-	const [inputVal, setInputVal] = useState('')
-	const [step, setStep] = [state.step ?? 0, state.setStep];
+	const [inputVal, setInputVal] = useState('');
 	const [liqPrice, setLiqPrice] = useState(null);
+	const [step, setStep] = [state.step ?? 0, state.setStep];
 	const [positionStats, setPositionStats] = useState({});
 
-
-	useEffect(() => {
-		if (position) {
-			if (!Object.keys(position).length) {
-				return;
-			}
-
-			DDL_GMX.currentBorderPrice(position.ddl.keyId)
-				.then(res => {
-					setLiqPrice(res);
-				})
-			const borrowLimit = (position.hasProfit ? ethers.utils.formatUnits(position.delta, USD_DECIMALS) : 0) / 2;
-
-			const repay = Number(ethers.utils.formatUnits(position.ddl.borrowed, 6));
-			const loanToValue = borrowLimit !== 0 ? (ethers.utils.formatUnits(position.ddl.borrowed, 6) / borrowLimit) : 0;
-
-			setPositionStats({
-				borrowLimit, 
-				repay, 
-				loanToValue: loanToValue > 1 ? 1 : loanToValue 
-			});
-		}
-	}, [state]);
-	
-	let repay;
-	if (option) {
-		repay = option.realVals?.borrowLimitUsed;
-	}
-
-	const setMaxVal = () => {
-		setInputVal(option ? repay : positionStats.repay)
-	}
 
 	useEffect(() => {
 		if (sepToNumber(inputVal) > 0 && sepToNumber(inputVal) > (option ? repay : positionStats.repay)) {
@@ -96,8 +65,51 @@ const RepayModal = (props) => {
 			}
 	
 			setLiqPrice(floor(result))
+		} else if (position) {
+			if (!Object.keys(position).length) {
+				return;
+			}
+
+			console.log('repay', position.ddl.borrowed / 10**6);
+			
+			const borrowLimit = (position.hasProfit ? (position.delta / 10**USD_DECIMALS) : 0) / 2;
+			const borrowed = position.ddl.borrowed / 10**6;
+
+			// Loan-To-Value
+			const input = sepToNumber(inputVal ?? 0);
+			const loanToValue = borrowLimit !== 0 ? ((borrowed - input) / borrowLimit) : 0;
+
+			// Liq.Price
+			let liqPrice;
+			const size = position.size.toString() / 10**30;
+			const entryPrice = position.averagePrice.toString() / 10**30;
+			const amount = size / entryPrice;
+			if (position.isLong) {
+				liqPrice = entryPrice + ((amount / (borrowed + input)) * 1.2);
+			} else {
+				liqPrice = entryPrice - ((amount / (borrowed + input)) * 1.2);
+			}
+			if (!isFinite(liqPrice)) {
+				liqPrice = position.ddl.liqPrice / 10**8;
+			}
+
+			setPositionStats({
+				borrowLimit, 
+				repay: borrowed, 
+				loanToValue: Math.min(loanToValue, 1),
+				liqPrice
+			});
 		}
-	}, [inputVal])
+	}, [state, inputVal, updateTrigger]);
+	
+	let repay;
+	if (option) {
+		repay = option.realVals?.borrowLimitUsed;
+	}
+
+	const setMaxVal = () => {
+		setInputVal(option ? repay : positionStats.repay)
+	}
 	
 
 	const steps = [
@@ -290,7 +302,7 @@ const RepayModal = (props) => {
 						step === 0 ?
 							<div className="modal__info-field modal__info-field_hl">
 								<div className="modal__info-field-title">Liquidation Price:</div>
-								<div className="modal__info-field-val">${option ? separateThousands(liqPrice) : formatAmount(liqPrice, 8, 2, true)}</div>
+								<div className="modal__info-field-val">${option ? separateThousands(liqPrice) : separateThousands(positionStats.liqPrice?.toFixed(2))}</div>
 							</div>
 							: ""
 					}

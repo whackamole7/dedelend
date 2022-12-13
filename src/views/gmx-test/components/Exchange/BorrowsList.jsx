@@ -105,16 +105,19 @@ export default function BorrowsList(props) {
   const [ordersToaOpen, setOrdersToaOpen] = useState(false);
   const [isHigherSlippageAllowed, setIsHigherSlippageAllowed] = useState(false);
   
+  const [updateTrigger, setUpdateTrigger] = useState(false);
   const [isModalLoading, setIsModalLoading] = useState(false);
   const [borrowState, setBorrowState] = useState({
 		isVisible: false,
 		position: {},
-		step: 0
+		step: 0,
+    updateTrigger,
 	})
   const [repayState, setRepayState] = useState({
 		isVisible: false,
 		position: {},
-		step: 0
+		step: 0,
+    updateTrigger,
 	})
   const setBorrowVisible = (bool) => {
 		setBorrowState({
@@ -268,6 +271,9 @@ export default function BorrowsList(props) {
                   liquidationPrice={liquidationPrice}
                   cx={cx}
                   dgAddress={dgAddress}
+                  isModalLoading={isModalLoading}
+                  updateTrigger={updateTrigger}
+                  setUpdateTrigger={setUpdateTrigger}
                   isLarge={false}
                 />
               );
@@ -354,6 +360,8 @@ export default function BorrowsList(props) {
                 cx={cx}
                 dgAddress={dgAddress}
                 isModalLoading={isModalLoading}
+                updateTrigger={updateTrigger}
+                setUpdateTrigger={setUpdateTrigger}
                 isLarge={true}
                  />
             );
@@ -366,13 +374,15 @@ export default function BorrowsList(props) {
           state={borrowState}
           setVisible={setBorrowVisible}
           isLoading={isModalLoading}
-          setIsLoading={setIsModalLoading} />)}
+          setIsLoading={setIsModalLoading}
+          updateTrigger={updateTrigger} />)}
       {!!positions.length &&
         (<RepayModal
           state={repayState}
           setVisible={setRepayVisible}
           isLoading={isModalLoading}
-          setIsLoading={setIsModalLoading} />)}
+          setIsLoading={setIsModalLoading}
+          updateTrigger={updateTrigger} />)}
     </div>
   );
 }

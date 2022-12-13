@@ -47,5 +47,5 @@ export const sepToNumber = (str, symb = ' ') => {
 		return str;
 	}
 	
-	return Number(str.split(symb).join(''))
+	return Number(str.split(symb).join(''));
 }
