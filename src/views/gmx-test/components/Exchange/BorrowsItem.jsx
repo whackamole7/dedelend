@@ -116,12 +116,7 @@ const BorrowsItem = (props) => {
 
 										setLiqPrice(liqPrice);
 									} else {
-										DDL_GMX.currentBorderPrice(id)
-											.then(res => {
-												setLiqPrice(res / 10**8);
-												position.ddl.liqPrice = res;
-												setCurPosition(position);
-											})
+										setLiqPrice(null);
 									}
 
 									if (res.borrowed.gt(0)) {

@@ -96,15 +96,7 @@ const BorrowModal = (props) => {
 			}
 
 			if (!isFinite(liqPrice) || isNaN(liqPrice)) {
-				if (position.ddl.available) {
-					setLiqPrice(position.ddl.liqPrice / 10**8);
-				} else {
-					DDL_GMX.currentBorderPrice(position.ddl.keyId)
-						.then(res => {
-							setLiqPrice(res / 10**8);
-							position.ddl.liqPrice = res;
-						})
-				}
+				setLiqPrice(null);
 			} else {
 				setLiqPrice(liqPrice);
 			}
@@ -250,7 +242,7 @@ const BorrowModal = (props) => {
 									notifySuccess(`Borrowed ${sepToNumber(inputVal).toFixed(2)} USDC`, res.hash);
 									setInputVal('');
 									setIsLoading(false);
-									// setVisible(false);
+									setVisible(false);
 								})
 						},
 						err => {
@@ -307,7 +299,7 @@ const BorrowModal = (props) => {
 						step === 2 ?
 							<div className="modal__info-field modal__info-field_hl">
 								<div className="modal__info-field-title">Liquidation Price:</div>
-								<div className="modal__info-field-val">${separateThousands(liqPrice?.toFixed(2))}</div>
+								<div className="modal__info-field-val">{liqPrice !== null ? `$${separateThousands(liqPrice?.toFixed(2))}` : '—'}</div>
 							</div>
 							: ""
 					}
