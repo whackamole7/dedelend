@@ -43,7 +43,6 @@ const BorrowsItem = (props) => {
 	
 	const borrowPosition = () => {
 		setBorrowState({
-			...borrowState,
 			isVisible: true,
 			position: curPosition,
 			step: borrowStep,
@@ -52,7 +51,6 @@ const BorrowsItem = (props) => {
 	}
 	const repayPosition = () => {
 		setRepayState({
-			...repayState,
 			isVisible: true,
 			position: curPosition,
 			step: repayStep,
@@ -101,6 +99,7 @@ const BorrowsItem = (props) => {
 									const available = Math.max(availableRaw, 0);
 									position.ddl.available = available;
 									setAvailable(available);
+									
 									DDL_GMX.currentBorderPrice(id)
 										.then(res => {
 											setLiqPrice(res);
@@ -139,7 +138,7 @@ const BorrowsItem = (props) => {
 								})
 						}
 					});
-			})
+			});
 
 	}, [dgAddress, borrowState, repayState, isModalLoading]);
 

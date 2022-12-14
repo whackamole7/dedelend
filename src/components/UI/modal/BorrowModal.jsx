@@ -98,19 +98,6 @@ const BorrowModal = (props) => {
 			}
 
 			if (!isFinite(liqPrice) || isNaN(liqPrice)) {
-				if (!position.ddl.liqPrice) {
-					DDL_GMX.currentBorderPrice(position.ddl.keyId)
-						.then(res => {
-							position.ddl.liqPrice = res;
-							liqPrice = res / 10**8;
-							setPositionStats({
-								...positionStats,
-								liqPrice
-							})
-						})
-					return;
-				}
-
 				liqPrice = position.ddl.liqPrice / 10**8;
 			}
 
