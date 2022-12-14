@@ -172,7 +172,7 @@ const BorrowsItem = (props) => {
 						</span>
 					</div>
 				</td>
-				<td>
+				<td style={{width: 150, display: 'block'}}>
 					<div>
 						{!position.netValue && "Opening..."}
 						{position.netValue && (

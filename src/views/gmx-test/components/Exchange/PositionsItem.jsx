@@ -68,7 +68,7 @@ const PositionsItem = (props) => {
 							</span>
 						</div>
 					</td>
-					<td style={{width: 150}}>
+					<td style={{width: 150, display: 'block'}}>
 						<div>
 							{!position.netValue && "Opening..."}
 							{position.netValue && (
