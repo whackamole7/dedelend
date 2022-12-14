@@ -30,8 +30,6 @@ const BorrowsItem = (props) => {
 		cx,
 		dgAddress,
 		isModalLoading,
-		updateTrigger,
-		setUpdateTrigger,
 		isLarge,
 	} = props;
 
@@ -84,10 +82,6 @@ const BorrowsItem = (props) => {
 			return;
 		}
 		
-		if (position.indexToken.symbol === 'ETH' && position.isLong) {
-			console.log('tick');
-		}
-		
 		DG.keyByIndexToken((position.indexToken.address === ADDRESS_ZERO ? WETH_address : position.indexToken.address), position.isLong)
 			.then(id => {
 				position.ddl.keyId = id;
@@ -111,9 +105,7 @@ const BorrowsItem = (props) => {
 										.then(res => {
 											setLiqPrice(res);
 											position.ddl.liqPrice = res;
-											console.log('curPosition ');
 											setCurPosition(position);
-											setUpdateTrigger(Math.random());
 										})
 
 									if (res.borrowed.gt(0)) {
@@ -136,7 +128,6 @@ const BorrowsItem = (props) => {
 									position.ddl.available = available;
 									setAvailable(available);
 									setCurPosition(position);
-									setUpdateTrigger(Math.random());
 
 									if (addr === DDL_GMX.address) {
 										setBorrowStep(1);

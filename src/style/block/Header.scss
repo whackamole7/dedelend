@@ -28,6 +28,7 @@
 			color: #fff;
 			background-color: transparent;
 			border: none;
+			white-space: nowrap;
 			padding: 0;
 
 			&:hover, &:focus-visible {
@@ -80,11 +81,13 @@
 
 	@media (max-width: 480px) {
 		&__links {
-			column-gap: 30px;
-		}
-		
-		.btn_tab {
-			flex: 0;
+			column-gap: 15px;
+
+			.btn_tab {
+				flex: 0;
+				font-size: 15px;
+				line-height: calc(19.5/15);
+			}
 		}
 	}
 

@@ -47,7 +47,6 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 					setRegisterStep(0);
 					setRegisterVisible(true);
 				} else {
-					// 0x0ec264CA5b6C4D36BCbb7335fc7773F79C5834B1
 					setDgAddress(res);
 					const dgAddress = res;
 					const DG = getDgContract(dgAddress);
@@ -271,6 +270,10 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 		{
 			name: 'Earn',
 			to: '/earn',
+		},
+		{
+			name: 'Old Version',
+			to: '',
 		},
 	]
 	headerLinks.find(link => {

@@ -19,7 +19,6 @@ const BorrowModal = (props) => {
 		isLoading, 
 		setIsLoading,
 		updateOptionStats,
-		updateTrigger,
 	} = props;
 	
 	const option = state.option;
@@ -32,10 +31,25 @@ const BorrowModal = (props) => {
 	const [inputVal, setInputVal] = useState('');
 	const [liqPrice, setLiqPrice] = useState(null);
 	const [positionStats, setPositionStats] = useState({});
+	const [borrowed, setBorrowed] = useState(null);
 
 	useEffect(() => {
-		if (sepToNumber(inputVal) > 0 && sepToNumber(inputVal) > (option ? available : position.ddl?.available)) {
-			setInputVal(option ? available : position.ddl?.available);
+		if (position) {
+			if (!Object.keys(position).length) {
+				return;
+			}
+
+			DDL_GMX.borrowedByCollateral(position.ddl.keyId)
+				.then(res => {
+					setBorrowed(res.borrowed / 10**6);
+				})
+		}
+	}, [state, isLoading]);
+	
+
+	useEffect(() => {
+		if (sepToNumber(inputVal) > 0 && sepToNumber(inputVal) > (option ? available : positionStats.available)) {
+			setInputVal(option ? available : positionStats.available);
 		}
 
 		if (option) {
@@ -65,10 +79,7 @@ const BorrowModal = (props) => {
 				return;
 			}
 			
-			console.log('borrow', position.ddl.borrowed / 10**6);
-			
 			const borrowLimit = (position.hasProfit ? (position.delta / 10**USD_DECIMALS) : 0) / 2;
-			const borrowed = position.ddl.borrowed / 10**6;
 			const available = Math.max(borrowLimit - borrowed, 0);
 
 			// Loan-To-Value
@@ -77,8 +88,8 @@ const BorrowModal = (props) => {
 
 			// Liq.Price
 			let liqPrice;
-			const size = position.size.toString() / 10**30;
-			const entryPrice = position.averagePrice.toString() / 10**30;
+			const size = position.size / 10**30;
+			const entryPrice = position.averagePrice / 10**30;
 			const amount = size / entryPrice;
 			if (position.isLong) {
 				liqPrice = entryPrice + ((amount / (borrowed + input)) * 1.2);
@@ -86,7 +97,20 @@ const BorrowModal = (props) => {
 				liqPrice = entryPrice - ((amount / (borrowed + input)) * 1.2);
 			}
 
-			if (!isFinite(liqPrice)) {
+			if (!isFinite(liqPrice) || isNaN(liqPrice)) {
+				if (!position.ddl.liqPrice) {
+					DDL_GMX.currentBorderPrice(position.ddl.keyId)
+						.then(res => {
+							position.ddl.liqPrice = res;
+							liqPrice = res / 10**8;
+							setPositionStats({
+								...positionStats,
+								liqPrice
+							})
+						})
+					return;
+				}
+
 				liqPrice = position.ddl.liqPrice / 10**8;
 			}
 
@@ -97,7 +121,7 @@ const BorrowModal = (props) => {
 				liqPrice,
 			});
 		}
-	}, [state, inputVal, updateTrigger]);
+	}, [state, borrowed, inputVal]);
 
 	let available;
 	if (option) {
@@ -105,7 +129,7 @@ const BorrowModal = (props) => {
 	}
 
 	const setMaxVal = () => {
-		setInputVal(option ? available : position.ddl?.available);
+		setInputVal(option ? available : positionStats.available);
 	}
 
 	const steps = [
@@ -252,12 +276,8 @@ const BorrowModal = (props) => {
 		}
 	]
 
-	const resetModal = () => {
-		// setStep(state.initStep ?? 0);
-	}
-
 	return (
-		<Modal className={'modal_borrow'} visible={state.isVisible} setVisible={setVisible} resetModal={resetModal}>
+		<Modal className={'modal_borrow'} visible={state.isVisible} setVisible={setVisible}>
 			<h1 className='modal__title'>Borrow USDC</h1>
 			<div className="modal__body">
 				<div className="modal__steps steps">
@@ -287,7 +307,7 @@ const BorrowModal = (props) => {
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title">Available:</div>
-						<div className="modal__info-field-val highlighted">{separateThousands(floor(option ? available : positionStats.available)) + ' USDC'}</div>
+						<div className="modal__info-field-val highlighted">{separateThousands(option ? floor(available) : positionStats.available?.toFixed(2)) + ' USDC'}</div>
 					</div>
 					{
 						step === 2 ?
