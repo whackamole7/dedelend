@@ -7,8 +7,7 @@
 
 - Perps:
 	- code:
-		- fetcher error, low update freq	
-		- available - negative val
+		- liqPrice when position.ddl.liqPrice == undefined
 		
 		- min order: 10 usdc (swapBox)
 		- ExchangeTV months

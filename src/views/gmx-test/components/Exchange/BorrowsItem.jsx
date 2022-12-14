@@ -12,6 +12,7 @@ import { useState, useEffect } from 'react';
 import { Trans } from '@lingui/macro';
 import { ethers, BigNumber } from 'ethers';
 import { ADDRESS_ZERO } from '@uniswap/v3-sdk';
+import { separateThousands } from './../../../../components/utils/sepThousands';
 
 const BorrowsItem = (props) => {
 	const {
@@ -100,12 +101,28 @@ const BorrowsItem = (props) => {
 									position.ddl.available = available;
 									setAvailable(available);
 									
-									DDL_GMX.currentBorderPrice(id)
-										.then(res => {
-											setLiqPrice(res);
-											position.ddl.liqPrice = res;
-											setCurPosition(position);
-										})
+									// Liq.Price
+									if (res.borrowed.gt(0)) {
+										let liqPrice;
+										const borrowed = res.borrowed / 10**6;
+										const size = position.size / 10**30;
+										const entryPrice = position.averagePrice / 10**30;
+										const amount = size / entryPrice;
+										if (position.isLong) {
+											liqPrice = entryPrice + ((amount / borrowed) * 1.2);
+										} else {
+											liqPrice = entryPrice - ((amount / borrowed) * 1.2);
+										}
+
+										setLiqPrice(liqPrice);
+									} else {
+										DDL_GMX.currentBorderPrice(id)
+											.then(res => {
+												setLiqPrice(res / 10**8);
+												position.ddl.liqPrice = res;
+												setCurPosition(position);
+											})
+									}
 
 									if (res.borrowed.gt(0)) {
 										setRepayStep(0);
@@ -280,7 +297,7 @@ const BorrowsItem = (props) => {
 					// onPositionClick(position)
 					return;
 				}}>
-					{liqPrice ? `$${formatAmount(liqPrice, 8, 2, true)}` : '—'}
+					{liqPrice ? `$${separateThousands(liqPrice.toFixed(2))}` : '—'}
 				</td>
 				<td className="" onClick={() => {
 					// onPositionClick(position)
@@ -425,7 +442,7 @@ const BorrowsItem = (props) => {
 						<div className="label">
 							<Trans>Liq. Price</Trans>
 						</div>
-						<div>{liqPrice ? `$${formatAmount(liqPrice, 8, 2, true)}` : '—'}</div>
+						<div>{liqPrice ? `$${separateThousands(liqPrice.toFixed(2))}` : '—'}</div>
 					</div>
 					<div className="App-card-row">
 						<div className="label">

@@ -7,8 +7,6 @@ import Loader from './../loader/Loader';
 import { floor, formatForContract } from './../../utils/math';
 import { sepToNumber, separateThousands } from './../../utils/sepThousands';
 import { errAlert } from '../../utils/notifications';
-import { ethers, BigNumber } from "ethers";
-import { formatAmount } from '../../../views/gmx-test/lib/legacy';
 import { USD_DECIMALS } from './../../../views/gmx-test/lib/legacy';
 import { notifySuccess } from './../../utils/notifications';
 
@@ -98,14 +96,23 @@ const BorrowModal = (props) => {
 			}
 
 			if (!isFinite(liqPrice) || isNaN(liqPrice)) {
-				liqPrice = position.ddl.liqPrice / 10**8;
+				if (position.ddl.available) {
+					setLiqPrice(position.ddl.liqPrice / 10**8);
+				} else {
+					DDL_GMX.currentBorderPrice(position.ddl.keyId)
+						.then(res => {
+							setLiqPrice(res / 10**8);
+							position.ddl.liqPrice = res;
+						})
+				}
+			} else {
+				setLiqPrice(liqPrice);
 			}
 
 			setPositionStats({
 				borrowLimit,
 				available,
 				loanToValue: Math.min(loanToValue, 1),
-				liqPrice,
 			});
 		}
 	}, [state, borrowed, inputVal]);
@@ -300,7 +307,7 @@ const BorrowModal = (props) => {
 						step === 2 ?
 							<div className="modal__info-field modal__info-field_hl">
 								<div className="modal__info-field-title">Liquidation Price:</div>
-								<div className="modal__info-field-val">${option ? separateThousands(liqPrice) : separateThousands(positionStats.liqPrice?.toFixed(2))}</div>
+								<div className="modal__info-field-val">${separateThousands(liqPrice?.toFixed(2))}</div>
 							</div>
 							: ""
 					}

@@ -90,36 +90,33 @@ const RepayModal = (props) => {
 
 			// Liq.Price
 			let liqPrice;
-			const size = position.size / 10**30;
-			const entryPrice = position.averagePrice / 10**30;
+			const size = position.size / 10**USD_DECIMALS;
+			const entryPrice = position.averagePrice / 10**USD_DECIMALS;
 			const amount = size / entryPrice;
 			if (position.isLong) {
 				liqPrice = entryPrice + ((amount / (borrowed - input)) * 1.2);
 			} else {
 				liqPrice = entryPrice - ((amount / (borrowed - input)) * 1.2);
 			}
+			console.log(liqPrice, position.ddl.keyId);
 			if (!isFinite(liqPrice) || isNaN(liqPrice)) {
-				if (!position.ddl.liqPrice) {
+				if (position.ddl.liqPrice) {
+					setLiqPrice(position.ddl.liqPrice / 10**8);
+				} else {
 					DDL_GMX.currentBorderPrice(position.ddl.keyId)
 						.then(res => {
+							setLiqPrice(res / 10**8);
 							position.ddl.liqPrice = res;
-							liqPrice = res / 10**8;
-							setPositionStats({
-								...positionStats,
-								liqPrice
-							})
 						})
-					return;
 				}
-
-				liqPrice = position.ddl.liqPrice / 10**8;
+			} else {
+				setLiqPrice(liqPrice);
 			}
 
 			setPositionStats({
 				borrowLimit, 
 				repay: borrowed, 
 				loanToValue: Math.min(loanToValue, 1),
-				liqPrice
 			});
 		}
 	}, [state, borrowed, inputVal]);
@@ -321,7 +318,7 @@ const RepayModal = (props) => {
 						step === 0 ?
 							<div className="modal__info-field modal__info-field_hl">
 								<div className="modal__info-field-title">Liquidation Price:</div>
-								<div className="modal__info-field-val">${option ? separateThousands(liqPrice) : separateThousands(positionStats.liqPrice?.toFixed(2))}</div>
+								<div className="modal__info-field-val">${separateThousands(liqPrice?.toFixed(2))}</div>
 							</div>
 							: ""
 					}
