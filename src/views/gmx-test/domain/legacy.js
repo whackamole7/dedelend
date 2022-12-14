@@ -118,7 +118,6 @@ export function useInfoTokens(library, chainId, active, tokenBalances, fundingRa
     refreshInterval: 500,
     refreshWhenHidden: true,
   });
-  console.log();
 
 
   return {

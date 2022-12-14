@@ -68,7 +68,7 @@ const PositionsItem = (props) => {
 							</span>
 						</div>
 					</td>
-					<td>
+					<td style={{width: 150}}>
 						<div>
 							{!position.netValue && "Opening..."}
 							{position.netValue && (
@@ -195,11 +195,12 @@ const PositionsItem = (props) => {
 							}}
 						/>
 					</td>
-					<td className="" onClick={() => {
+					<td onClick={() => {
 						// onPositionClick(position)
 						return;
 					}}>
 						<Tooltip
+							style={{width: 75, display: 'block'}}
 							handle={`$${formatAmount(position.markPrice, USD_DECIMALS, 2, true)}`}
 							position="left-bottom"
 							handleClassName="plain"
