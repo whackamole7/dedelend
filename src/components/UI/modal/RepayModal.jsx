@@ -98,7 +98,6 @@ const RepayModal = (props) => {
 			} else {
 				liqPrice = entryPrice - ((amount / (borrowed - input)) * 1.2);
 			}
-			console.log(liqPrice, position.ddl.keyId);
 			if (!isFinite(liqPrice) || isNaN(liqPrice)) {
 				if (position.ddl.liqPrice) {
 					setLiqPrice(position.ddl.liqPrice / 10**8);

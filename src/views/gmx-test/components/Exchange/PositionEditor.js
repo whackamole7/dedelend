@@ -41,6 +41,8 @@ import depositImg from '../../img/ddl/icon_dollar.svg'
 import depositActiveImg from '../../img/ddl/icon_dollar_active.svg'
 import withdrawImg from '../../img/ddl/icon_withdraw.svg'
 import withdrawActiveImg from '../../img/ddl/icon_withdraw_active.svg'
+import { DDL_AccountManager } from "../../../../components/utils/contracts";
+import { DDL_AccountManager_abi } from './../../../../components/utils/contracts';
 
 const DEPOSIT = t`Deposit`;
 const WITHDRAW = t`Withdraw`;
@@ -321,7 +323,7 @@ export default function PositionEditor(props) {
       priceLimit, // _acceptablePrice
       minExecutionFee, // _executionFee
       referralCode, // _referralCode
-      AddressZero, // _callbackTarget
+      // AddressZero, // _callbackTarget
     ];
 
     let method = "createIncreasePosition";
@@ -332,6 +334,7 @@ export default function PositionEditor(props) {
       params = [
         path, // _path
         indexTokenAddress, // _indexToken
+        fromAmount, // _amountIn (added)
         0, // _minOut
         0, // _sizeDelta
         position.isLong, // _isLong
@@ -348,7 +351,8 @@ export default function PositionEditor(props) {
       return;
     }
 
-    const contract = new ethers.Contract(positionRouterAddress, PositionRouter.abi, library.getSigner());
+    // const contract = new ethers.Contract(positionRouterAddress, PositionRouter.abi, library.getSigner());
+    const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
     callContract(chainId, contract, method, params, {
       value,
       sentMsg: t`Deposit submitted.`,
@@ -392,17 +396,18 @@ export default function PositionEditor(props) {
       fromAmount, // _collateralDelta
       0, // _sizeDelta
       position.isLong, // _isLong
-      account, // _receiver
+      // account, // _receiver
       priceLimit, // _acceptablePrice
       0, // _minOut
       minExecutionFee, // _executionFee
       withdrawETH, // _withdrawETH
-      AddressZero, // _callbackTarget
+      // AddressZero, // _callbackTarget
     ];
 
     const method = "createDecreasePosition";
 
-    const contract = new ethers.Contract(positionRouterAddress, PositionRouter.abi, library.getSigner());
+    // const contract = new ethers.Contract(positionRouterAddress, PositionRouter.abi, library.getSigner());
+    const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
     callContract(chainId, contract, method, params, {
       value: minExecutionFee,
       sentMsg: t`Withdrawal submitted.`,
