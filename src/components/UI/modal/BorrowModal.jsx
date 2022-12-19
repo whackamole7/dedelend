@@ -262,6 +262,13 @@ const BorrowModal = (props) => {
 		}
 	]
 
+	let tipText = '';
+	if (option) {
+		tipText = 'You have 30 minutes before the option expires to get your option back. 30 minutes before the expiration date DeDeLend will exercise this option and take 100% of the payoff from the option.';
+	} else if (position && step === 2 && borrowed <= 0) {
+		tipText = "In case of liquidation, the position's collateral and profits will be converted into USDC.";
+	}
+
 	return (
 		<Modal className={'modal_borrow'} visible={state.isVisible} setVisible={setVisible}>
 			<h1 className='modal__title'>Borrow USDC</h1>
@@ -318,11 +325,11 @@ const BorrowModal = (props) => {
 					}
 				</div>
 			</div>
-			{option &&
-				(<div className="modal__tip">
-					You have 30 minutes before the option expires to get your option back. 30 minutes before the expiration date DeDeLend will exercise this option and take 100% of the payoff from the option.
-				</div>)}
-			
+			{tipText && (
+				<div className="modal__tip">
+					{tipText}
+				</div>
+			)}
 		</Modal>
 	);
 };

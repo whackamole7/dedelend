@@ -99,11 +99,11 @@
     }
   }
   .Exchange-right {
-    width: 38.75rem;
+    width: 38rem;
     // flex: 1;
 
     @media (max-width: 1380px) {
-      width: 34rem;
+      width: 33rem;
       // flex: 2;
     }
 
@@ -651,7 +651,7 @@
     line-height: calc(19.5/15);
     text-align: left;
     color: #747FA6;
-    padding: 15px;
+    padding: 15px 14px;
   }
   table.Exchange-list td.clickable {
     color: #fff;

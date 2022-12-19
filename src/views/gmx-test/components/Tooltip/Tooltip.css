@@ -12,18 +12,24 @@
   min-width: 22.6rem;
   background: #181A3C;
   z-index: 1000;
+  cursor: default;
 }
 .Tooltip-popup::before {
   content: '';
   position: absolute;
   top: -2px;
   z-index: -1;
-  right: 18px;
   width: 25px;
   height: 18px;
   background-color: #181A3C;
   border-radius: 5px;
   transform: rotate(58deg) skew(25deg);
+}
+.Tooltip-popup.right-bottom::before {
+  right: 17px;
+}
+.Tooltip-popup.left-bottom::before {
+  left: 18px;
 }
 
 
@@ -49,7 +55,7 @@
 .Tooltip-popup.right-bottom {
   right: -20px;
   transform: translateY(0.8rem);
-  top: calc(100% + 8px);
+  top: calc(100% + 6px);
 }
 
 .Tooltip-popup.right-top {

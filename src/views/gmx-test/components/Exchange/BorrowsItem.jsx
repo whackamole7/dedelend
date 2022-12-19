@@ -435,7 +435,20 @@ const BorrowsItem = (props) => {
 					</div>
 					<div className="App-card-row">
 						<div className="label">
-							<Trans>Liq. Price</Trans>
+							<Tooltip
+								handle="Liq. Price"
+								handleClassName="has-hint-tooltip"
+								position="left-bottom"
+								enabled={true}
+								renderContent={() => {
+									return (
+										<div>
+											If the price reaches this price your loan will be liquidated
+										</div>
+									);
+								}}
+							/>
+							
 						</div>
 						<div>{liqPrice ? `$${separateThousands(liqPrice.toFixed(2))}` : '—'}</div>
 					</div>

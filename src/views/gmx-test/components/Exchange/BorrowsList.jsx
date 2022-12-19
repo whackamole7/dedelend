@@ -25,6 +25,7 @@ import PositionShare from "./PositionShare";
 import BorrowModal from './../../../../components/UI/modal/BorrowModal';
 import RepayModal from './../../../../components/UI/modal/RepayModal';
 import BorrowsItem from "./BorrowsItem";
+import Tooltip from './../Tooltip/Tooltip';
 
 const getOrdersForPosition = (account, position, orders, nativeTokenAddress) => {
   if (!orders || orders.length === 0) {
@@ -296,7 +297,19 @@ export default function BorrowsList(props) {
                 <Trans>Current Price</Trans>
               </th>
               <th>
-                <Trans>Liq. Price</Trans>
+                <Tooltip
+                  handle="Liq. Price"
+                  handleClassName="has-hint-tooltip"
+                  position="left-bottom"
+                  enabled={true}
+                  renderContent={() => {
+                    return (
+                      <div>
+                        If the price reaches this price your loan will be liquidated
+                      </div>
+                    );
+                  }}
+                />
               </th>
               <th>
                 <Trans>Borrow APY</Trans>
