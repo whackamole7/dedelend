@@ -1,3 +1,5 @@
+@import "../../../../style/vars.scss";
+
 .GMX-Interface {
   .Exchange {
     max-width: 155rem;
@@ -330,6 +332,13 @@
   .ExchangeChart-title {
     font-size: 2.15rem;
     font-weight: bold;
+
+    div[aria-expanded] .chevron-down {
+      transition: transform .2s ease;
+    }
+    div[aria-expanded="true"] .chevron-down {
+      transform: rotate(180deg) translateY(5px);
+    }
   }
   
   .ExchangeChart-info-label {
@@ -567,7 +576,7 @@
   }
   
   .Exchange-list-item-error {
-    color: #892C1F;
+    color: $red;
     margin-top: 0.465rem;
     font-size: 1.4rem;
   }
@@ -786,7 +795,7 @@
   }
   
   .Exchange-info-value-warning {
-    color: #892C1F;
+    color: $red;
   }
   
   .Confirmation-box-info,
@@ -813,7 +822,7 @@
 
   .Confirmation-box-warning,
   .Confirmation-box-warning a {
-    color: #892C1F;
+    color: $red;
   }
   
   .Exchange-swap-usd {
@@ -919,7 +928,7 @@
       border-color: #fff;
     }
     &.error {
-      border-color: #892C1F;
+      border-color: $red;
     }
   }
   

@@ -67,10 +67,10 @@ const getSeriesOptions = () => ({
   bottomColor: "rgba(42, 64, 103, 0.0)",
   lineWidth: 2,
   priceLineColor: "#384263",
-  downColor: "#892C1F",
-  wickDownColor: "#892C1F",
-  upColor: "#019645",
-  wickUpColor: "#019645",
+  downColor: "#C75E4B",
+  wickDownColor: "#C75E4B",
+  upColor: "#46956A",
+  wickUpColor: "#46956A",
   borderVisible: false,
 });
 

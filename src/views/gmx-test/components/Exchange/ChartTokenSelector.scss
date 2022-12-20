@@ -19,7 +19,12 @@
   right: unset;
   left: 0;
   background-color: #181A3C;
+  box-shadow: 3px 0 20px #060d21;
   cursor: default;
+
+  @media (max-width: 768px) {
+    top: calc(100% + 10px);
+  }
 }
 
 .chart-token-menu-items .menu-item {

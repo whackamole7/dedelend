@@ -1,3 +1,5 @@
+@import "../../../style/vars.scss";
+
 .rc-slider-tooltip {
   z-index: 5;
 }
@@ -593,6 +595,7 @@
     padding: unset;
   }
   .App-card-row .label {
+    width: fit-content;
     color: #384263;
     
     & + div {
@@ -1121,7 +1124,7 @@
   }
   
   .positive {
-    color: #019645;
+    color: $green;
   }
   
   .positive-background {
@@ -1129,7 +1132,7 @@
   }
   
   .negative {
-    color: #892C1F;
+    color: $red;
   }
   
   .negative-background {
