@@ -60,6 +60,9 @@ export function getChartToken(swapOption, fromToken, toToken, chainId) {
 
 const DEFAULT_PERIOD = "4h";
 
+const RED_COLOR = "#C75E4B";
+const GREEN_COLOR = "#46956A";
+
 const getSeriesOptions = () => ({
   // https://github.com/tradingview/lightweight-charts/blob/master/docs/area-series.md
   lineColor: "#5472cc",
@@ -67,10 +70,10 @@ const getSeriesOptions = () => ({
   bottomColor: "rgba(42, 64, 103, 0.0)",
   lineWidth: 2,
   priceLineColor: "#384263",
-  downColor: "#C75E4B",
-  wickDownColor: "#C75E4B",
-  upColor: "#46956A",
-  wickUpColor: "#46956A",
+  downColor: RED_COLOR,
+  wickDownColor: RED_COLOR,
+  upColor: GREEN_COLOR,
+  wickUpColor: GREEN_COLOR,
   borderVisible: false,
 });
 

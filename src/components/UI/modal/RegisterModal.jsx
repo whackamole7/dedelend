@@ -62,7 +62,7 @@ const RegisterModal = ({ visible, setVisible, onRegisterClick, onApproveClick, c
 			<div className="modal__body">
 				<ul className="modal__list modal__text">
 					<li><span>To use GMX position as collateral you need to register.</span></li>
-					<li><span>For using Hegic Options you don't need to register, so just click <Link className='inline-link' to="/options">here.</Link></span></li>
+					{/* <li><span>For using Hegic Options you don't need to register, so just click <Link className='inline-link' to="/options">here.</Link></span></li> */}
 				</ul>
 				{step.body}
 				{isLoading ? <Loader /> : step.btn}

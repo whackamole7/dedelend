@@ -16,7 +16,7 @@ const AppRouter = ({ walletAddress, setWalletAddress, dgAddress}) => {
 
 	useEffect(() => {
 		if (loc.pathname === '/' || loc.pathname === "/app.html") {
-			navigate('/options')
+			navigate('/perpetuals')
 		}
 	}, [loc.pathname])
 
@@ -41,10 +41,10 @@ const AppRouter = ({ walletAddress, setWalletAddress, dgAddress}) => {
 	
 	return (
 		<Routes>
-			<Route
+			{/* <Route
 				path="/options"
 				element={<BorrowMarket walletAddress={walletAddress} setWalletAddress={setWalletAddress} />} 
-			/>
+			/> */}
 			<Route path="/perpetuals" element={
 				<GMXInterface
 					connectWallet={() => {
@@ -53,10 +53,10 @@ const AppRouter = ({ walletAddress, setWalletAddress, dgAddress}) => {
 					walletAddress={walletAddress} 
 					dgAddress={dgAddress} />
 			} />
-			<Route
+			{/* <Route
 				path="/earn"
 				element={<SupplyMarket walletAddress={walletAddress} setWalletAddress={setWalletAddress} supplyStep={supplyStep} setSupplyStep={setSupplyStep} />} 
-			/>
+			/> */}
 		</Routes>
 	);
 };

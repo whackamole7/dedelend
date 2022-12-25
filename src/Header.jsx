@@ -259,21 +259,22 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 
 	const loc = useLocation();
 	const headerLinks = [
-		{
+		/* {
 			name: 'Options',
 			to: '/options',
-		},
+		}, */
 		{
 			name: 'Perpetuals',
 			to: '/perpetuals',
 		},
-		{
+		/* {
 			name: 'Earn',
 			to: '/earn',
-		},
+		}, */
 		{
 			name: 'Old Version',
-			to: '',
+			to: 'https://dedelend.co/',
+			isExternal: true,
 		},
 	]
 	headerLinks.find(link => {
