@@ -46,8 +46,10 @@ const BorrowModal = (props) => {
 	
 
 	useEffect(() => {
+		let curInputVal = inputVal;
 		if (sepToNumber(inputVal) > 0 && sepToNumber(inputVal) > (option ? available : positionStats.available)) {
-			setInputVal(option ? available : positionStats.available);
+			curInputVal = option ? available : positionStats.available;
+			setInputVal(curInputVal);
 		}
 
 		if (option) {
@@ -82,7 +84,7 @@ const BorrowModal = (props) => {
 			const available = Math.max(borrowLimit - borrowed, 0);
 
 			// Loan-To-Value
-			const input = sepToNumber(inputVal ?? 0);
+			const input = sepToNumber(curInputVal ?? 0);
 			const loanToValue = borrowLimit !== 0 ? ((borrowed + input) / positionProfit) : 0;
 
 			// Liq.Price
@@ -121,7 +123,6 @@ const BorrowModal = (props) => {
 		const borderPrice = entryPrice * multiplier;
 		const result = position.isLong ? Math.max(liqPrice, borderPrice) : Math.min(liqPrice, borderPrice)
 		setLiqPrice(result);
-		
 	}, [liqPrice])
 
 	let available;

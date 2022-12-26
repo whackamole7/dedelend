@@ -46,8 +46,10 @@ const RepayModal = (props) => {
 	}, [state, isLoading]);
 
 	useEffect(() => {
+		let curInputVal = inputVal;
 		if (sepToNumber(inputVal) > 0 && sepToNumber(inputVal) > (option ? repay : positionStats.repay)) {
-			setInputVal(option ? repay : positionStats.repay)
+			curInputVal = option ? repay : positionStats.repay;
+			setInputVal(curInputVal);
 		}
 
 		if (option) {
@@ -86,7 +88,7 @@ const RepayModal = (props) => {
 			const borrowLimit = position.hasProfit ? (positionProfit / 2) : 0;
 
 			// Loan-To-Value
-			const input = sepToNumber(inputVal ?? 0);
+			const input = sepToNumber(curInputVal ?? 0);
 			const loanToValue = borrowLimit !== 0 ? ((borrowed - input) / positionProfit) : 0;
 
 			// Liq.Price
@@ -315,7 +317,7 @@ const RepayModal = (props) => {
 						step === 0 ?
 							<div className="modal__info-field modal__info-field_hl">
 								<div className="modal__info-field-title">Liquidation Price:</div>
-								<div className="modal__info-field-val">${liqPrice !== null ? (isFinite(liqPrice) ? `$${separateThousands(liqPrice?.toFixed(2))}` : '∞') : '—'}</div>
+								<div className={"modal__info-field-val" + (isFinite(liqPrice) ? "" : " icon-infinity")}>{liqPrice !== null ? (isFinite(liqPrice) ? `$${separateThousands(liqPrice?.toFixed(2))}` : '') : '—'}</div>
 							</div>
 							: ""
 					}
