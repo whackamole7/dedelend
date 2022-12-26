@@ -307,7 +307,7 @@ input[type="text"] {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-color: rgba(3, 10, 33, 0.95);
+	background-color: rgba(3, 10, 33, 0.85);
 	visibility: hidden;
 	transition: opacity .3s ease-out;
 	opacity: 0;
@@ -321,6 +321,7 @@ input[type="text"] {
 		width: 435px;
 		background-color: $blue-2;
 		border-radius: 5px;
+		border: 1px solid rgba(56, 66, 99, 0.2);
 		padding: 25px 35px;
 
 		transform-style: preserve-3d;

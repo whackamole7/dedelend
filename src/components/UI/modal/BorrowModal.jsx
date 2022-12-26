@@ -91,9 +91,9 @@ const BorrowModal = (props) => {
 			const entryPrice = position.averagePrice / 10**30;
 			const amount = size / entryPrice;
 			if (position.isLong) {
-				liqPrice = entryPrice + ((amount / (borrowed + input)) * 1.2);
+				liqPrice = entryPrice + (((borrowed + input) / amount) * 1.2);
 			} else {
-				liqPrice = entryPrice - ((amount / (borrowed + input)) * 1.2);
+				liqPrice = entryPrice - (((borrowed + input) / amount) * 1.2);
 			}
 
 			if (!isFinite(liqPrice) || isNaN(liqPrice)) {
@@ -109,6 +109,20 @@ const BorrowModal = (props) => {
 			});
 		}
 	}, [state, borrowed, inputVal]);
+
+	useEffect(() => {
+		if (typeof liqPrice !== 'number') {
+			return;
+		}
+
+		const borderCoef = 0.02;
+		const multiplier = position.isLong ? 1 + borderCoef : 1 - borderCoef;
+		const entryPrice = position.averagePrice / 10**30;
+		const borderPrice = entryPrice * multiplier;
+		const result = position.isLong ? Math.max(liqPrice, borderPrice) : Math.min(liqPrice, borderPrice)
+		setLiqPrice(result);
+		
+	}, [liqPrice])
 
 	let available;
 	if (option) {

@@ -95,15 +95,20 @@ const RepayModal = (props) => {
 			const entryPrice = position.averagePrice / 10**USD_DECIMALS;
 			const amount = size / entryPrice;
 			if (position.isLong) {
-				liqPrice = entryPrice + ((amount / (borrowed - input)) * 1.2);
+				liqPrice = entryPrice + (((borrowed - input) / amount) * 1.2);
 			} else {
-				liqPrice = entryPrice - ((amount / (borrowed - input)) * 1.2);
+				liqPrice = entryPrice - (((borrowed - input) / amount) * 1.2);
 			}
-			if (!isFinite(liqPrice) || isNaN(liqPrice)) {
+			if (isNaN(liqPrice)) {
 				setLiqPrice(null);
 			} else {
-				setLiqPrice(liqPrice);
+				if (input >= borrowed) {
+					setLiqPrice(Infinity)
+				} else {
+					setLiqPrice(liqPrice);
+				}
 			}
+
 
 			setPositionStats({
 				borrowLimit, 
@@ -310,7 +315,7 @@ const RepayModal = (props) => {
 						step === 0 ?
 							<div className="modal__info-field modal__info-field_hl">
 								<div className="modal__info-field-title">Liquidation Price:</div>
-								<div className="modal__info-field-val">${liqPrice !== null ? `$${separateThousands(liqPrice?.toFixed(2))}` : '—'}</div>
+								<div className="modal__info-field-val">${liqPrice !== null ? (isFinite(liqPrice) ? `$${separateThousands(liqPrice?.toFixed(2))}` : '∞') : '—'}</div>
 							</div>
 							: ""
 					}

@@ -452,7 +452,7 @@ function FullApp(props) {
           />
         </div>
       </div>
-      {/* <ToastContainer
+      <ToastContainer
         limit={1}
         transition={Jelly}
         position="bottom-right"
@@ -463,7 +463,7 @@ function FullApp(props) {
         draggable={false}
         pauseOnHover
       />
-      <EventToastContainer /> */}
+      <EventToastContainer />
       <RedirectPopupModal
         redirectModalVisible={redirectModalVisible}
         setRedirectModalVisible={setRedirectModalVisible}
@@ -521,18 +521,18 @@ function FullApp(props) {
 }
 
 function GMXInterface(props) {
-  useEffect(() => {
+  /* useEffect(() => {
     const defaultLanguage = localStorage.getItem(LANGUAGE_LOCALSTORAGE_KEY) || defaultLocale;
     dynamicActivate(defaultLanguage);
-  }, []);
+  }, []); */
 
   return (
     <SWRConfig value={{ refreshInterval: 5000 }}>
       <Web3ReactProvider getLibrary={getLibrary}>
         <SEO>
-          <I18nProvider i18n={i18n}>
+          {/* <I18nProvider i18n={i18n}> */}
             <FullApp {...props} />
-          </I18nProvider>
+          {/* </I18nProvider> */}
         </SEO>
       </Web3ReactProvider>
     </SWRConfig>

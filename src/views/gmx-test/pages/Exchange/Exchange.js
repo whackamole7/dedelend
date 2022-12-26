@@ -1111,11 +1111,11 @@ export const Exchange = forwardRef((props, ref) => {
         className="modal_warning"
         visible={shortWarningState.visible}
         setVisible={setShortWarningVisible}>
-        <h1 className='modal__title'>Read this before open Short</h1>
+        <h1 className='modal__title'>Attention</h1>
         <div className="modal__body">
           <div className="modal__text">
-            <p>Only USDC is allowed as collateral for short positions. DeDeLend will swap {shortWarningState.tokenSymbol} to USDC to open the short position.</p>
-            <p>By clicking on the «Confirm» button you confirm that you have been advised of this</p>
+            <p>Please note that only USDC is allowed as collateral for short positions. DeDeLend will swap {shortWarningState.tokenSymbol} to USDC to open the short position.
+            <br />By clicking on the «Confirm» button you confirm that you have been advised of this.</p>
           </div>
           <div className="input-container modal__checkbox">
 						<input type="checkbox"

@@ -2,7 +2,7 @@
 import './style/App.scss'
 
 // Main
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Header from './Header';
 import Footer from './Footer';
@@ -15,6 +15,10 @@ import Favicon from 'react-favicon';
 import { ToastContainer } from 'react-toastify';
 import { cssTransition } from 'react-toastify';
 import EventToastContainer from './views/gmx-test/components/EventToast/EventToastContainer';
+import { i18n } from '@lingui/core';
+import { I18nProvider } from '@lingui/react';
+import { defaultLocale, dynamicActivate } from './views/gmx-test/lib/i18n';
+import { LANGUAGE_LOCALSTORAGE_KEY } from './views/gmx-test/lib/legacy';
 
 
 
@@ -41,11 +45,15 @@ function App() {
 		enter: "jellyIn",
 		exit: "jellyOut",
 	});
+
+	useEffect(() => {
+    const defaultLanguage = localStorage.getItem(LANGUAGE_LOCALSTORAGE_KEY) || defaultLocale;
+    dynamicActivate(defaultLanguage);
+  }, []);
 	
 	return (
 		<>
 			<Favicon url="https://i.imgur.com/dLCWse0.png" />
-			
 			<GlobalStatsContext.Provider value={{
 				globalStats,
 				setGlobalStats
@@ -55,36 +63,38 @@ function App() {
 					setUserStats
 				}}>
 					<HashRouter>
-						<ToastContainer
-							limit={1}
-							transition={Jelly}
-							position="bottom-right"
-							// autoClose={}
-							hideProgressBar={true}
-							newestOnTop={false}
-							closeOnClick={false}
-							draggable={false}
-							pauseOnHover={false}
-						/>
-						<EventToastContainer />
-						<div className="App">
-							<Header walletAddress={walletAddress}
-								setWalletAddress={setWalletAddress}
-								dgAddress={dgAddress}
-								setDgAddress={setDgAddress}
+						<I18nProvider i18n={i18n}>
+							<ToastContainer
+								limit={1}
+								transition={Jelly}
+								position="bottom-right"
+								// autoClose={}
+								hideProgressBar={true}
+								newestOnTop={false}
+								closeOnClick={false}
+								draggable={false}
+								pauseOnHover={false}
 							/>
-
-							<main className='_container'>
-								<AppRouter
-									walletAddress={walletAddress}
-									setWalletAddress={setWalletAddress} 
+							<EventToastContainer />
+							<div className="App">
+								<Header walletAddress={walletAddress}
+									setWalletAddress={setWalletAddress}
 									dgAddress={dgAddress}
 									setDgAddress={setDgAddress}
 								/>
-							</main>
 
-							<Footer />
-						</div>
+								<main className='_container'>
+									<AppRouter
+										walletAddress={walletAddress}
+										setWalletAddress={setWalletAddress} 
+										dgAddress={dgAddress}
+										setDgAddress={setDgAddress}
+									/>
+								</main>
+
+								<Footer />
+							</div>
+						</I18nProvider>
 					</HashRouter>
 					
 				</UserStatsContext.Provider>

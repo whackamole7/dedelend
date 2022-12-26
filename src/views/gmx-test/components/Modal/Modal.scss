@@ -69,7 +69,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(3, 10, 33, 0.95);
+    background: rgba(3, 10, 33, 0.85);
   }
   
   .Modal-content {
@@ -82,6 +82,7 @@
     background: #0D0F29;
     border-radius: 4px;
     overflow: auto;
+    border: 1px solid rgba(56, 66, 99, 0.2);
 
     // Nifty Modal 3D sign
 		transition: transform .3s ease, opacity .3s ease;

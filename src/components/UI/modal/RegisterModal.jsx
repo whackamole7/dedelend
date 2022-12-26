@@ -10,27 +10,26 @@ const RegisterModal = ({ visible, setVisible, onRegisterClick, onApproveClick, c
 			name: 'Register',
 			title: 'You need to register',
 			body: <div className="modal__text">
-							<p>DeDeLend will create a smart contract for your address. All trades will be opened and closed via the smart contract.</p>
-							<p>After the registration you'll receive ERC-721 tokens, each token is a representation of your position on GMX:</p>
+							<p>In order to use your GMX position as collateral, you need to register. After the registration, you'll receive ERC–721 tokens.</p>
+							<p>Each token is a representation of your position on GMX:</p>
 							<div className="text-cols">
 								<div className="text-col">
-									<p>ETH — short</p>
-									<p>ETH — long</p>
+									<p>ETH — SHORT</p>
+									<p>ETH — LONG</p>
 								</div>
 								<div className="text-col">
-									<p>BTC — short</p>
-									<p>BTC — long</p>
+									<p>BTC — SHORT</p>
+									<p>BTC — LONG</p>
 								</div>
 								<div className="text-col">
-									<p>UNI — short</p>
-									<p>UNI — long</p>
+									<p>UNI — SHORT</p>
+									<p>UNI — LONG</p>
 								</div>
 								<div className="text-col">
-									<p>LINK — short</p>
-									<p>LINK — long</p>
+									<p>LINK — SHORT</p>
+									<p>LINK — LONG</p>
 								</div>
 							</div>
-							<p>The ERC tokens allow open/close positions on GMX. Since all position on GMX is tokenized you can use them as collateral on DeDeLend.</p>
 						</div>,
 			btn: <Button btnActive={true} onClick={onRegisterClick}>Register</Button>,
 		},
@@ -38,8 +37,7 @@ const RegisterModal = ({ visible, setVisible, onRegisterClick, onApproveClick, c
 			name: 'Approve',
 			title: 'Approve',
 			body: <div className="modal__text">
-							<p>DeDeLend will create a smart contract for your address. All trades will be opened and closed via the smart contract.</p>
-							<p>After the registration you'll receive ERC-721 tokens, each token is a representation of your position on GMX</p>
+							<p>To enable trading on GMX via your trading account, you need to allow GMX to spend funds from your address</p>
 						</div>,
 			btn: <Button btnActive={true} onClick={onApproveClick}>Approve</Button>,
 		},
@@ -60,10 +58,10 @@ const RegisterModal = ({ visible, setVisible, onRegisterClick, onApproveClick, c
 			</div>
 			<h1 className='modal__title'>{step.title}</h1>
 			<div className="modal__body">
-				<ul className="modal__list modal__text">
+				{/* <ul className="modal__list modal__text">
 					<li><span>To use GMX position as collateral you need to register.</span></li>
-					{/* <li><span>For using Hegic Options you don't need to register, so just click <Link className='inline-link' to="/options">here.</Link></span></li> */}
-				</ul>
+					<li><span>For using Hegic Options you don't need to register, so just click <Link className='inline-link' to="/options">here.</Link></span></li>
+				</ul> */}
 				{step.body}
 				{isLoading ? <Loader /> : step.btn}
 			</div>
