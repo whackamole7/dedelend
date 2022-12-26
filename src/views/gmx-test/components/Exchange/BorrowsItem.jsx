@@ -103,18 +103,23 @@ const BorrowsItem = (props) => {
 									
 									// Liq.Price
 									if (res.borrowed.gt(0)) {
-										let liqPrice;
+										/* let liqPrice;
 										const borrowed = res.borrowed / 10**6;
 										const size = position.size / 10**30;
 										const entryPrice = position.averagePrice / 10**30;
 										const amount = size / entryPrice;
 										if (position.isLong) {
-											liqPrice = entryPrice + ((amount / borrowed) * 1.2);
+											liqPrice = entryPrice + ((borrowed / amount) * 1.2);
 										} else {
-											liqPrice = entryPrice - ((amount / borrowed) * 1.2);
+											liqPrice = entryPrice - ((borrowed / amount) * 1.2);
 										}
 
-										setLiqPrice(liqPrice);
+										setLiqPrice(liqPrice); */
+
+										DDL_GMX.currentTriggerPrice(position.ddl.keyId)
+											.then(res => {
+												setLiqPrice(res / 10**8)
+											});
 									} else {
 										setLiqPrice(null);
 									}

@@ -111,7 +111,6 @@ const RepayModal = (props) => {
 				}
 			}
 
-
 			setPositionStats({
 				borrowLimit, 
 				repay: borrowed, 
@@ -119,6 +118,19 @@ const RepayModal = (props) => {
 			});
 		}
 	}, [state, borrowed, inputVal]);
+
+	useEffect(() => {
+		if (typeof liqPrice !== 'number' || !isFinite(liqPrice)) {
+			return;
+		}
+
+		const borderCoef = 0.02;
+		const multiplier = position.isLong ? 1 + borderCoef : 1 - borderCoef;
+		const entryPrice = position.averagePrice / 10**30;
+		const borderPrice = entryPrice * multiplier;
+		const result = position.isLong ? Math.max(liqPrice, borderPrice) : Math.min(liqPrice, borderPrice)
+		setLiqPrice(result);
+	}, [liqPrice])
 	
 	let repay;
 	if (option) {
