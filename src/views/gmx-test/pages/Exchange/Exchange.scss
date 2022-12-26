@@ -592,8 +592,10 @@
   }
   
   .collateral-locked-icon {
+    display: block;
+    width: 20px;
     margin-left: auto;
-    vertical-align: middle;
+    // vertical-align: middle;
     cursor: default;
   }
   .collateral-locked-icon .Tooltip-handle {
