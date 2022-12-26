@@ -1,17 +1,18 @@
 import React, {useContext, useEffect, useState} from 'react';
 import { separateThousands, sepToNumber } from './utils/sepThousands';
-import { UserStatsContext } from './../context/context';
+import { UserStatsContext, GlobalStatsContext } from './../context/context';
 import Form from './Form';
 import { DDL_POOL_signed } from './utils/contracts';
 import Loader from './UI/loader/Loader';
-import { getUserStats } from './utils/stats';
+import { getGlobalStats, getUserStats } from './utils/stats';
 import { formatForContract } from './utils/math';
 import { errAlert } from './utils/notifications';
 
 const WithdrawCard = (props) => {
-	const {userStats, setUserStats} = useContext(UserStatsContext)
-	const [inputVal, setInputVal] = useState('')
-	const [isLoading, setIsLoading] = useState(false)
+	const {userStats, setUserStats} = useContext(UserStatsContext);
+	const {setGlobalStats} = useContext(GlobalStatsContext);
+	const [inputVal, setInputVal] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
 	
 	const inputProps = {
 		placeholder: 'Amount',
@@ -47,6 +48,10 @@ const WithdrawCard = (props) => {
 								})
 								setInputVal('')
 								setIsLoading(false)
+							})
+						getGlobalStats()
+							.then(stats => {
+								setGlobalStats(stats)
 							})
 					})
 			},

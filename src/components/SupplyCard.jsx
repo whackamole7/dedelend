@@ -1,17 +1,18 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { UserStatsContext } from './../context/context';
+import { UserStatsContext, GlobalStatsContext } from './../context/context';
 import Form from './Form';
 import { DDL_POOL, DDL_POOL_signed, USDC_signed } from './utils/contracts';
 import { separateThousands, sepToNumber } from './utils/sepThousands';
 import Loader from './UI/loader/Loader';
-import { getUserStats } from './utils/stats';
+import { getGlobalStats, getUserStats } from './utils/stats';
 import { formatForContract } from './utils/math';
 import { errAlert } from './utils/notifications';
 
 const SupplyCard = ({ step, setStep, ...props }) => {
-	const {userStats, setUserStats} = useContext(UserStatsContext)
-	const [inputVal, setInputVal] = useState('')
-	const [isLoading, setIsLoading] = useState(false)
+	const {userStats, setUserStats} = useContext(UserStatsContext);
+	const {setGlobalStats} = useContext(GlobalStatsContext);
+	const [inputVal, setInputVal] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		if (sepToNumber(inputVal) > userStats.balance) {
@@ -73,6 +74,10 @@ const SupplyCard = ({ step, setStep, ...props }) => {
 										})
 										setInputVal('')
 										setIsLoading(false)
+									})
+								getGlobalStats()
+									.then(stats => {
+										setGlobalStats(stats)
 									})
 							})
 					},

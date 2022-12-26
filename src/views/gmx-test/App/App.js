@@ -452,7 +452,7 @@ function FullApp(props) {
           />
         </div>
       </div>
-      <ToastContainer
+      {/* <ToastContainer
         limit={1}
         transition={Jelly}
         position="bottom-right"
@@ -463,7 +463,7 @@ function FullApp(props) {
         draggable={false}
         pauseOnHover
       />
-      <EventToastContainer />
+      <EventToastContainer /> */}
       <RedirectPopupModal
         redirectModalVisible={redirectModalVisible}
         setRedirectModalVisible={setRedirectModalVisible}

@@ -58,6 +58,10 @@
   top: calc(100% + 6px);
 }
 
+.Tooltip.collateral-locked-icon .Tooltip-popup.right-bottom {
+  right: -100%;
+}
+
 .Tooltip-popup.right-top {
   right: 0;
   transform: translateY(-0.8rem);

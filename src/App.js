@@ -12,6 +12,9 @@ import { UserStatsContext } from './context/context';
 import { GlobalStatsContext } from './context/context';
 import Warning from './components/UI/warning/Warning';
 import Favicon from 'react-favicon';
+import { ToastContainer } from 'react-toastify';
+import { cssTransition } from 'react-toastify';
+import EventToastContainer from './views/gmx-test/components/EventToast/EventToastContainer';
 
 
 
@@ -33,6 +36,11 @@ function App() {
 			borrowAPY: "",
 		}
 	)
+
+	const Jelly = cssTransition({
+		enter: "jellyIn",
+		exit: "jellyOut",
+	});
 	
 	return (
 		<>
@@ -47,6 +55,18 @@ function App() {
 					setUserStats
 				}}>
 					<HashRouter>
+						<ToastContainer
+							limit={1}
+							transition={Jelly}
+							position="bottom-right"
+							// autoClose={}
+							hideProgressBar={true}
+							newestOnTop={false}
+							closeOnClick={false}
+							draggable={false}
+							pauseOnHover={false}
+						/>
+						<EventToastContainer />
 						<div className="App">
 							<Header walletAddress={walletAddress}
 								setWalletAddress={setWalletAddress}

@@ -7,11 +7,12 @@ import { USD_DECIMALS, INCREASE } from './../../lib/legacy';
 import StatsTooltipRow from '../StatsTooltip/StatsTooltipRow';
 import { floor } from './../../../../components/utils/math';
 import CollateralLocked from './CollateralLocked';
-import { DDL_AccountManagerToken, getDgContract } from '../../../../components/utils/contracts';
+import { DDL_AccountManagerToken, getDgContract, WETH_address } from '../../../../components/utils/contracts';
 import { DDL_GMX } from './../../../../components/utils/contracts';
 import { useState, useEffect } from 'react';
 import { Trans } from '@lingui/macro';
 import { BigNumber } from 'ethers';
+import { ADDRESS_ZERO } from '@uniswap/v3-sdk';
 
 const PositionsItem = (props) => {
 	const {
@@ -39,7 +40,7 @@ const PositionsItem = (props) => {
 		if (!DG) {
 			return
 		}
-		DG.keyByIndexToken(position.indexToken.address, position.isLong)
+		DG.keyByIndexToken((position.indexToken.address === ADDRESS_ZERO ? WETH_address : position.indexToken.address), position.isLong)
 			.then(id => {
 				DDL_AccountManagerToken.ownerOf(id)
 					.then(owner => {
