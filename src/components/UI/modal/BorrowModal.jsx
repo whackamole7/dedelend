@@ -77,12 +77,13 @@ const BorrowModal = (props) => {
 				return;
 			}
 			
-			const borrowLimit = (position.hasProfit ? (position.delta / 10**USD_DECIMALS) : 0) / 2;
+			const positionProfit = (position.delta / 10**USD_DECIMALS);
+			const borrowLimit = position.hasProfit ? (positionProfit / 2) : 0;
 			const available = Math.max(borrowLimit - borrowed, 0);
 
 			// Loan-To-Value
 			const input = sepToNumber(inputVal ?? 0);
-			const loanToValue = borrowLimit !== 0 ? ((borrowed + input) / borrowLimit) : 0;
+			const loanToValue = borrowLimit !== 0 ? ((borrowed + input) / positionProfit) : 0;
 
 			// Liq.Price
 			let liqPrice;
