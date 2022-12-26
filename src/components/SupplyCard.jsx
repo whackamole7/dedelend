@@ -59,7 +59,7 @@ const SupplyCard = ({ step, setStep, ...props }) => {
 				e.preventDefault()
 				setIsLoading(true)
 				try {
-					DDL_POOL_signed.provideFrom(props.walletAddress, formatForContract(inputVal), 0)
+					DDL_POOL_signed.provideFrom(formatForContract(inputVal), 0)
 					.then(tsc => {
 						console.log('Supply transaction:', tsc);
 
