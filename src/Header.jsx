@@ -267,10 +267,10 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 			name: 'Perpetuals',
 			to: '/perpetuals',
 		},
-		/* {
+		{
 			name: 'Earn',
 			to: '/earn',
-		}, */
+		},
 		{
 			name: 'Old Version',
 			to: 'https://dedelend.co/',

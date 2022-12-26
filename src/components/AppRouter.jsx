@@ -53,10 +53,10 @@ const AppRouter = ({ walletAddress, setWalletAddress, dgAddress}) => {
 					walletAddress={walletAddress} 
 					dgAddress={dgAddress} />
 			} />
-			{/* <Route
+			<Route
 				path="/earn"
 				element={<SupplyMarket walletAddress={walletAddress} setWalletAddress={setWalletAddress} supplyStep={supplyStep} setSupplyStep={setSupplyStep} />} 
-			/> */}
+			/>
 		</Routes>
 	);
 };

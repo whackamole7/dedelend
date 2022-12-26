@@ -9,7 +9,7 @@ const Tabs = ({className, links}) => {
 			{links.map((link) => {
 				const linkCls = ['btn', 'btn_tab', link.isActive ? 'active' : '']
 				const linkEl = link.isExternal ?
-					<a target="_blank" rel="noreferrer" href={link.to} className={linkCls.join(' ')} key={link.to}>{link.name}</a>
+					<a className={linkCls.join(' ')} target="_blank" rel="noreferrer" href={link.to}  key={link.to}>{link.name}</a>
 					: <Link to={link.to} className={linkCls.join(' ')} key={link.to}>{link.name}</Link>
 				return (
 					linkEl
