@@ -273,7 +273,7 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 		},
 		{
 			name: 'Old Version',
-			to: 'https://dedelend.co/',
+			to: 'https://old.dedelend.co/',
 			isExternal: true,
 		},
 	]

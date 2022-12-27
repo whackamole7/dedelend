@@ -527,13 +527,24 @@ input[type="text"] {
 			column-gap: 30px;
 			row-gap: 10px;
 			justify-content: space-between;
+			margin-bottom: 15px;
+
+			@media (max-width: 380px) {
+				column-gap: 0;
+			}
 		}
 		.text-col {
 			display: flex;
 			flex-direction: column;
 			row-gap: 10px;
-			width: 105px;
+			width: 120px;
 
+			@media (max-width: 380px) {
+				width: 105px;
+				font-size: 15px;
+				line-height: calc(19.5/15);
+			}
+			
 			p {
 				margin: 0;
 			}

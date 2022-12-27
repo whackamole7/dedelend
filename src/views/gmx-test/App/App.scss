@@ -1546,8 +1546,15 @@
 }
 
 .btn-tooltip .Tooltip-popup {
-  right: -5px;
+  // right: -5px;
+  min-width: 263px;
+  top: calc(100% + 4px);
+  text-align: left;
   cursor: default;
+
+  &::before {
+    left: 14px;
+  }
 
   @media (max-width: 1300px) {
     left: 0;

@@ -294,7 +294,7 @@ export default function BorrowsList(props) {
                 <Trans>Debt</Trans>
               </th>
               <th>
-                <Trans>Current Price</Trans>
+                <Trans>Mark Price</Trans>
               </th>
               <th>
                 <Tooltip
@@ -312,7 +312,7 @@ export default function BorrowsList(props) {
                 />
               </th>
               <th>
-                <Trans>Borrow APY</Trans>
+                <Trans>Borrow APR</Trans>
               </th>
               <th></th>
               <th></th>

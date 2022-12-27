@@ -13,6 +13,7 @@ import { Trans } from '@lingui/macro';
 import { ethers, BigNumber } from 'ethers';
 import { ADDRESS_ZERO } from '@uniswap/v3-sdk';
 import { separateThousands } from './../../../../components/utils/sepThousands';
+import { BORDER_COEF } from './../../lib/contracts/constants';
 
 const BorrowsItem = (props) => {
 	const {
@@ -74,6 +75,7 @@ const BorrowsItem = (props) => {
 		}
 	}, [repayStep, borrowStep])
 
+
 	// Key id for positions
 	const DG = getDgContract(dgAddress);
 	useEffect(() => {
@@ -96,7 +98,21 @@ const BorrowsItem = (props) => {
 								.then(res => {
 									position.ddl.borrowed = res.borrowed;
 									const borrowLimit = (position.hasProfit ? (position.delta / 10**USD_DECIMALS) : 0) / 2;
-									const availableRaw = borrowLimit - position.ddl.borrowed / 10**6;
+									let availableRaw = borrowLimit - position.ddl.borrowed / 10**6;
+									const multiplier = position.isLong ? 1 + BORDER_COEF : 1 - BORDER_COEF;
+									const entryPrice = position.averagePrice / 10**30;
+									const borderPrice = entryPrice * multiplier;
+									const curPrice = entryPrice * BORDER_COEF;
+									if (position.isLong) {
+										console.log(curPrice, borderPrice);
+										if (curPrice < borderPrice) {
+											availableRaw = 0;
+										}
+									} else {
+										if (curPrice > borderPrice) {
+											availableRaw = 0;
+										}
+									}
 									const available = Math.max(availableRaw, 0);
 									position.ddl.available = available;
 									setAvailable(available);
@@ -139,7 +155,20 @@ const BorrowsItem = (props) => {
 								.then(addr => {
 									position.ddl.borrowed = BigNumber.from(0);
 									const borrowLimit = (position.hasProfit ? (position.delta / 10**USD_DECIMALS) : 0) / 2;
-									const availableRaw = borrowLimit - position.ddl.borrowed / 10**6;
+									let availableRaw = borrowLimit - position.ddl.borrowed / 10**6;
+									const multiplier = position.isLong ? 1 + BORDER_COEF : 1 - BORDER_COEF;
+									const entryPrice = position.averagePrice / 10**30;
+									const borderPrice = entryPrice * multiplier;
+									const curPrice = entryPrice * BORDER_COEF;
+									if (position.isLong) {
+										if (curPrice < borderPrice) {
+											availableRaw = 0;
+										}
+									} else {
+										if (curPrice > borderPrice) {
+											availableRaw = 0;
+										}
+									}
 									const available = Math.max(availableRaw, 0);
 									position.ddl.available = available;
 									setAvailable(available);
@@ -303,28 +332,28 @@ const BorrowsItem = (props) => {
 					// onPositionClick(position)
 					return;
 				}}>
-					{'13.3%'}
+					{'10.00%'}
 				</td>
 	
 				<td className="td-btn pos-relative">
-					{(typeof borrowed === 'undefined' || !position.hasProfit) ?
+					{(typeof borrowed === 'undefined' || !position.hasProfit || available <= 0) ?
 						<>
 							<Tooltip
 								className="btn-tooltip"
-								position="right-bottom"
+								position="left-bottom"
 								enabled={true}
 								handle=""
 								renderContent={() => {
 									return (
 										<div>
-											You can't lock position if it's unprofitable
+											You can't lock position if it's unprofitable or mark price hasn't changed more than 1% from entry price
 										</div>
 									);
 								}} />
 							<button
 								className="Exchange-list-action"
 								onClick={() => borrowPosition(position)}
-								disabled={typeof borrowed === 'undefined' || !position.hasProfit}
+								disabled={((typeof borrowed === 'undefined') || !position.hasProfit || available <= 0)}
 							>
 								Borrow
 							</button>
@@ -334,7 +363,7 @@ const BorrowsItem = (props) => {
 						<button
 							className="Exchange-list-action"
 							onClick={() => borrowPosition(position)}
-							disabled={typeof borrowed === 'undefined' || !position.hasProfit}
+							disabled={((typeof borrowed === 'undefined') || !position.hasProfit || available <= 0)}
 						>
 							Borrow
 						</button>}
@@ -434,7 +463,7 @@ const BorrowsItem = (props) => {
 				<div className="App-card-content">
 					<div className="App-card-row">
 						<div className="label">
-							<Trans>Current Price</Trans>
+							<Trans>Mark Price</Trans>
 						</div>
 						<div>${formatAmount(position.markPrice, USD_DECIMALS, 2, true)}</div>
 					</div>
@@ -459,15 +488,15 @@ const BorrowsItem = (props) => {
 					</div>
 					<div className="App-card-row">
 						<div className="label">
-							<Trans>Borrow APY</Trans>
+							<Trans>Borrow APR</Trans>
 						</div>
-						<div>{'13.33%'}</div>
+						<div>{'10.00%'}</div>
 					</div>
 				</div>
 				<div className="App-card-divider"></div>
 				<div className="App-card-options">
 					<div className="pos-relative App-button-option">
-						{(typeof borrowed === 'undefined' || !position.hasProfit) ?
+						{((typeof borrowed === 'undefined') || !position.hasProfit || available <= 0) ?
 						<>
 							<Tooltip
 								className="btn-tooltip"
@@ -477,13 +506,13 @@ const BorrowsItem = (props) => {
 								renderContent={() => {
 									return (
 										<div>
-											You can't lock position if it's unprofitable
+											You can't lock position if it's unprofitable or mark price hasn't changed more than 1% from entry price
 										</div>
 									);
 								}} />
 							<button
 								className="App-button-option App-card-option"
-								disabled={typeof borrowed === 'undefined' || !position.hasProfit}
+								disabled={((typeof borrowed === 'undefined') || !position.hasProfit || available <= 0)}
 								onClick={() => borrowPosition()}
 							>
 								<Trans>Borrow</Trans>
@@ -492,7 +521,7 @@ const BorrowsItem = (props) => {
 						:
 						<button
 							className="App-button-option App-card-option"
-							disabled={typeof borrowed === 'undefined' || !position.hasProfit}
+							disabled={((typeof borrowed === 'undefined') || !position.hasProfit || available <= 0)}
 							onClick={() => borrowPosition()}
 						>
 							<Trans>Borrow</Trans>

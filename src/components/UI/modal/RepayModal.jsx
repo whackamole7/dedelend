@@ -10,6 +10,7 @@ import { errAlert } from '../../utils/notifications';
 import { ethers } from "ethers";
 import { formatAmount, USD_DECIMALS } from './../../../views/gmx-test/lib/legacy';
 import { notifySuccess } from './../../utils/notifications';
+import { BORDER_COEF } from './../../../views/gmx-test/lib/contracts/constants';
 
 
 const RepayModal = (props) => {
@@ -124,7 +125,7 @@ const RepayModal = (props) => {
 			return;
 		}
 
-		const borderCoef = 0.02;
+		const borderCoef = BORDER_COEF;
 		const multiplier = position.isLong ? 1 + borderCoef : 1 - borderCoef;
 		const entryPrice = position.averagePrice / 10**30;
 		const borderPrice = entryPrice * multiplier;
