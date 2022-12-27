@@ -2572,8 +2572,7 @@ export function sleep(ms) {
 }
 
 export function getPageTitle(data) {
-  return `${data} | Decentralized
-  Perpetual Exchange | GMX`;
+  return `${data} | DeDeLend`;
 }
 
 export function isHashZero(value) {
