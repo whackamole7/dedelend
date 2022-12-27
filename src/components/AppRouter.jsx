@@ -16,7 +16,7 @@ const AppRouter = ({ walletAddress, setWalletAddress, dgAddress}) => {
 
 	useEffect(() => {
 		if (loc.pathname === '/' || loc.pathname === "/app.html") {
-			navigate('/perpetuals')
+			navigate('/perpetuals');
 		}
 	}, [loc.pathname])
 
