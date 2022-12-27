@@ -1,13 +1,8 @@
-- tsc messages in toasts
 - active btns hover
 
 - Options:
 	- BTC/ETH current price (options)
-	- Old version link
 
 - Perps:
 	- code:
-		- liqPrice when position.ddl.liqPrice == undefined
-		
-		- min order: 10 usdc (swapBox)
-		- ExchangeTV months
+		- BorderPriceCoef from contract

@@ -9,7 +9,7 @@ import { sepToNumber, separateThousands } from './../../utils/sepThousands';
 import { errAlert } from '../../utils/notifications';
 import { USD_DECIMALS } from './../../../views/gmx-test/lib/legacy';
 import { notifySuccess } from './../../utils/notifications';
-import { BORDER_COEF } from './../../../views/gmx-test/lib/contracts/constants';
+import { APY, BORDER_COEF } from './../../../views/gmx-test/lib/contracts/constants';
 
 const BorrowModal = (props) => {
 	const {
@@ -301,8 +301,8 @@ const BorrowModal = (props) => {
 				</div>
 				<div className="modal__info">
 					<div className="modal__info-field">
-						<div className="modal__info-field-title">Borrow APY:</div>
-						<div className="modal__info-field-val">{option ? (globalStats.borrowAPY + '%') : '13.33%'}</div>
+						<div className="modal__info-field-title">Borrow APR:</div>
+						<div className="modal__info-field-val">{APY}</div>
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title">Borrow Limit:</div>

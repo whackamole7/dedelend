@@ -1,7 +1,7 @@
 {
-  "homepage": "https://whackamole7.github.io/dedelend",
-  "name": "dedelend",
-  "version": "0.1.0",
+  "homepage": "https://DeDeLend.github.io/dedelend-interface",
+  "name": "dedelend-interface",
+  "version": "0.2.0",
   "private": false,
   "dependencies": {
     "@chainlink/contracts": "^0.4.2",

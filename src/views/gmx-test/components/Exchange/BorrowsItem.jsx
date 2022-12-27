@@ -104,7 +104,6 @@ const BorrowsItem = (props) => {
 									const borderPrice = entryPrice * multiplier;
 									const curPrice = entryPrice * BORDER_COEF;
 									if (position.isLong) {
-										console.log(curPrice, borderPrice);
 										if (curPrice < borderPrice) {
 											availableRaw = 0;
 										}
