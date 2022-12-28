@@ -306,7 +306,7 @@ const BorrowModal = (props) => {
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title">Borrow Limit:</div>
-						<div className="modal__info-field-val">{(option ? separateThousands(option.borrowLimit) : separateThousands(floor(positionStats.borrowLimit))) + ' USDC'}</div>
+						<div className="modal__info-field-val">{(option ? separateThousands(option.borrowLimit) : separateThousands(positionStats.borrowLimit?.toFixed(2))) + ' USDC'}</div>
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title nowrap">Loan-To-Value:</div>

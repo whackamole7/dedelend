@@ -676,12 +676,6 @@
           "internalType": "int256",
           "name": "realisedPnl",
           "type": "int256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "markPrice",
-          "type": "uint256"
         }
       ],
       "name": "UpdatePosition",
@@ -1164,35 +1158,6 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "_collateralToken",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_indexToken",
-          "type": "address"
-        },
-        {
-          "internalType": "bool",
-          "name": "_isLong",
-          "type": "bool"
-        }
-      ],
-      "name": "getEntryFundingRate",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
           "name": "_token",
           "type": "address"
         },
@@ -1232,23 +1197,8 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "_account",
+          "name": "_token",
           "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_collateralToken",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_indexToken",
-          "type": "address"
-        },
-        {
-          "internalType": "bool",
-          "name": "_isLong",
-          "type": "bool"
         },
         {
           "internalType": "uint256",
@@ -1541,26 +1491,6 @@
     },
     {
       "inputs": [
-        {
-          "internalType": "address",
-          "name": "_account",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_collateralToken",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_indexToken",
-          "type": "address"
-        },
-        {
-          "internalType": "bool",
-          "name": "_isLong",
-          "type": "bool"
-        },
         {
           "internalType": "uint256",
           "name": "_sizeDelta",
@@ -2108,25 +2038,6 @@
       "type": "function"
     },
     {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "maxGlobalShortSizes",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
       "inputs": [],
       "name": "maxLeverage",
       "outputs": [
@@ -2595,24 +2506,6 @@
     {
       "inputs": [
         {
-          "internalType": "address",
-          "name": "_token",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "setMaxGlobalShortSize",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
           "internalType": "uint256",
           "name": "_maxLeverage",
           "type": "uint256"
@@ -2693,19 +2586,6 @@
         }
       ],
       "name": "setUsdgAmount",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "contract IVaultUtils",
-          "name": "_vaultUtils",
-          "type": "address"
-        }
-      ],
-      "name": "setVaultUtils",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -2940,12 +2820,7 @@
       "inputs": [
         {
           "internalType": "address",
-          "name": "_collateralToken",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "_indexToken",
+          "name": "_token",
           "type": "address"
         }
       ],
@@ -3138,19 +3013,6 @@
           "internalType": "uint256",
           "name": "",
           "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "vaultUtils",
-      "outputs": [
-        {
-          "internalType": "contract IVaultUtils",
-          "name": "",
-          "type": "address"
         }
       ],
       "stateMutability": "view",

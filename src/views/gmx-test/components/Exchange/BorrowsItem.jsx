@@ -102,7 +102,7 @@ const BorrowsItem = (props) => {
 									const multiplier = position.isLong ? 1 + BORDER_COEF : 1 - BORDER_COEF;
 									const entryPrice = position.averagePrice / 10**30;
 									const borderPrice = entryPrice * multiplier;
-									const curPrice = entryPrice * BORDER_COEF;
+									const curPrice = position.markPrice / 10**USD_DECIMALS;
 									if (position.isLong) {
 										if (curPrice < borderPrice) {
 											availableRaw = 0;
@@ -158,7 +158,7 @@ const BorrowsItem = (props) => {
 									const multiplier = position.isLong ? 1 + BORDER_COEF : 1 - BORDER_COEF;
 									const entryPrice = position.averagePrice / 10**30;
 									const borderPrice = entryPrice * multiplier;
-									const curPrice = entryPrice * BORDER_COEF;
+									const curPrice = position.markPrice / 10**USD_DECIMALS;
 									if (position.isLong) {
 										if (curPrice < borderPrice) {
 											availableRaw = 0;
@@ -185,7 +185,7 @@ const BorrowsItem = (props) => {
 					});
 			});
 
-	}, [dgAddress, borrowState, repayState, isModalLoading]);
+	}, [dgAddress, borrowState, repayState, isModalLoading, position]);
 
 	return (
 		<>
