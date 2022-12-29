@@ -524,29 +524,37 @@ input[type="text"] {
 		.text-cols {
 			display: flex;
 			flex-wrap: wrap;
-			column-gap: 30px;
+			flex-wrap: wrap;
+			// column-gap: 30px;
+			column-gap: 25px;
 			row-gap: 10px;
-			justify-content: space-between;
+			// justify-content: space-between;
 			margin-bottom: 15px;
 
 			@media (max-width: 380px) {
-				column-gap: 0;
+				// column-gap: 0;
 			}
 		}
 		.text-col {
 			display: flex;
 			flex-direction: column;
 			row-gap: 10px;
-			width: 120px;
+			// width: 120px;
 
 			@media (max-width: 380px) {
-				width: 105px;
+				// width: 105px;
 				font-size: 15px;
 				line-height: calc(19.5/15);
 			}
 			
 			p {
 				margin: 0;
+			}
+
+			.icon-row {
+				display: flex;
+				align-items: center;
+				column-gap: 10px;
 			}
 		}
 

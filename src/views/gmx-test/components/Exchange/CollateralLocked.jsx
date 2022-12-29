@@ -11,7 +11,7 @@ const CollateralLocked = () => {
 			renderContent={() => {
 				return (
 					<div>
-						Your position is locked as collateral
+						<span className='spacing'>Y</span>our position is locked as collateral
 					</div>
 				);
 			}} />

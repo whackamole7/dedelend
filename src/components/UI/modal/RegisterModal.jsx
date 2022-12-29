@@ -3,6 +3,7 @@ import Modal from './Modal';
 import Button from '../button/Button';
 import Loader from './../loader/Loader';
 import { Link } from 'react-router-dom';
+import icon_ETH from '../../../img/icon_ETH.png';
 
 const RegisterModal = ({ visible, setVisible, onRegisterClick, onApproveClick, curStep, isLoading }) => {
 	const steps = [
@@ -12,7 +13,21 @@ const RegisterModal = ({ visible, setVisible, onRegisterClick, onApproveClick, c
 			body: <div className="modal__text">
 							<p>In order to use your GMX position as collateral, you need to register. After the registration, you'll receive ERC–721 tokens.</p>
 							<p>Each token is a representation of your position on GMX:</p>
-							<div className="text-cols">
+							<div className="text-cols nowrap">
+								<div className="text-col">
+									<div className="icon-row">
+										<img src={icon_ETH} alt="ETH" />
+										ETH — SHORT
+									</div>
+								</div>
+								<div className="text-col">
+									<div className="icon-row">
+										<img src={icon_ETH} alt="ETH" />
+										ETH — LONG
+									</div>
+								</div>
+							</div>
+							{/* <div className="text-cols">
 								<div className="text-col">
 									<p>ETH — SHORT</p>
 									<p>ETH — LONG</p>
@@ -29,7 +44,7 @@ const RegisterModal = ({ visible, setVisible, onRegisterClick, onApproveClick, c
 									<p>LINK — SHORT</p>
 									<p>LINK — LONG</p>
 								</div>
-							</div>
+							</div> */}
 						</div>,
 			btn: <Button btnActive={true} onClick={onRegisterClick}>Register</Button>,
 		},

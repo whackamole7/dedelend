@@ -67,6 +67,10 @@ body {
     --border-radius-sm: 0.4rem;
     --error-red: #fa3c58;
   }
+
+  .text-inline a {
+    color: $lblue;
+  }
   
   a {
     color: white;

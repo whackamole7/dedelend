@@ -34,14 +34,14 @@ export default function ChartTokenSelector(props) {
 
   return (
     <Menu>
-      <Menu.Button as="div" disabled={isSwap}>
-        <button className={cx("App-cta small transparent chart-token-selector", { "default-cursor": isSwap })}>
+      <Menu.Button as="div" disabled={/* isSwap */true}>
+        <button className={cx("App-cta small transparent chart-token-selector", { /* "default-cursor": isSwap */ "default-cursor": "default" })}>
           <span className="chart-token-selector--current">{value.symbol}/USD</span>
-          {!isSwap && (
+          {/* {!isSwap && (
             <svg className="chevron-down" xmlns="http://www.w3.org/2000/svg" width="18" height="11" viewBox="0 0 18 11" fill="none">
               <path d="M1 1.5L9 9.5L17 1.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-          )}
+          )} */}
         </button>
       </Menu.Button>
       <div className="chart-token-menu">

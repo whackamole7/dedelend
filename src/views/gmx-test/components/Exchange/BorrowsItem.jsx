@@ -345,7 +345,7 @@ const BorrowsItem = (props) => {
 								renderContent={() => {
 									return (
 										<div>
-											You can't lock position if it's unprofitable or mark price hasn't changed more than 1% from entry price
+											<span className='spacing'>Y</span>ou can't lock position if it's unprofitable or mark price hasn't changed more than 1% from entry price
 										</div>
 									);
 								}} />

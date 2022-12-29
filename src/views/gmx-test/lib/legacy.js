@@ -127,12 +127,19 @@ export const SHORT = "Short";
 export const MARKET = "Market";
 export const LIMIT = "Limit";
 export const STOP = "Stop";
+
+// Market/limit orders disabling
 // export const LEVERAGE_ORDER_OPTIONS = [MARKET, LIMIT, STOP];
 // export const LEVERAGE_ORDER_OPTIONS = [MARKET, LIMIT];
 export const LEVERAGE_ORDER_OPTIONS = [];
+
 export const SWAP_ORDER_OPTIONS = [MARKET, LIMIT];
+
+// Swap disabling
 // export const SWAP_OPTIONS = [LONG, SHORT, SWAP];
 export const SWAP_OPTIONS = [LONG, SHORT];
+
+
 export const DEFAULT_SLIPPAGE_AMOUNT = 30;
 export const DEFAULT_HIGHER_SLIPPAGE_AMOUNT = 100;
 

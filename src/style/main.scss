@@ -24,20 +24,40 @@ body {
 
 main {
 	width: 100%;
-	padding: 60px 0;
+	padding: 45px 0;
 
 	@media (max-width: 768px) {
-		padding: 90px 0 60px;
+		padding: 90px 0 45px;
 	}
 	
 	@media (max-width: 576px) {
 		padding: 90px 0 30px;
 	}
+
+	@media (max-width: 480px) {
+		padding: 80px 0 30px;
+	}
 }
 
 p {
+	color: $lgrey;
 	margin-bottom: 0.9em;
 	margin-top: 0.9em;
+}
+
+.text-inline {
+	a {
+		color: $lblue;
+	
+		&:visited {
+			color: $lblue;
+		}
+	}
+
+	p {
+		margin-top: 0.6em;
+		margin-bottom: 0.6em;
+	}
 }
 
 ._container {
@@ -123,14 +143,6 @@ li {
 		height: 8px;
 		background-color: $lblue;
 		transform: rotate(45deg);
-	}
-}
-
-.inline-link {
-	color: $lblue;
-
-	&:visited {
-		color: $lblue;
 	}
 }
 
