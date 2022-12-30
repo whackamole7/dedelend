@@ -29,10 +29,11 @@ const RepayModal = (props) => {
 	const {globalStats} = useContext(GlobalStatsContext)
 	const [inputVal, setInputVal] = useState('');
 	const [liqPrice, setLiqPrice] = useState(null);
+	const [oldLiqPrice, setOldLiqPrice] = useState(null);
 	const [step, setStep] = [state.step ?? 0, state.setStep];
 	const [positionStats, setPositionStats] = useState({});
 	const [borrowed, setBorrowed] = useState(null);
-
+	
 	useEffect(() => {
 		if (position) {
 			if (!Object.keys(position).length) {
@@ -44,7 +45,7 @@ const RepayModal = (props) => {
 					setBorrowed(res.borrowed / 10**6);
 				})
 		}
-	}, [state, isLoading]);
+	}, [state, isLoading, state.position]);
 
 	useEffect(() => {
 		let curInputVal = inputVal;
@@ -94,22 +95,27 @@ const RepayModal = (props) => {
 
 			// Liq.Price
 			let liqPrice;
+			let oldLiqPrice;
 			const size = position.size / 10**USD_DECIMALS;
 			const entryPrice = position.averagePrice / 10**USD_DECIMALS;
 			const amount = size / entryPrice;
 			if (position.isLong) {
 				liqPrice = entryPrice + (((borrowed - input) / amount) * 1.2);
+				oldLiqPrice = entryPrice + ((borrowed / amount) * 1.2);
 			} else {
 				liqPrice = entryPrice - (((borrowed - input) / amount) * 1.2);
+				oldLiqPrice = entryPrice - ((borrowed / amount) * 1.2);
 			}
 			if (isNaN(liqPrice)) {
 				setLiqPrice(null);
+				setOldLiqPrice(null);
 			} else {
 				if (input >= borrowed) {
-					setLiqPrice(Infinity)
+					setLiqPrice(Infinity);
 				} else {
 					setLiqPrice(liqPrice);
 				}
+				setOldLiqPrice(oldLiqPrice);
 			}
 
 			setPositionStats({
@@ -330,7 +336,24 @@ const RepayModal = (props) => {
 						step === 0 ?
 							<div className="modal__info-field modal__info-field_hl">
 								<div className="modal__info-field-title">Liquidation Price:</div>
-								<div className={"modal__info-field-val" + (isFinite(liqPrice) ? "" : " icon-infinity")}>{liqPrice !== null ? (isFinite(liqPrice) ? `$${separateThousands(liqPrice?.toFixed(2))}` : '') : '—'}</div>
+								<div className={"modal__info-field-val modal__info-field-val_complex"}>
+									{((oldLiqPrice !== null) && (oldLiqPrice !== liqPrice) 
+									? 
+										<>
+											<span className='val_minor'>
+												{`$${separateThousands(oldLiqPrice?.toFixed(2))}`}
+											</span>
+											<span className='icon_arrow' />
+										</>
+										: '')}
+									<span className={(isFinite(liqPrice) ? "" : " icon-infinity")}>
+										{
+											isFinite(liqPrice) &&
+											(liqPrice !== null ? `$${separateThousands(liqPrice?.toFixed(2))}` : '—')
+										}
+										
+									</span>
+								</div>
 							</div>
 							: ""
 					}

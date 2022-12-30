@@ -192,7 +192,9 @@ export default function PositionSeller(props) {
     usdgSupply,
     totalTokenWeights,
   } = props;
+
   const [savedSlippageAmount] = useLocalStorageSerializeKey([chainId, SLIPPAGE_BPS_KEY], DEFAULT_SLIPPAGE_AMOUNT);
+
   const [keepLeverage, setKeepLeverage] = useLocalStorageSerializeKey([chainId, "Exchange-keep-leverage"], true);
   const position = positionsMap && positionKey ? positionsMap[positionKey] : undefined;
   const [fromValue, setFromValue] = useState("");
@@ -215,7 +217,9 @@ export default function PositionSeller(props) {
     savedRecieveTokenAddress ? toTokens.find((token) => token.address === savedRecieveTokenAddress) : undefined
   );
 
-  let allowedSlippage = savedSlippageAmount;
+  // Slippage Edit
+  // let allowedSlippage = savedSlippageAmount;
+  let allowedSlippage = DEFAULT_SLIPPAGE_AMOUNT;
   // if (isHigherSlippageAllowed) {
   //   allowedSlippage = DEFAULT_HIGHER_SLIPPAGE_AMOUNT;
   // }

@@ -625,8 +625,6 @@ export const Exchange = forwardRef((props, ref) => {
   const [ethShortExists, setEthShortExists] = useState(false);
 
   useEffect(() => {
-    console.log('tick');
-
     const longPos = Boolean(positions.find(pos => {
       return pos.isLong && pos.indexToken.symbol === "ETH";
     }));

@@ -439,10 +439,37 @@ input[type="text"] {
 				color: $lblue;
 			}
 
-			&_minor {
-				font-size: 17px;
-				line-height: calc(22.1/17);
+			.val_minor {
+				display: inline-block;
+				flex-shrink: 0;
+				font-size: 15px;
+				line-height: 0;
 				color: $grey;
+			}
+
+			&_complex {
+				position: relative;
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: flex-end;
+				align-items: center;
+				column-gap: 10px;
+				row-gap: 5px;
+
+				@media (max-width: 480px) {
+					flex-direction: column;
+
+					.val_minor {
+						line-height: calc(19.5/15);
+					}
+
+					.icon_arrow {
+						position: absolute;
+						left: -20px;
+						top: 50%;
+						transform: rotate(90deg) translateY(-50%);
+					}
+				}
 			}
 		}
 

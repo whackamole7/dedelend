@@ -12,16 +12,16 @@ const SlippageInput = ({ value, setValue }) => {
 						className="Exchange-swap-input Slippage-input"
 						value={value}
 						onChange={(e) => {
-							// const val = (e.target.value).replace(/[^0-9]/g, '').replace(/^0\d/, '');
-							const valStr = convertInputNum(e.target.value)
-							const val = sepToNumber(valStr);
+							const val = (e.target.value).replace(/[^0-9]/g, '').replace(/^0\d/, '');
+							// const valStr = convertInputNum(e.target.value)
+							// const val = sepToNumber(valStr);
 							
 							if (val > 100) {
 								setValue(100)
 							} else if (val < 0) {
 								setValue(0)
 							} else {
-								setValue(valStr)
+								setValue(val)
 							}
 						}}
 						onFocus={(e) => {

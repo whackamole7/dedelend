@@ -29,6 +29,7 @@ const BorrowModal = (props) => {
 	const [step, setStep] = [state.step ?? 0, state.setStep];
 	const [inputVal, setInputVal] = useState('');
 	const [liqPrice, setLiqPrice] = useState(null);
+	const [oldLiqPrice, setOldLiqPrice] = useState(null);
 	const [positionStats, setPositionStats] = useState({});
 	const [borrowed, setBorrowed] = useState(null);
 
@@ -90,19 +91,24 @@ const BorrowModal = (props) => {
 
 			// Liq.Price
 			let liqPrice;
+			let oldLiqPrice;
 			const size = position.size / 10**30;
 			const entryPrice = position.averagePrice / 10**30;
 			const amount = size / entryPrice;
 			if (position.isLong) {
 				liqPrice = entryPrice + (((borrowed + input) / amount) * 1.2);
+				oldLiqPrice = entryPrice + ((borrowed / amount) * 1.2);
 			} else {
 				liqPrice = entryPrice - (((borrowed + input) / amount) * 1.2);
+				oldLiqPrice = entryPrice - ((borrowed / amount) * 1.2);
 			}
 
 			if (!isFinite(liqPrice) || isNaN(liqPrice)) {
 				setLiqPrice(null);
+				setOldLiqPrice(null);
 			} else {
 				setLiqPrice(liqPrice);
+				setOldLiqPrice(oldLiqPrice);
 			}
 
 			setPositionStats({
@@ -323,7 +329,18 @@ const BorrowModal = (props) => {
 						step === 2 ?
 							<div className="modal__info-field modal__info-field_hl">
 								<div className="modal__info-field-title">Liquidation Price:</div>
-								<div className="modal__info-field-val">{liqPrice !== null ? `$${separateThousands(liqPrice?.toFixed(2))}` : '—'}</div>
+								<div className="modal__info-field-val modal__info-field-val_complex">
+									{((oldLiqPrice !== null) && (oldLiqPrice !== liqPrice) 
+									? 
+									<>
+										<span className={'val_minor' + (borrowed <= 0 ? " icon-infinity" : "")}>
+											{borrowed <= 0 ? "" : `$${separateThousands(oldLiqPrice?.toFixed(2))}`}
+										</span>
+										<span className='icon_arrow' />
+									</>
+									: '')}
+									{liqPrice !== null ? `$${separateThousands(liqPrice?.toFixed(2))}` : '—'}
+								</div>
 							</div>
 							: ""
 					}
