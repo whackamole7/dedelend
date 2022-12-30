@@ -10,7 +10,7 @@ import GMXInterface from '../views/gmx-test/App/App';
 import { connectWallet } from './utils/wallet';
 
 
-const AppRouter = ({ walletAddress, setWalletAddress, dgAddress}) => {
+const AppRouter = ({ walletAddress, setWalletAddress, dgAddress, setRegisterVisible }) => {
 	const loc = useLocation();
 	const navigate = useNavigate();
 
@@ -51,7 +51,8 @@ const AppRouter = ({ walletAddress, setWalletAddress, dgAddress}) => {
 						connectWallet(setWalletAddress)
 					}}
 					walletAddress={walletAddress} 
-					dgAddress={dgAddress} />
+					dgAddress={dgAddress}
+					setRegisterVisible={setRegisterVisible} />
 			} />
 			<Route
 				path="/earn"

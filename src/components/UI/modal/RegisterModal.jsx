@@ -9,9 +9,9 @@ const RegisterModal = ({ visible, setVisible, onRegisterClick, onApproveClick, c
 	const steps = [
 		{
 			name: 'Register',
-			title: 'You need to register',
+			title: 'Create Trading Account',
 			body: <div className="modal__text">
-							<p>In order to use your GMX position as collateral, you need to register. After the registration, you'll receive two ERC–721 tokens.</p>
+							<p>In order to use your GMX position as collateral, you need to create trading account. After the registration, you'll receive two ERC–721 tokens.</p>
 							<p>Each token is a representation of your position on GMX:</p>
 							<div className="text-cols nowrap">
 								<div className="text-col">
@@ -46,7 +46,7 @@ const RegisterModal = ({ visible, setVisible, onRegisterClick, onApproveClick, c
 								</div>
 							</div> */}
 						</div>,
-			btn: <Button btnActive={true} onClick={onRegisterClick}>Register</Button>,
+			btn: <Button btnActive={true} onClick={onRegisterClick}>Create Trading Account</Button>,
 		},
 		{
 			name: 'Approve',
@@ -61,7 +61,7 @@ const RegisterModal = ({ visible, setVisible, onRegisterClick, onApproveClick, c
 	const step = steps[curStep];
 	
 	return (
-		<Modal isObligatory={true} visible={visible} setVisible={setVisible} className="modal_register">
+		<Modal visible={visible} setVisible={setVisible} className="modal_register">
 			<div className="modal__steps steps">
 				{steps.map((el, i) => {
 					return (

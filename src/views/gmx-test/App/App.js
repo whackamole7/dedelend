@@ -132,6 +132,7 @@ function getWsProvider(active, chainId) {
 }
 
 function FullApp(props) {
+  const { setRegisterVisible } = props; 
   const isHome = isHomeSite();
   const exchangeRef = useRef();
   const { connector, library, deactivate, activate, active } = useWeb3React();
@@ -459,6 +460,7 @@ function FullApp(props) {
             connectWallet={connectWallet}
             savedShouldDisableValidationForTesting={savedShouldDisableValidationForTesting}
             dgAddress={props.dgAddress}
+            setRegisterVisible={setRegisterVisible}
           />
         </div>
       </div>

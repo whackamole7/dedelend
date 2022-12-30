@@ -32,11 +32,19 @@ import RegisterModal from './components/UI/modal/RegisterModal';
 import { errAlert } from './components/utils/notifications';
 
 
-const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) => {
+const Header = (props) => {
+	const {
+		walletAddress, 
+		setWalletAddress, 
+		dgAddress, 
+		setDgAddress,
+		registerVisible,
+		setRegisterVisible
+	} = props;
+
 	const { setGlobalStats } = useContext(GlobalStatsContext)
 	const { setUserStats } = useContext(UserStatsContext)
-
-	const [registerVisible, setRegisterVisible] = useState(false);
+	
 	const [registerStep, setRegisterStep] = useState(0);
 	const [registerLoading, setRegisterLoading] = useState(false);
 
@@ -44,6 +52,7 @@ const Header = ({ walletAddress, setWalletAddress, dgAddress, setDgAddress }) =>
 		DDL_AccountManager.doppelgangerMap(walletAddress)
 			.then(res => {
 				if (res === ethers.constants.AddressZero) {
+					setDgAddress('');
 					setRegisterStep(0);
 					setRegisterVisible(true);
 				} else {

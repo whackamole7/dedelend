@@ -1121,6 +1121,8 @@ export const Exchange = forwardRef((props, ref) => {
             minExecutionFee={minExecutionFee}
             minExecutionFeeUSD={minExecutionFeeUSD}
             minExecutionFeeErrorMessage={minExecutionFeeErrorMessage}
+            dgAddress={props.dgAddress}
+            setRegisterVisible={props.setRegisterVisible}
           />
           <div className="Exchange-wallet-tokens">
             <div className="Exchange-wallet-tokens-content">

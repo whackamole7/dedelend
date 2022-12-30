@@ -182,6 +182,7 @@ export default function SwapBox(props) {
     minExecutionFeeErrorMessage,
     ethShortExists,
     ethLongExists,
+    setRegisterVisible
   } = props;
 
   
@@ -1110,6 +1111,9 @@ export default function SwapBox(props) {
     if (!active) {
       return true;
     }
+    if (!props.dgAddress) {
+      return true;
+    }
     const [error, modal] = getError();
     if (error && !modal) {
       return false;
@@ -1143,6 +1147,9 @@ export default function SwapBox(props) {
     }
     if (!active) {
       return t`Connect Wallet`;
+    }
+    if (!props.dgAddress) {
+      return t`Create Trading Account`;
     }
     if (!isSupportedChain(chainId)) {
       return t`Incorrect Network`;
@@ -1700,6 +1707,10 @@ export default function SwapBox(props) {
 
     if (!active) {
       props.connectWallet();
+      return;
+    }
+    if (!props.dgAddress) {
+      setRegisterVisible(true);
       return;
     }
 
