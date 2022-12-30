@@ -267,6 +267,7 @@ function FullApp(props) {
     [chainId, SLIPPAGE_BPS_KEY],
     DEFAULT_SLIPPAGE_AMOUNT
   );
+  
   const [slippageAmount, setSlippageAmount] = useState(0);
   const [isPnlInLeverage, setIsPnlInLeverage] = useState(false);
   const [shouldDisableValidationForTesting, setShouldDisableValidationForTesting] = useState(false);
@@ -440,7 +441,7 @@ function FullApp(props) {
           <h2 className="banner__title">Hey, DeDeLend users!</h2>
           <div className="banner__text text-inline">
             <p>We wanted to let you know that DeDeLend is still in its MVP stage, so there are some features that aren't quite yet working. Because of this, your funds may occasionally be returned to your <a href={`https://arbiscan.io/address/${props.dgAddress}`} target="_blank" rel="noreferrer">trading account</a> instead of being sent directly to your wallet. This might happen when slippage is too low.</p>
-            <p>If this happens, don't worry — we'll take care of it. We'll send funds back into your wallet within 24 hours, but if we can't get it done in that time frame, just contact us in <a href="https://discord.com/invite/5DGZ7rzSfS" target="_blank" rel="noreferrer">Discord</a> and we'll make sure it gets taken care of ASAP!</p>
+            <p>If this happens, don't worry — we'll take care of it. We'll send funds back into your wallet within 24 hours, but if we can't get it done in that time frame, just contact us <span className="nowrap">in <a href="https://discord.com/invite/5DGZ7rzSfS" target="_blank" rel="noreferrer">Discord</a></span> and we'll make sure it gets taken care of ASAP!</p>
           </div>
         </Banner>
         

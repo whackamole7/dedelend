@@ -109,7 +109,10 @@ export default function ConfirmationBox(props) {
 
   const nativeTokenSymbol = getConstant(chainId, "nativeTokenSymbol");
 
-  const [savedSlippageAmount] = useLocalStorageSerializeKey([chainId, SLIPPAGE_BPS_KEY], DEFAULT_SLIPPAGE_AMOUNT);
+  // Default Slippage
+  // const [savedSlippageAmount] = useLocalStorageSerializeKey([chainId, SLIPPAGE_BPS_KEY], DEFAULT_SLIPPAGE_AMOUNT);
+  const [savedSlippageAmount] = useState(DEFAULT_SLIPPAGE_AMOUNT);
+  
   const [isProfitWarningAccepted, setIsProfitWarningAccepted] = useState(false);
   const [isTriggerWarningAccepted, setIsTriggerWarningAccepted] = useState(false);
   const [isLimitOrdersVisible, setIsLimitOrdersVisible] = useState(false);

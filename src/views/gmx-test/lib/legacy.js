@@ -140,7 +140,10 @@ export const SWAP_ORDER_OPTIONS = [MARKET, LIMIT];
 export const SWAP_OPTIONS = [LONG, SHORT];
 
 
-export const DEFAULT_SLIPPAGE_AMOUNT = 30;
+// Default Slippage
+// export const DEFAULT_SLIPPAGE_AMOUNT = 30;
+export const DEFAULT_SLIPPAGE_AMOUNT = 100;
+
 export const DEFAULT_HIGHER_SLIPPAGE_AMOUNT = 100;
 
 export const SLIPPAGE_BPS_KEY = "Exchange-swap-slippage-basis-points-v3";

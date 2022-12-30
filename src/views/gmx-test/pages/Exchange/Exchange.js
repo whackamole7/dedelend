@@ -621,7 +621,29 @@ export const Exchange = forwardRef((props, ref) => {
     props.dgAddress
   )
 
-  
+  const [ethLongExists, setEthLongExists] = useState(false);
+  const [ethShortExists, setEthShortExists] = useState(false);
+
+  useEffect(() => {
+    console.log('tick');
+
+    const longPos = Boolean(positions.find(pos => {
+      return pos.isLong && pos.indexToken.symbol === "ETH";
+    }));
+    const shortPos = Boolean(positions.find(pos => {
+      return !pos.isLong && pos.indexToken.symbol === "ETH";
+    }));
+
+    if (longPos) {
+      setSwapOption(LONG)
+    }
+    if (shortPos) {
+      setSwapOption(SHORT)
+    }
+
+    setEthLongExists(longPos);
+    setEthShortExists(shortPos);
+  }, [positions.length])
   
 
   useImperativeHandle(ref, () => ({
@@ -1053,6 +1075,9 @@ export const Exchange = forwardRef((props, ref) => {
         </div>
         <div className="Exchange-right">
           <SwapBox
+            positions={positions}
+            ethShortExists={ethShortExists}
+            ethLongExists={ethLongExists}
             pendingPositions={pendingPositions}
             setPendingPositions={setPendingPositions}
             setIsWaitingForPluginApproval={setIsWaitingForPluginApproval}

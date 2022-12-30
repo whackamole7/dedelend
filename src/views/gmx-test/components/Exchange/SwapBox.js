@@ -136,6 +136,7 @@ function getNextAveragePrice({ size, sizeDelta, hasProfit, delta, nextPrice, isL
 
 export default function SwapBox(props) {
   const {
+    positions,
     pendingPositions,
     setPendingPositions,
     infoTokens,
@@ -179,7 +180,11 @@ export default function SwapBox(props) {
     minExecutionFee,
     minExecutionFeeUSD,
     minExecutionFeeErrorMessage,
+    ethShortExists,
+    ethLongExists,
   } = props;
+
+  
 
   const [fromValue, setFromValue] = useState("");
   const [toValue, setToValue] = useState("");
@@ -1856,6 +1861,16 @@ export default function SwapBox(props) {
           <Tab
             icons={SWAP_ICONS}
             options={SWAP_OPTIONS}
+            disabledList={[
+              {
+                label: "Long",
+                disabled: ethShortExists
+              },
+              {
+                label: "Short",
+                disabled: ethLongExists
+              }
+            ]}
             option={swapOption}
             onChange={onSwapOptionChange}
             className="Exchange-swap-option-tabs"
@@ -1963,7 +1978,8 @@ export default function SwapBox(props) {
                   />
                 </div>
                 <div>
-                  <TokenSelector
+                  {/* Currency Pairs disabling */}
+                  {/* <TokenSelector
                     label={getTokenLabel()}
                     chainId={chainId}
                     tokenAddress={toTokenAddress}
@@ -1971,7 +1987,8 @@ export default function SwapBox(props) {
                     tokens={toTokens}
                     infoTokens={infoTokens}
                     showTokenImgInDropdown={true}
-                  />
+                  /> */}
+                  <div className="TokenSelector-dummy">ETH</div>
                 </div>
               </div>
             </div>

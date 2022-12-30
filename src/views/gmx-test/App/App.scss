@@ -1605,6 +1605,42 @@
   }
 }
 
+.tab-tooltip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  text-align: left;
+  cursor: not-allowed;
+  .Tooltip-handle {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  
+
+  &-container {
+    position: relative;
+
+    &:hover, &:focus-visible {
+      color: $grey!important;
+    }
+
+    .Tooltip-popup {
+      box-shadow: 3px 0px 20px #060D21;
+    }
+    
+    .Tooltip-popup.right-bottom {
+      top: calc(100% - 7px);
+      right: 35%;
+    }
+  }
+}
+
 .pos-relative {
   position: relative;
 }
@@ -1612,4 +1648,11 @@
 .spacing {
   // line-height: 130%;
   letter-spacing: -0.1em;
+}
+
+.TokenSelector-dummy {
+  font-family: "Electrolize", sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.3;
 }
