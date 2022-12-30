@@ -11,7 +11,7 @@ const RegisterModal = ({ visible, setVisible, onRegisterClick, onApproveClick, c
 			name: 'Register',
 			title: 'You need to register',
 			body: <div className="modal__text">
-							<p>In order to use your GMX position as collateral, you need to register. After the registration, you'll receive ERC–721 tokens.</p>
+							<p>In order to use your GMX position as collateral, you need to register. After the registration, you'll receive two ERC–721 tokens.</p>
 							<p>Each token is a representation of your position on GMX:</p>
 							<div className="text-cols nowrap">
 								<div className="text-col">

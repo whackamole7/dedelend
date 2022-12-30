@@ -31,6 +31,7 @@ const BorrowModal = (props) => {
 	const [liqPrice, setLiqPrice] = useState(null);
 	const [oldLiqPrice, setOldLiqPrice] = useState(null);
 	const [positionStats, setPositionStats] = useState({});
+	const [borrowLimit, setBorrowLimit] = useState(null);
 	const [borrowed, setBorrowed] = useState(null);
 
 	useEffect(() => {
@@ -43,8 +44,13 @@ const BorrowModal = (props) => {
 				.then(res => {
 					setBorrowed(res.borrowed / 10**6);
 				})
+
+			DDL_GMX.maxBorrowLimit(position.ddl.keyId)
+				.then(res => {
+					setBorrowLimit(res / 10**6);
+				})
 		}
-	}, [state, isLoading]);
+	}, [state, isLoading, state.position]);
 	
 
 	useEffect(() => {
@@ -80,9 +86,12 @@ const BorrowModal = (props) => {
 			if (!Object.keys(position).length) {
 				return;
 			}
+			if (borrowLimit === null) {
+				return;
+			}
 			
 			const positionProfit = (position.delta / 10**USD_DECIMALS);
-			const borrowLimit = position.hasProfit ? (positionProfit / 2) : 0;
+			// const borrowLimit = position.hasProfit ? (positionProfit / 2) : 0;
 			const available = Math.max(borrowLimit - borrowed, 0);
 
 			// Loan-To-Value
@@ -112,12 +121,11 @@ const BorrowModal = (props) => {
 			}
 
 			setPositionStats({
-				borrowLimit,
 				available,
 				loanToValue: Math.min(loanToValue, 1),
 			});
 		}
-	}, [state, borrowed, inputVal]);
+	}, [state, borrowed, borrowLimit, inputVal, state.position]);
 
 	useEffect(() => {
 		if (typeof liqPrice !== 'number') {
@@ -312,7 +320,7 @@ const BorrowModal = (props) => {
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title">Borrow Limit:</div>
-						<div className="modal__info-field-val">{(option ? separateThousands(option.borrowLimit) : separateThousands(positionStats.borrowLimit?.toFixed(2))) + ' USDC'}</div>
+						<div className="modal__info-field-val">{(option ? separateThousands(option.borrowLimit) : separateThousands(borrowLimit?.toFixed(2))) + ' USDC'}</div>
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title nowrap">Loan-To-Value:</div>

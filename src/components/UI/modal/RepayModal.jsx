@@ -33,6 +33,7 @@ const RepayModal = (props) => {
 	const [step, setStep] = [state.step ?? 0, state.setStep];
 	const [positionStats, setPositionStats] = useState({});
 	const [borrowed, setBorrowed] = useState(null);
+	const [borrowLimit, setBorrowLimit] = useState(null);
 	
 	useEffect(() => {
 		if (position) {
@@ -43,6 +44,11 @@ const RepayModal = (props) => {
 			DDL_GMX.borrowedByCollateral(position.ddl.keyId)
 				.then(res => {
 					setBorrowed(res.borrowed / 10**6);
+				})
+
+			DDL_GMX.maxBorrowLimit(position.ddl.keyId)
+				.then(res => {
+					setBorrowLimit(res / 10**6);
 				})
 		}
 	}, [state, isLoading, state.position]);
@@ -85,9 +91,12 @@ const RepayModal = (props) => {
 			if (!Object.keys(position).length) {
 				return;
 			}
+			if (borrowLimit === null) {
+				return;
+			}
 			
 			const positionProfit = (position.delta / 10**USD_DECIMALS);
-			const borrowLimit = position.hasProfit ? (positionProfit / 2) : 0;
+			// const borrowLimit = position.hasProfit ? (positionProfit / 2) : 0;
 
 			// Loan-To-Value
 			const input = sepToNumber(curInputVal ?? 0);
@@ -119,12 +128,11 @@ const RepayModal = (props) => {
 			}
 
 			setPositionStats({
-				borrowLimit, 
 				repay: borrowed, 
 				loanToValue: Math.min(loanToValue, 1),
 			});
 		}
-	}, [state, borrowed, inputVal]);
+	}, [state, borrowed, inputVal, state.position]);
 
 	useEffect(() => {
 		if (typeof liqPrice !== 'number' || !isFinite(liqPrice)) {
@@ -320,7 +328,7 @@ const RepayModal = (props) => {
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title">Borrow Limit:</div>
-						<div className="modal__info-field-val">{(option ? separateThousands(option.borrowLimit) : separateThousands(floor(positionStats.borrowLimit))) + ' USDC'}</div>
+						<div className="modal__info-field-val">{(option ? separateThousands(option.borrowLimit) : separateThousands(borrowLimit?.toFixed(2))) + ' USDC'}</div>
 					</div>
 					<div className="modal__info-field">
 						<div className="modal__info-field-title nowrap">Loan-To-Value:</div>

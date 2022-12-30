@@ -61,7 +61,7 @@ const BorrowsItem = (props) => {
 	}
 
 	useEffect(() => {
-		if (borrowed) {
+		if (typeof borrowed !== 'undefined') {
 			setBorrowState({
 				...borrowState,
 				step: borrowStep,
@@ -74,6 +74,20 @@ const BorrowsItem = (props) => {
 			})
 		}
 	}, [repayStep, borrowStep])
+
+	/* useEffect(() => {
+		if (typeof borrowed !== 'undefined') {
+			setBorrowState({
+				...borrowState,
+				position: curPosition,
+			})
+			setRepayState({
+				...repayState,
+				position: curPosition,
+			})
+		}
+		console.log('tick');
+	}, [available]) */	
 
 
 	// Key id for positions
@@ -97,24 +111,28 @@ const BorrowsItem = (props) => {
 							DDL_GMX.borrowedByCollateral(id)
 								.then(res => {
 									position.ddl.borrowed = res.borrowed;
-									const borrowLimit = (position.hasProfit ? (position.delta / 10**USD_DECIMALS) : 0) / 2;
-									let availableRaw = borrowLimit - position.ddl.borrowed / 10**6;
-									const multiplier = position.isLong ? 1 + BORDER_COEF : 1 - BORDER_COEF;
-									const entryPrice = position.averagePrice / 10**30;
-									const borderPrice = entryPrice * multiplier;
-									const curPrice = position.markPrice / 10**USD_DECIMALS;
-									if (position.isLong) {
-										if (curPrice < borderPrice) {
-											availableRaw = 0;
-										}
-									} else {
-										if (curPrice > borderPrice) {
-											availableRaw = 0;
-										}
-									}
-									const available = Math.max(availableRaw, 0);
-									position.ddl.available = available;
-									setAvailable(available);
+									DDL_GMX.maxBorrowLimit(id)
+										.then(borrowLimit => {
+											let availableRaw = borrowLimit / 10**6 - res.borrowed / 10**6;
+											const multiplier = position.isLong ? 1 + BORDER_COEF : 1 - BORDER_COEF;
+											const entryPrice = position.averagePrice / 10**30;
+											const borderPrice = entryPrice * multiplier;
+											const curPrice = position.markPrice / 10**USD_DECIMALS;
+											if (position.isLong) {
+												if (curPrice < borderPrice) {
+													availableRaw = 0;
+												}
+											} else {
+												if (curPrice > borderPrice) {
+													availableRaw = 0;
+												}
+											}
+											const available = Math.max(availableRaw, 0);
+											position.ddl.available = available;
+											setAvailable(available);
+											setCurPosition(position);
+										})
+									// const borrowLimit = (position.hasProfit ? (position.delta / 10**USD_DECIMALS) : 0) / 2;
 									
 									// Liq.Price
 									if (res.borrowed.gt(0)) {
@@ -153,25 +171,28 @@ const BorrowsItem = (props) => {
 							DDL_AccountManagerToken.getApproved(id)
 								.then(addr => {
 									position.ddl.borrowed = BigNumber.from(0);
-									const borrowLimit = (position.hasProfit ? (position.delta / 10**USD_DECIMALS) : 0) / 2;
-									let availableRaw = borrowLimit - position.ddl.borrowed / 10**6;
-									const multiplier = position.isLong ? 1 + BORDER_COEF : 1 - BORDER_COEF;
-									const entryPrice = position.averagePrice / 10**30;
-									const borderPrice = entryPrice * multiplier;
-									const curPrice = position.markPrice / 10**USD_DECIMALS;
-									if (position.isLong) {
-										if (curPrice < borderPrice) {
-											availableRaw = 0;
-										}
-									} else {
-										if (curPrice > borderPrice) {
-											availableRaw = 0;
-										}
-									}
-									const available = Math.max(availableRaw, 0);
-									position.ddl.available = available;
-									setAvailable(available);
-									setCurPosition(position);
+									// const borrowLimit = (position.hasProfit ? (position.delta / 10**USD_DECIMALS) : 0) / 2;
+									DDL_GMX.maxBorrowLimit(id)
+										.then(borrowLimit => {
+											let availableRaw = borrowLimit / 10**6;
+											const multiplier = position.isLong ? 1 + BORDER_COEF : 1 - BORDER_COEF;
+											const entryPrice = position.averagePrice / 10**30;
+											const borderPrice = entryPrice * multiplier;
+											const curPrice = position.markPrice / 10**USD_DECIMALS;
+											if (position.isLong) {
+												if (curPrice < borderPrice) {
+													availableRaw = 0;
+												}
+											} else {
+												if (curPrice > borderPrice) {
+													availableRaw = 0;
+												}
+											}
+											const available = Math.max(availableRaw, 0);
+											position.ddl.available = available;
+											setAvailable(available);
+											setCurPosition(position);
+										})
 
 									if (addr === DDL_GMX.address) {
 										setBorrowStep(1);
