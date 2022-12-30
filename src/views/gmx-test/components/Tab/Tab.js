@@ -24,8 +24,6 @@ export default function Tab(props) {
         let disabledNode;
         
         if (props.disabledList) {
-          console.log('TAB');
-          
           props.disabledList.forEach(el => {
             if (el.label === label && el.disabled) {
               disabledNode = (
