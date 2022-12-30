@@ -270,6 +270,7 @@ export default function ConfirmationBox(props) {
   // }
   if (userSlippage !== '') {
     allowedSlippage = userSlippage * 100;
+    console.log(allowedSlippage / 100);
   }
 
   const renderSpreadWarning = useCallback(() => {
@@ -745,7 +746,7 @@ export default function ConfirmationBox(props) {
              />
           )}
           <ExchangeInfoRow label="Allowed Slippage" className="Slippage-row">
-            <Tooltip
+            {/* <Tooltip
               handle={`${formatAmount(allowedSlippage, 2, 2)}%`}
               position="right-top"
               renderContent={() => {
@@ -759,7 +760,7 @@ export default function ConfirmationBox(props) {
                   </>
                 );
               }}
-            />
+            /> */}
           </ExchangeInfoRow>
           {decreaseOrdersThatWillBeExecuted.length > 0 && (
             <div className="PositionEditor-allow-higher-slippage">
