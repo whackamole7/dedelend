@@ -436,11 +436,15 @@ export const Exchange = forwardRef((props, ref) => {
     [chainId, defaultCollateralSymbol]
   );
 
-  const [tokenSelection, setTokenSelection] = useLocalStorageByChainId(
-    chainId,
-    "Exchange-token-selection-v2",
-    defaultTokenSelection
-  );
+  // ETH/USDC disable
+  // const [tokenSelection, setTokenSelection] = useLocalStorageByChainId(
+  //   chainId,
+  //   "Exchange-token-selection-v2",
+  //   defaultTokenSelection
+  // );
+  const [tokenSelection, setTokenSelection] = useState(defaultTokenSelection);
+
+
   const [swapOption, setSwapOption] = useLocalStorageByChainId(chainId, "Swap-option-v2", LONG);
 
   const fromTokenAddress = tokenSelection[swapOption].from;

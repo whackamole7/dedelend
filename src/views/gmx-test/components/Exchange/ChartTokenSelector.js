@@ -32,6 +32,7 @@ export default function ChartTokenSelector(props) {
 
   var value = selectedToken;
 
+  // ETH/USDC disable
   return (
     <Menu>
       <Menu.Button as="div" disabled={/* isSwap */true}>
