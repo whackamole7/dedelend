@@ -65,6 +65,7 @@
     "react-error-overlay": "6.0.9"
   },
   "scripts": {
+    "predeploy": "ren .\\build\\index.html app.html && xcopy /eq ..\\ddl_landing\\public\\*.* .\\build",
     "deploy": "echo dedelend.co > ./build/CNAME && gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
