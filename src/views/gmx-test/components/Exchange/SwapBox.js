@@ -1989,7 +1989,7 @@ export default function SwapBox(props) {
                   />
                 </div>
                 <div>
-                  {/* Currency Pairs disabling */}
+                  {/* ETH/USDC disabling */}
                   {/* <TokenSelector
                     label={getTokenLabel()}
                     chainId={chainId}
