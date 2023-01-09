@@ -44,8 +44,7 @@ const PositionsItem = (props) => {
 			.then(id => {
 				DDL_AccountManagerToken.ownerOf(id)
 					.then(owner => {
-						// setIsLocked(owner === DDL_GMX.address);
-						setIsLocked(true);
+						setIsLocked(owner === DDL_GMX.address);
 					});
 			})
 	}, [dgAddress, position])
