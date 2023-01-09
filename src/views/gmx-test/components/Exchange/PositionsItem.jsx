@@ -44,12 +44,11 @@ const PositionsItem = (props) => {
 			.then(id => {
 				DDL_AccountManagerToken.ownerOf(id)
 					.then(owner => {
-						setIsLocked(owner === DDL_GMX.address);
+						// setIsLocked(owner === DDL_GMX.address);
+						setIsLocked(true);
 					});
 			})
 	}, [dgAddress, position])
-	
-	
 
 	return (
 		<>
@@ -231,20 +230,44 @@ const PositionsItem = (props) => {
 						${formatAmount(liquidationPrice, USD_DECIMALS, 2, true)}
 					</td>
 
-					<td className="td-btn">
+					<td className="td-btn pos-relative">
+						<Tooltip
+							className={"btn-tooltip nowrap" + (isLocked ? "" : " hidden")}
+							position="left-bottom"
+							enabled={isLocked}
+							handle=""
+							renderContent={() => {
+								return (
+									<div>
+										Repay your debt to manage<br className='br-mobile' /> the position
+									</div>
+								);
+							}} />
 						<button
 							className="Exchange-list-action"
 							onClick={() => editPosition(position)}
-							// disabled={position.size.eq(0)}
+							disabled={position.size.eq(0) || isLocked}
 						>
 							Edit
 						</button>
 					</td>
-					<td className="td-btn">
+					<td className="td-btn pos-relative">
+						<Tooltip
+							className={"btn-tooltip nowrap" + (isLocked ? "" : " hidden")}
+							position="left-bottom"
+							enabled={isLocked}
+							handle=""
+							renderContent={() => {
+								return (
+									<div>
+										Repay your debt to manage<br className='br-mobile' /> the position
+									</div>
+								);
+							}} />
 						<button
 							className="Exchange-list-action"
 							onClick={() => sellPosition(position)}
-							disabled={position.size.eq(0)}
+							disabled={position.size.eq(0) || isLocked}
 						>
 							Close
 						</button>
@@ -395,20 +418,48 @@ const PositionsItem = (props) => {
 				</div>
 				<div className="App-card-divider"></div>
 				<div className="App-card-options">
-					<button
-						className="App-button-option App-card-option"
-						disabled={position.size.eq(0)}
-						onClick={() => editPosition(position)}
-					>
-						<Trans> Edit</Trans>
-					</button>
-					<button
-						className="App-button-option App-card-option"
-						disabled={position.size.eq(0)}
-						onClick={() => sellPosition(position)}
-					>
-						Close
-					</button>
+					<div className="App-button-option pos-relative">
+						<Tooltip
+							className={"btn-tooltip nowrap" + (isLocked ? "" : " hidden")}
+							position="left-bottom"
+							enabled={isLocked}
+							handle=""
+							renderContent={() => {
+								return (
+									<div>
+										Repay your debt to manage<br className='br-mobile' /> the position
+									</div>
+								);
+							}} />
+						<button
+							className="App-button-option App-card-option"
+							disabled={position.size.eq(0) || isLocked}
+							onClick={() => editPosition(position)}
+						>
+							<Trans>Edit</Trans>
+						</button>
+					</div>
+					<div className="App-button-option pos-relative">
+						<Tooltip
+							className={"btn-tooltip nowrap" + (isLocked ? "" : " hidden")}
+							position="left-bottom"
+							enabled={isLocked}
+							handle=""
+							renderContent={() => {
+								return (
+									<div>
+										Repay your debt to manage<br className='br-mobile' /> the position
+									</div>
+								);
+							}} />
+						<button
+							className="App-button-option App-card-option"
+							disabled={position.size.eq(0) || isLocked}
+							onClick={() => sellPosition(position)}
+						>
+							Close
+						</button>
+					</div>
 					{isLocked &&
 						<CollateralLocked />}
 				</div>

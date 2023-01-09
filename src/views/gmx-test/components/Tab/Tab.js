@@ -29,14 +29,14 @@ export default function Tab(props) {
               disabledNode = (
                 <div className={cx("Tab-option", "tab-tooltip-container")} onClick={() => {return}} key={opt}>
                   <Tooltip
-                    className="tab-tooltip"
+                    className="tab-tooltip nowrap"
                     position="right-bottom"
                     enabled={true}
                     handle=""
                     renderContent={() => {
                       return (
                         <div>
-                          <span className='spacing'>Y</span>ou can't open a long/short position at the same time
+                          <span className='spacing'>Y</span>ou can't open<br className="br-mobile" /> a long/short position<br /> at the same time
                         </div>
                       );
                     }} />

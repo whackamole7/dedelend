@@ -54,7 +54,7 @@ function App() {
 	
 	return (
 		<>
-			<Favicon url="https://i.imgur.com/dLCWse0.png" />
+			{/* <Favicon url="https://i.imgur.com/dLCWse0.png" /> */}
 			<GlobalStatsContext.Provider value={{
 				globalStats,
 				setGlobalStats

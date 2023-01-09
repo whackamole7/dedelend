@@ -298,14 +298,14 @@ export default function BorrowsList(props) {
               </th>
               <th>
                 <Tooltip
+                  className="has-hint-tooltip nowrap"
                   handle="Liq. Price"
-                  handleClassName="has-hint-tooltip"
                   position="left-bottom"
                   enabled={true}
                   renderContent={() => {
                     return (
                       <div>
-                        If the price reaches this price your loan will be liquidated
+                        If the price reaches this price<br /> your loan will be liquidated
                       </div>
                     );
                   }}

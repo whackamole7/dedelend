@@ -10,4 +10,5 @@ export const MAX_GAS_PRICE_MAP = {
 };
 
 export const BORDER_COEF = 0.01;
+// export const BORDER_COEF = 0;
 export const APY = '10.00%';

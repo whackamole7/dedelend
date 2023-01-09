@@ -4,7 +4,7 @@ import Tooltip from './../Tooltip/Tooltip';
 const CollateralLocked = () => {
 	return (
 		<Tooltip
-			className="collateral-locked-icon"
+			className="collateral-locked-icon nowrap"
 			position="right-bottom"
 			enabled={true}
 			handle=""

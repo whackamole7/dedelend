@@ -356,37 +356,25 @@ const BorrowsItem = (props) => {
 				</td>
 	
 				<td className="td-btn pos-relative">
-					{(typeof borrowed === 'undefined' || !position.hasProfit || available <= 0) ?
-						<>
-							<Tooltip
-								className="btn-tooltip"
-								position="left-bottom"
-								enabled={true}
-								handle=""
-								renderContent={() => {
-									return (
-										<div>
-											<span className='spacing'>Y</span>ou can't lock position if it's unprofitable or mark price hasn't changed more than 1% from entry price
-										</div>
-									);
-								}} />
-							<button
-								className="Exchange-list-action"
-								onClick={() => borrowPosition(position)}
-								disabled={((typeof borrowed === 'undefined') || !position.hasProfit || available <= 0)}
-							>
-								Borrow
-							</button>
-						</>
-						
-						:
-						<button
-							className="Exchange-list-action"
-							onClick={() => borrowPosition(position)}
-							disabled={((typeof borrowed === 'undefined') || !position.hasProfit || available <= 0)}
-						>
-							Borrow
-						</button>}
+					<Tooltip
+						className={"btn-tooltip nowrap" + ((typeof borrowed === 'undefined' || !position.hasProfit || available <= 0) ? "" : " hidden")}
+						position="left-bottom"
+						enabled={(typeof borrowed === 'undefined' || !position.hasProfit || available <= 0)}
+						handle=""
+						renderContent={() => {
+							return (
+								<div>
+									<span className='spacing'>Y</span>ou can't lock position if it's unprofitable<br /> or mark price hasn't changed more than<br /> 1% from entry price
+								</div>
+							);
+						}} />
+					<button
+						className="Exchange-list-action"
+						onClick={() => borrowPosition(position)}
+						disabled={((typeof borrowed === 'undefined') || !position.hasProfit || available <= 0)}
+					>
+						Borrow
+					</button>
 				</td>
 				<td className="td-btn">
 					<button
@@ -490,14 +478,14 @@ const BorrowsItem = (props) => {
 					<div className="App-card-row">
 						<div className="label">
 							<Tooltip
+								className="has-hint-tooltip nowrap"
 								handle="Liq. Price"
-								handleClassName="has-hint-tooltip"
 								position="left-bottom"
 								enabled={true}
 								renderContent={() => {
 									return (
 										<div>
-											If the price reaches this price your loan will be liquidated
+											If the price reaches this price<br /> your loan will be liquidated
 										</div>
 									);
 								}}
@@ -516,36 +504,25 @@ const BorrowsItem = (props) => {
 				<div className="App-card-divider"></div>
 				<div className="App-card-options">
 					<div className="pos-relative App-button-option">
-						{((typeof borrowed === 'undefined') || !position.hasProfit || available <= 0) ?
-						<>
-							<Tooltip
-								className="btn-tooltip"
-								position="right-bottom"
-								enabled={true}
-								handle=""
-								renderContent={() => {
-									return (
-										<div>
-											You can't lock position if it's unprofitable or mark price hasn't changed more than 1% from entry price
-										</div>
-									);
-								}} />
-							<button
-								className="App-button-option App-card-option"
-								disabled={((typeof borrowed === 'undefined') || !position.hasProfit || available <= 0)}
-								onClick={() => borrowPosition()}
-							>
-								<Trans>Borrow</Trans>
-							</button>
-						</>
-						:
+						<Tooltip
+							className={"btn-tooltip nowrap" + ((typeof borrowed === 'undefined' || !position.hasProfit || available <= 0) ? "" : " hidden")}
+							position="left-bottom"
+							enabled={(typeof borrowed === 'undefined' || !position.hasProfit || available <= 0)}
+							handle=""
+							renderContent={() => {
+								return (
+									<div>
+										<span className='spacing'>Y</span>ou can't lock position if it's unprofitable<br /> or mark price hasn't changed more than<br /> 1% from entry price
+									</div>
+								);
+							}} />
 						<button
 							className="App-button-option App-card-option"
 							disabled={((typeof borrowed === 'undefined') || !position.hasProfit || available <= 0)}
 							onClick={() => borrowPosition()}
 						>
 							<Trans>Borrow</Trans>
-						</button>}
+						</button>
 					</div>
 				
 					<button
