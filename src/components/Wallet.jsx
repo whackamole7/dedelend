@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import icon_wallet from '../img/icon-wallet.png';
+import icon_wallet from '../img/icon-wallet.svg';
 import icon_link from '../img/icon-link.svg';
 import Button from './UI/button/Button';
 
