@@ -460,6 +460,7 @@ function FullApp(props) {
             connectWallet={connectWallet}
             savedShouldDisableValidationForTesting={savedShouldDisableValidationForTesting}
             dgAddress={props.dgAddress}
+            walletAddress={props.walletAddress}
             setRegisterVisible={setRegisterVisible}
           />
         </div>

@@ -8,9 +8,10 @@ export const notifySuccess = (text, hash) => {
 		<div>
 			{text}
 			<br />
-			<a href={url} target="_blank" rel="noopener noreferrer">
-				View on Arbiscan
-			</a>
+			{hash &&
+				<a href={url} target="_blank" rel="noopener noreferrer">
+					View on Arbiscan
+				</a>}
 			<br />
 		</div>
 	);

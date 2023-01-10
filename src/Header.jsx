@@ -280,11 +280,11 @@ const Header = (props) => {
 			name: 'Earn',
 			to: '/earn',
 		},
-		{
+		/* {
 			name: 'Old Version',
 			to: 'https://old.dedelend.co/',
 			isExternal: true,
-		},
+		}, */
 	]
 	headerLinks.find(link => {
 		link.isActive = loc.pathname.split('/')[1] === link.to.split('/')[1];
@@ -300,7 +300,9 @@ const Header = (props) => {
 				</div>
 
 				{walletAddress ?
-					<Wallet address={walletAddress} /> :
+					<Wallet address={walletAddress} 
+						setAddress={setWalletAddress} 
+						setDgAddress={setDgAddress} /> :
 					<Button isMain={true} onClick={(e) => {
 						connectWallet(setWalletAddress)
 					}}>Connect wallet</Button>}

@@ -401,7 +401,9 @@ export const Exchange = forwardRef((props, ref) => {
     }
   }, [showBanner, bannerHidden, setBannerHidden, setShowBanner]);
 
-  const { active, account, library } = useWeb3React();
+  // const { active, account, library } = useWeb3React();
+  const { account, library } = useWeb3React();
+  const active = Boolean(props.walletAddress);
   const { chainId } = useChainId();
   const currentAccount = account;
 

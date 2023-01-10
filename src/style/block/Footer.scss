@@ -19,6 +19,7 @@
 	}
 	&__smedia-item {
 		display: inline-block;
+		line-height: 0;
 		
 		svg rect {
 			transition: all .2s ease;

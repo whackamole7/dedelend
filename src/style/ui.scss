@@ -161,6 +161,10 @@ a {
 	&:not(.disabled).highlighted {
 		color: $white;
 		background-color: $lblue;
+
+		&:focus-visible {
+			outline: -webkit-focus-ring-color auto 1px;	
+		}
 	}
 }
 
