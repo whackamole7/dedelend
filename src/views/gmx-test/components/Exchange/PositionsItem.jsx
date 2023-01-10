@@ -233,7 +233,7 @@ const PositionsItem = (props) => {
 						<Tooltip
 							className={"btn-tooltip nowrap" + (isLocked ? "" : " hidden")}
 							position="left-bottom"
-							enabled={isLocked}
+							enabled={true}
 							handle=""
 							renderContent={() => {
 								return (
@@ -254,7 +254,7 @@ const PositionsItem = (props) => {
 						<Tooltip
 							className={"btn-tooltip nowrap" + (isLocked ? "" : " hidden")}
 							position="left-bottom"
-							enabled={isLocked}
+							enabled={true}
 							handle=""
 							renderContent={() => {
 								return (
@@ -421,7 +421,7 @@ const PositionsItem = (props) => {
 						<Tooltip
 							className={"btn-tooltip nowrap" + (isLocked ? "" : " hidden")}
 							position="left-bottom"
-							enabled={isLocked}
+							enabled={true}
 							handle=""
 							renderContent={() => {
 								return (
@@ -442,7 +442,7 @@ const PositionsItem = (props) => {
 						<Tooltip
 							className={"btn-tooltip nowrap" + (isLocked ? "" : " hidden")}
 							position="left-bottom"
-							enabled={isLocked}
+							enabled={true}
 							handle=""
 							renderContent={() => {
 								return (

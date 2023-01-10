@@ -359,7 +359,7 @@ const BorrowsItem = (props) => {
 					<Tooltip
 						className={"btn-tooltip nowrap" + ((typeof borrowed === 'undefined' || !position.hasProfit || available <= 0) ? "" : " hidden")}
 						position="left-bottom"
-						enabled={(typeof borrowed === 'undefined' || !position.hasProfit || available <= 0)}
+						enabled={true}
 						handle=""
 						renderContent={() => {
 							return (
@@ -507,7 +507,7 @@ const BorrowsItem = (props) => {
 						<Tooltip
 							className={"btn-tooltip nowrap" + ((typeof borrowed === 'undefined' || !position.hasProfit || available <= 0) ? "" : " hidden")}
 							position="left-bottom"
-							enabled={(typeof borrowed === 'undefined' || !position.hasProfit || available <= 0)}
+							enabled={true}
 							handle=""
 							renderContent={() => {
 								return (
