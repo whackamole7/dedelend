@@ -3,7 +3,7 @@ export const separateThousands = (num, symb = ",") => {
 		return '';
 	}
 	
-	const str = num.toString();
+	const str = Number(num).toFixed(2);
 	let [intPart, fractionPart] = str.split('.')
 	const hasFraction = fractionPart !== undefined;
 

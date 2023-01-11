@@ -364,7 +364,7 @@ const BorrowsItem = (props) => {
 						renderContent={() => {
 							return (
 								<div>
-									<span className='spacing'>Y</span>ou can borrow when <br className='br-mobile' />the price is {position.isLong ? 'above' : 'below'} {((position.averagePrice / 10**30) * (position.isLong ? (1 + BORDER_COEF) : (1 - BORDER_COEF))).toFixed(2)}
+									<span className='spacing'>Y</span>ou can borrow when <br className='br-mobile' />the price is {position.isLong ? 'above' : 'below'} ${separateThousands(((position.averagePrice / 10**30) * (position.isLong ? (1 + BORDER_COEF) : (1 - BORDER_COEF))))}
 								</div>
 							);
 						}} />
@@ -512,7 +512,7 @@ const BorrowsItem = (props) => {
 							renderContent={() => {
 								return (
 									<div>
-										<span className='spacing'>Y</span>ou can borrow when <br className='br-mobile' />the price is {position.isLong ? 'above' : 'below'} {((position.averagePrice / 10**30) * (position.isLong ? (1 + BORDER_COEF) : (1 - BORDER_COEF))).toFixed(2)}
+										<span className='spacing'>Y</span>ou can borrow when <br className='br-mobile' />the price is {position.isLong ? 'above' : 'below'} ${separateThousands(((position.averagePrice / 10**30) * (position.isLong ? (1 + BORDER_COEF) : (1 - BORDER_COEF))))}
 									</div>
 								);
 							}} />

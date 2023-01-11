@@ -23,7 +23,6 @@ export default function Tooltip(props) {
     }
     if (!intervalOpenRef.current) {
       intervalOpenRef.current = setTimeout(() => {
-        console.log(enabled);
         if (enabled) {
           setVisible(true)
         }
