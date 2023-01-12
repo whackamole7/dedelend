@@ -341,7 +341,7 @@ export default function PositionEditor(props) {
         priceLimit, // _acceptablePrice
         minExecutionFee, // _executionFee
         referralCode, // _referralCode
-        AddressZero, // _callbackTarget
+        // AddressZero, // _callbackTarget
       ];
     }
 
