@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import NumberInput from './UI/input/NumberInput'
-import Button from './UI/button/Button'
+import NumberInput from './UI/input/NumberInput';
+import Button from './UI/button/Button';
 
-const Form = ({children, maxVal, inputProps, btnText, btnIsActive, onSubmit, modalVisible, ...props}) => {
+const Form = ({children, maxVal, inputProps, btnText, btnIsActive, onSubmit, modalVisible, currency, ...props}) => {
 
 	const [state, setState] = useState({class: '', msg: ''});
 	
@@ -71,8 +71,7 @@ const Form = ({children, maxVal, inputProps, btnText, btnIsActive, onSubmit, mod
 			<div className='form-field'>
 				<div className="input-container">
 					<NumberInput value={val} setValue={setVal} {...inputProps} className={state.class} msg={state.msg} setBtnActive={setBtnActive}></NumberInput>
-					{
-						props.isModal ?
+					{props.isModal ?
 						<Button
 							type="button"
 							className="btn_plain"
@@ -81,10 +80,19 @@ const Form = ({children, maxVal, inputProps, btnText, btnIsActive, onSubmit, mod
 						>
 							Max
 						</Button>
-						: ''
-					}
+						: ''}
+					{currency ?
+						<Button
+							type="button"
+							className="btn_plain currency-label"
+							disabled={true}
+						>
+							<img src={currency.icon} alt={currency.text + ' icon'} />
+							{currency.text}
+						</Button>
+						: ''}
 				</div>
-				<Button btnActive={btnActive || btnIsActive} disabled={props.btnIsDisabled}>{btnText}</Button>
+				<Button btnActive={btnActive || btnIsActive} disabled={props.btnIsDisabled} className="submit-btn">{btnText}</Button>
 			</div>
 			{children}
 		</form>

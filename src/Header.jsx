@@ -47,6 +47,7 @@ const Header = (props) => {
 	
 	const [registerStep, setRegisterStep] = useState(0);
 	const [registerLoading, setRegisterLoading] = useState(false);
+	const [depositVal, setDepositVal] = useState('');
 
 	async function checkDgAddress() {
 		DDL_AccountManager.doppelgangerMap(walletAddress)
@@ -314,7 +315,10 @@ const Header = (props) => {
 						onRegisterClick={register}
 						onApproveClick={approveAll}
 						curStep={registerStep}
-						isLoading={registerLoading} />
+						isLoading={registerLoading}
+						depositVal={depositVal}
+						setDepositVal={setDepositVal}
+						 />
 				)}
 				
 			</div>

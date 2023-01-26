@@ -152,6 +152,16 @@ a {
 		}
 	}
 
+	&_stroke {
+		border: 1px solid $lblue;
+		transition: border-color .2s ease;
+
+		&:hover, &:focus-visible {
+			background-color: $blue-1!important;
+			border-color: #fff;
+		}
+	}
+
 	/* Btn states */
 	&.disabled {
 		color: $grey;
@@ -591,7 +601,21 @@ input[type="text"] {
 
 		.btn {
 			width: 100%;
-			margin-top: 5px;
+		}
+		.submit-btn {
+			margin-bottom: 15px;
+			
+			@media (max-width: 480px) {
+				margin-bottom: 10px;
+			}
+		}
+
+		.form-field {
+			row-gap: 20px;
+			
+			@media (max-width: 480px) {
+				row-gap: 15px;
+			}
 		}
 	}
 

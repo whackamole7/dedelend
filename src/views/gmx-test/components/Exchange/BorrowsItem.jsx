@@ -75,20 +75,6 @@ const BorrowsItem = (props) => {
 		}
 	}, [repayStep, borrowStep])
 
-	/* useEffect(() => {
-		if (typeof borrowed !== 'undefined') {
-			setBorrowState({
-				...borrowState,
-				position: curPosition,
-			})
-			setRepayState({
-				...repayState,
-				position: curPosition,
-			})
-		}
-		console.log('tick');
-	}, [available]) */	
-
 
 	// Key id for positions
 	const DG = getDgContract(dgAddress);

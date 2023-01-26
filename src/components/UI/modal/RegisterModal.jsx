@@ -2,59 +2,57 @@ import React from 'react';
 import Modal from './Modal';
 import Button from '../button/Button';
 import Loader from './../loader/Loader';
-import { Link } from 'react-router-dom';
-import icon_ETH from '../../../img/icon_ETH.png';
+import Form from './../../Form';
+import icon_usdc from '../../../img/icon-usdc.svg';
 
-const RegisterModal = ({ visible, setVisible, onRegisterClick, onApproveClick, curStep, isLoading }) => {
+const RegisterModal = (props) => {
+	const {
+		visible, 
+		setVisible, 
+		onRegisterClick, 
+		onApproveClick, 
+		curStep, 
+		isLoading,
+		depositVal,
+		setDepositVal
+	} = props;
+	
+	function getDepositText() {
+		return 'Approve';
+	}
+	
 	const steps = [
 		{
-			name: 'Register',
-			title: 'Create Trading Account',
+			name: 'Create Account',
+			title: 'Create Margin Account',
 			body: <div className="modal__text">
-							<p>In order to use your GMX position as collateral, you need to create trading account. After the registration, you'll receive two ERC–721 tokens.</p>
-							<p>Each token is a representation of your position on GMX:</p>
-							<div className="text-cols nowrap">
-								<div className="text-col">
-									<div className="icon-row">
-										<img src={icon_ETH} alt="ETH" />
-										ETH — SHORT
-									</div>
-								</div>
-								<div className="text-col">
-									<div className="icon-row">
-										<img src={icon_ETH} alt="ETH" />
-										ETH — LONG
-									</div>
-								</div>
-							</div>
-							{/* <div className="text-cols">
-								<div className="text-col">
-									<p>ETH — SHORT</p>
-									<p>ETH — LONG</p>
-								</div>
-								<div className="text-col">
-									<p>BTC — SHORT</p>
-									<p>BTC — LONG</p>
-								</div>
-								<div className="text-col">
-									<p>UNI — SHORT</p>
-									<p>UNI — LONG</p>
-								</div>
-								<div className="text-col">
-									<p>LINK — SHORT</p>
-									<p>LINK — LONG</p>
-								</div>
-							</div> */}
+							<p>DeDeLend Margin Account is a derivative product based on Spot and Perpetual trading. It allows you to use assets in your Margin Account as collateral to borrow additional funds from DeDeLend in order to open positions larger than your wallet balance, with up to 5x leverage.</p>
+							<p>With DeDeLend Margin Account, all assets in your Account can be used as collateral to prevent your Position from being liquidated. When the risk level of your Margin Account reaches a level that triggers liquidation, the system will automatically sell the collateral assets to repay the borrowings in your Account.</p>
+							<p className='text-inline'><a href="#">Read more</a> about DeDeLend Margin Account</p>
 						</div>,
-			btn: <Button btnActive={true} onClick={onRegisterClick}>Create Trading Account</Button>,
+			btn: <Button btnActive={true} onClick={onRegisterClick}>Create Margin Account</Button>,
 		},
 		{
-			name: 'Approve',
-			title: 'Approve',
-			body: <div className="modal__text">
-							<p>To enable trading on GMX via your trading account, you need to allow GMX to spend funds from your address</p>
-						</div>,
-			btn: <Button btnActive={true} onClick={onApproveClick}>Approve</Button>,
+			name: 'Deposit',
+			title: 'Deposit',
+			body: '',
+			btn:  <Form
+							className='modal__form-wrapper'
+							inputProps={{
+								val: depositVal,
+								setVal: setDepositVal,
+								placeholder: 'Amount',
+							}}
+							btnIsActive={true}
+							onSubmit={onApproveClick}
+							btnText={getDepositText()}
+							currency={{
+								text: 'USDC',
+								icon: icon_usdc
+							}}
+						>
+							<Button className="btn_stroke">Start Trading</Button>
+						</Form>,
 		},
 	]
 
@@ -73,10 +71,6 @@ const RegisterModal = ({ visible, setVisible, onRegisterClick, onApproveClick, c
 			</div>
 			<h1 className='modal__title'>{step.title}</h1>
 			<div className="modal__body">
-				{/* <ul className="modal__list modal__text">
-					<li><span>To use GMX position as collateral you need to register.</span></li>
-					<li><span>For using Hegic Options you don't need to register, so just click <Link className='inline-link' to="/options">here.</Link></span></li>
-				</ul> */}
 				{step.body}
 				{isLoading ? <Loader /> : step.btn}
 			</div>

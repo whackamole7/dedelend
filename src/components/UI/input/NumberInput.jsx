@@ -11,12 +11,14 @@ const NumberInput = (props) => {
 			value={props.value}
 
 			onChange={e => {
-				props.setBtnActive(true)
+				if (props.setBtnActive) {
+					props.setBtnActive(true)
+				}
 				props.setValue(convertInputNum(e.target.value))
 			}}
 			
 			onBlur={() => {
-				if(!props.value) {
+				if(!props.value && props.setBtnActive) {
 					props.setBtnActive(false)
 				}
 			}} />
