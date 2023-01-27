@@ -60,6 +60,7 @@ import { getDgContract, DDL_GMX } from './../../../../components/utils/contracts
 import { ARBITRUM } from './../../lib/legacy';
 import Modal from './../../../../components/UI/modal/Modal';
 import Button from './../../../../components/UI/button/Button';
+import MarginLevel from './../../../../components/MarginLevel';
 const { AddressZero } = ethers.constants;
 
 const PENDING_POSITION_VALID_DURATION = 600 * 1000;
@@ -1135,6 +1136,7 @@ export const Exchange = forwardRef((props, ref) => {
             dgAddress={props.dgAddress}
             setRegisterVisible={props.setRegisterVisible}
           />
+          <MarginLevel />
           <div className="Exchange-wallet-tokens">
             <div className="Exchange-wallet-tokens-content">
               <ExchangeWalletTokens tokens={tokens} infoTokens={infoTokens} onSelectToken={onSelectWalletToken} />
