@@ -1771,9 +1771,16 @@
     column-gap: 10px;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
   }
   &__left {
     color: $grey;
+  }
+  &__right {
+    display: flex;
+    column-gap: 7px;
+    font-size: 15px;
+    line-height: calc(19.5/15);
   }
 
   @media (max-width: 480px) {
@@ -1839,5 +1846,73 @@
       background-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2213%22%20height%3D%229%22%20viewBox%3D%220%200%2013%209%22%20fill%3D%22none%22%3E%0A%3Cpath%20d%3D%22M7.31088%207.87641C6.91175%208.42947%206.08825%208.42946%205.68912%207.87641L1.14883%201.5852C0.671532%200.923841%201.14411%201.1239e-06%201.95972%201.05259e-06L11.0403%202.58747e-07C11.8559%201.87444e-07%2012.3285%200.923842%2011.8512%201.58521L7.31088%207.87641Z%22%20fill%3D%22%233A4466%22%2F%3E%0A%3C%2Fsvg%3E');
       background-repeat: no-repeat;
     }
+  }
+}
+
+.margin-tooltip {
+  .Tooltip-popup {
+    left: 20px;
+    
+    &::before {
+      left: 176px;
+    }
+  }
+}
+
+.red {
+  color: $red;
+}
+.green {
+  color: $green;
+}
+
+.input-container .number-input {
+  appearance: none;
+  outline: none;
+  box-shadow: none;
+
+  width: 100%;
+  font-size: 15px;
+  line-height: calc(19.5/15);
+  color: $white;
+  background-color: transparent;
+  border: 1px solid $grey;
+  border-radius: 5px;
+  padding: 11.5px 15px;
+
+  transition: all .2s ease;
+  &:focus {
+    border-color: $white;
+    outline: none;
+  }
+
+  &::placeholder {
+    color: $grey;
+  }
+
+  /* Input text states */
+  
+  &.error {
+    border-color: $red;
+    padding-right: 136px;
+
+    & + .msg {
+      display: block;
+      width: 116px;
+      text-align: right;
+      color: $red;
+
+      @media (max-width: 480px) {
+        width: 100px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      padding-right: 110px;
+    }
+  }
+
+  &[disabled] {
+    cursor: not-allowed;
   }
 }

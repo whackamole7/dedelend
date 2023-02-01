@@ -127,11 +127,12 @@ export const SHORT = "Short";
 export const MARKET = "Market";
 export const LIMIT = "Limit";
 export const STOP = "Stop";
+export const BORROW = "Borrow";
 
 // Market/limit orders disabling
 // export const LEVERAGE_ORDER_OPTIONS = [MARKET, LIMIT, STOP];
 // export const LEVERAGE_ORDER_OPTIONS = [MARKET, LIMIT];
-export const LEVERAGE_ORDER_OPTIONS = [];
+export const LEVERAGE_ORDER_OPTIONS = [BORROW, MARKET, LIMIT];
 
 export const SWAP_ORDER_OPTIONS = [MARKET, LIMIT];
 

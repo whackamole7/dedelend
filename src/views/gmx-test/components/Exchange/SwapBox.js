@@ -61,6 +61,7 @@ import {
   useLocalStorageSerializeKey,
   usePrevious,
   MAX_ALLOWED_LEVERAGE,
+  BORROW,
 } from "../../lib/legacy";
 import { getConstant } from "../../config/chains";
 import * as Api from "../../domain/legacy";
@@ -91,6 +92,8 @@ import StatsTooltipRow from "../StatsTooltip/StatsTooltipRow";
 import { fetcher } from "../../lib/contracts/fetcher";
 import { callContract } from "../../lib/contracts/callContract";
 import { DDL_AccountManager, DDL_AccountManager_abi, USDC } from './../../../../components/utils/contracts';
+import Currency from './../../../../components/Currency';
+import NumberInput from './../../../../components/UI/input/NumberInput';
 
 const SWAP_ICONS = {
   [LONG]: longImg,
@@ -251,7 +254,7 @@ export default function SwapBox(props) {
 
   // Market/Limit orders disabling
   // let [orderOption, setOrderOption] = useLocalStorageSerializeKey([chainId, "Order-option"], MARKET);
-  let [orderOption, setOrderOption] = useState(MARKET);
+  let [orderOption, setOrderOption] = useState(BORROW);
   
   if (!flagOrdersEnabled) {
     orderOption = MARKET;
@@ -262,6 +265,7 @@ export default function SwapBox(props) {
   };
 
   const isMarketOrder = orderOption === MARKET;
+  const isBorrow = orderOption === BORROW;
   const orderOptions = isSwap ? SWAP_ORDER_OPTIONS : LEVERAGE_ORDER_OPTIONS;
   const orderOptionLabels = { [STOP]: "Trigger" };
 
@@ -1756,8 +1760,8 @@ export default function SwapBox(props) {
   };
 
   const isStopOrder = orderOption === STOP;
-  const showFromAndToSection = !isStopOrder;
-  const showTriggerPriceSection = !isSwap && !isMarketOrder && !isStopOrder;
+  const showFromAndToSection = !isStopOrder && !isBorrow;
+  const showTriggerPriceSection = !isSwap && !isMarketOrder && !isStopOrder && !isBorrow;
   const showTriggerRatioSection = isSwap && !isMarketOrder && !isStopOrder;
 
   let fees;
@@ -2111,7 +2115,7 @@ export default function SwapBox(props) {
             </ExchangeInfoRow>
           </div>
         )}
-        {(isLong || isShort) && !isStopOrder && (
+        {(isLong || isShort) && !isStopOrder && !isBorrow && (
           <div className="Exchange-leverage-box">
             <div className="Exchange-leverage-slider-settings">
               {/* <Checkbox isChecked={isLeverageSliderEnabled} setIsChecked={setIsLeverageSliderEnabled}>
@@ -2258,6 +2262,29 @@ export default function SwapBox(props) {
               </div>
             </ExchangeInfoRow>
           </div>
+        )}
+        {isBorrow && (
+          <>
+            <div className="input-container">
+              <NumberInput />
+            </div>
+            <div className="Exchange-info-row">
+              <div className="Exchange-info-label">
+                <Trans>Available:</Trans>
+              </div>
+              <div className="align-right">
+                <Currency>10000</Currency>
+              </div>
+            </div>
+            <div className="Exchange-info-row">
+              <div className="Exchange-info-label">
+                <Trans>Borrow APY: </Trans>
+              </div>
+              <div className="align-right">
+                5%
+              </div>
+            </div>
+          </>
         )}
         {isStopOrder && (
           <div className="Exchange-swap-section Exchange-trigger-order-info">

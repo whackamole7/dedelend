@@ -10,7 +10,7 @@ const MarginLevel = () => {
 				<div className="text-table__row">
 					<div className="text-table__left">
 						<Tooltip
-							className="has-hint-tooltip nowrap"
+							className="has-hint-tooltip margin-tooltip nowrap"
 							handle="Min. Maintenance margin"
 							position="left-bottom"
 							enabled={true}
@@ -24,7 +24,8 @@ const MarginLevel = () => {
 						/>
 					</div>
 					<div className="text-table__right">
-						<Currency val={1000} />
+						<Currency>1000</Currency>
+						<span className="red">(10%)</span>
 					</div>
 				</div>
 				<div className="text-table__row">
@@ -32,7 +33,8 @@ const MarginLevel = () => {
 						Current Margin Balance
 					</div>
 					<div className="text-table__right">
-						<Currency val={1000} />
+						<Currency>1000</Currency>
+						<span className="green">(35%)</span>
 					</div>
 				</div>
 				
@@ -48,7 +50,7 @@ const MarginLevel = () => {
 							renderContent={() => {
 								return (
 									<div>
-										If the price reaches this price<br /> your loan will be liquidated
+										Your position will be liquidated if margin <br />maintenance margin is below 10%
 									</div>
 								);
 							}}
@@ -63,7 +65,7 @@ const MarginLevel = () => {
 							renderContent={() => {
 								return (
 									<div>
-										If the price reaches this price<br /> your loan will be liquidated
+										Keep above 30% for lower risk
 									</div>
 								);
 							}}
