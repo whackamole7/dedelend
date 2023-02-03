@@ -3,7 +3,7 @@ import icon_wallet from '../img/icon-wallet.svg';
 import icon_link from '../img/icon-link.svg';
 import Button from './UI/button/Button';
 
-const Wallet = ({ address, setAddress, setDgAddress }) => {
+const Wallet = ({ address, setAddress }) => {
 	const [open, setOpen] = useState(false);
 
 	function openWallet(e) {
@@ -51,7 +51,6 @@ const Wallet = ({ address, setAddress, setDgAddress }) => {
 				</a>
 				<Button className="wallet__button" btnActive={true} onClick={() => {
 					setAddress('');
-					setDgAddress('');
 				}}>
 					Disconnect wallet
 				</Button>

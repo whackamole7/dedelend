@@ -30,14 +30,15 @@ import { useLocation } from 'react-router-dom';
 import Tabs from './components/Tabs';
 import RegisterModal from './components/UI/modal/RegisterModal';
 import { errAlert } from './components/utils/notifications';
+import AccountDroplist from './components/AccountDroplist';
 
 
 const Header = (props) => {
 	const {
 		walletAddress, 
 		setWalletAddress, 
-		dgAddress, 
-		setDgAddress,
+		account,
+		setAccount,
 		registerVisible,
 		setRegisterVisible
 	} = props;
@@ -48,72 +49,12 @@ const Header = (props) => {
 	const [registerStep, setRegisterStep] = useState(0);
 	const [registerLoading, setRegisterLoading] = useState(false);
 	const [depositVal, setDepositVal] = useState('');
-
-	async function checkDgAddress() {
-		DDL_AccountManager.doppelgangerMap(walletAddress)
-			.then(res => {
-				if (res === ethers.constants.AddressZero) {
-					setDgAddress('');
-					setRegisterStep(0);
-					setRegisterVisible(true);
-				} else {
-					setDgAddress(res);
-					const dgAddress = res;
-					const DG = getDgContract(dgAddress);
-					
-					DG.isApproved()
-						.then(res => {
-							if (res === true) {
-								setRegisterVisible(false);
-							} else {
-								setRegisterStep(1);
-								setRegisterVisible(true);
-							}
-						})
-				}
-			})
-	}
 	
 	async function register() {
 		setRegisterLoading(true);
-
-		DDL_AccountManager.createDoppelgangerGMX()
-			.then(tsc => {
-				console.log('Creating Doppelganger Transaction:', tsc);
-				tsc.wait().then(() => {
-					checkDgAddress();
-
-					setRegisterLoading(false)
-				})
-			}, 
-			err => {
-				errAlert(err, setRegisterLoading);
-			})
 	}
 
 	async function approveAll() {
-		if (dgAddress) {
-			setRegisterLoading(true);
-			
-			const DG = getDgContract(dgAddress);
-
-			DG.approveAll(ethers.constants.MaxUint256)
-				.then(tsc => {
-					console.log('Approve transaction:', tsc);
-
-					tsc.wait().then(() => {
-						setRegisterStep(0);
-						setRegisterVisible(false);
-
-						setRegisterLoading(false)
-					})
-				},
-				err => {
-					errAlert(err, setRegisterLoading)
-				})
-		} else {
-			checkDgAddress()
-		}
 		
 	}
 	
@@ -249,8 +190,6 @@ const Header = (props) => {
 
 	useEffect(() => {
 		if (walletAddress) {
-			checkDgAddress();
-			
 			getUserStats(walletAddress)
 				.then(stats => {
 					setUserStats(stats)
@@ -281,17 +220,21 @@ const Header = (props) => {
 			name: 'Earn',
 			to: '/earn',
 		},
-		/* {
+		{
+			name: 'Margin Account',
+			to: '/account',
+		},
+		{
 			name: 'Old Version',
 			to: 'https://old.dedelend.co/',
 			isExternal: true,
-		}, */
+		},
 	]
 	headerLinks.find(link => {
 		link.isActive = loc.pathname.split('/')[1] === link.to.split('/')[1];
 		return link.isActive;
 	})
-	
+
 	return (
 		<header className='header'>
 			<div className="header__content _container">
@@ -300,13 +243,30 @@ const Header = (props) => {
 					<Tabs className='header__links' links={headerLinks} />
 				</div>
 
-				{walletAddress ?
-					<Wallet address={walletAddress} 
-						setAddress={setWalletAddress} 
-						setDgAddress={setDgAddress} /> :
-					<Button isMain={true} onClick={(e) => {
-						connectWallet(setWalletAddress)
-					}}>Connect wallet</Button>}
+				<div className="Account-data">
+					{walletAddress ?
+						<>
+							{account ? 
+								<AccountDroplist />
+								:
+								<div className="account-btn-wrapper">
+									<Button className='account-btn' isMain={true} onClick={(e) => {
+										connectWallet(setWalletAddress)
+									}}>
+										{'Create Margin Account      '}
+									</Button>
+								</div>
+								}
+							<Wallet address={walletAddress} 
+								setAddress={setWalletAddress}
+							/>
+						</>
+						:
+						<Button isMain={true} onClick={(e) => {
+							connectWallet(setWalletAddress)
+						}}>Connect wallet</Button>}
+
+				</div>
 
 				{loc.pathname.startsWith('/perpetuals') && (
 					<RegisterModal

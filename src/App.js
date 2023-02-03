@@ -25,6 +25,7 @@ import { LANGUAGE_LOCALSTORAGE_KEY } from './views/gmx-test/lib/legacy';
 function App() {
 	const [walletAddress, setWalletAddress] = useState('');
 	const [dgAddress, setDgAddress] = useState('');
+	const [account, setAccount] = useState('');
 	const [registerVisible, setRegisterVisible] = useState(false);
 	
 	const [userStats, setUserStats] = useState({
@@ -80,8 +81,8 @@ function App() {
 							<div className="App">
 								<Header walletAddress={walletAddress}
 									setWalletAddress={setWalletAddress}
-									dgAddress={dgAddress}
-									setDgAddress={setDgAddress}
+									account={account}
+									setAccount={setAccount}
 									registerVisible={registerVisible}
 									setRegisterVisible={setRegisterVisible}
 								/>
@@ -90,6 +91,8 @@ function App() {
 									<AppRouter
 										walletAddress={walletAddress}
 										setWalletAddress={setWalletAddress} 
+										account={account}
+										setAccount={setAccount}
 										dgAddress={dgAddress}
 										setDgAddress={setDgAddress}
 										setRegisterVisible={setRegisterVisible}
