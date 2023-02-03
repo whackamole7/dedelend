@@ -39,6 +39,7 @@ const Header = (props) => {
 		setWalletAddress, 
 		account,
 		setAccount,
+		accounts,
 		registerVisible,
 		setRegisterVisible
 	} = props;
@@ -247,7 +248,9 @@ const Header = (props) => {
 					{walletAddress ?
 						<>
 							{account ? 
-								<AccountDroplist />
+								<AccountDroplist
+									accounts={accounts}
+									account={account} />
 								:
 								<div className="account-btn-wrapper">
 									<Button className='account-btn' isMain={true} onClick={(e) => {

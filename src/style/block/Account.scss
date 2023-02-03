@@ -1,3 +1,8 @@
+.Account-data {
+	display: flex;
+	column-gap: 10px;
+}
+
 .account-btn {
 	text-align: right;
 	white-space: pre;
@@ -60,5 +65,49 @@
 				}
 			}
 		}
+	}
+}
+
+.Account-droplist {
+	&__header {
+		height: 100%;
+		display: flex;
+		align-items: center;
+		font-size: 15px;
+		line-height: calc(19.5/15);
+		background-color: $blue-05;
+		border-radius: 5px;
+		border: $border;
+		padding: 12px 14px;
+
+		.chevron-down {
+			transform: translateY(-1px);
+			transition: transform .2s ease;
+
+			path {
+				transition: stroke .2s ease;
+			}
+		}
+		
+		&:hover, &:focus-visible {
+			.Account-droplist__address {
+				color: #fff;
+			}
+
+			.chevron-down {
+				transform: rotate(-180deg) translateY(1px);
+
+				path {
+					stroke: #fff;
+				}
+			}
+		}
+	}
+
+	&__address {
+		color: $lgrey;
+		transition: color .2s ease;
+		margin-left: 7px;
+		margin-right: 5px;
 	}
 }

@@ -11,7 +11,6 @@ import { HashRouter } from 'react-router-dom';
 import { UserStatsContext } from './context/context';
 import { GlobalStatsContext } from './context/context';
 import Warning from './components/UI/warning/Warning';
-import Favicon from 'react-favicon';
 import { ToastContainer } from 'react-toastify';
 import { cssTransition } from 'react-toastify';
 import EventToastContainer from './views/gmx-test/components/EventToast/EventToastContainer';
@@ -25,7 +24,11 @@ import { LANGUAGE_LOCALSTORAGE_KEY } from './views/gmx-test/lib/legacy';
 function App() {
 	const [walletAddress, setWalletAddress] = useState('');
 	const [dgAddress, setDgAddress] = useState('');
-	const [account, setAccount] = useState('');
+	const [account, setAccount] = useState('0x0641bc55ddab3b9636e82cbf87ede3c3c533039d');
+	const [accounts, setAccounts] = useState([
+		'0x0641bc55ddab3b9636e82cbf87ede3c3c533039d',
+		'0x0641bc55ddab3b9636e82cbf87ede3c3c5330000'
+	])
 	const [registerVisible, setRegisterVisible] = useState(false);
 	
 	const [userStats, setUserStats] = useState({
@@ -81,6 +84,7 @@ function App() {
 							<div className="App">
 								<Header walletAddress={walletAddress}
 									setWalletAddress={setWalletAddress}
+									accounts={accounts}
 									account={account}
 									setAccount={setAccount}
 									registerVisible={registerVisible}

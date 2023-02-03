@@ -35,7 +35,7 @@ const Wallet = ({ address, setAddress }) => {
 			<div className="wallet__body" onClick={(e) => e.stopPropagation()}>
 				<button className="close-btn" onClick={closeWallet}>
 					<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10" fill="none">
-						<g clip-path="url(#clip0_1830_494)">
+						<g clipPath="url(#clip0_1830_494)">
 							<path d="M10 0.875L9.125 0L5 4.125L0.875 0L0 0.875L4.125 5L0 9.125L0.875 10L5 5.875L9.125 10L10 9.125L5.875 5L10 0.875Z" fill="white"/>
 						</g>
 						<defs>
