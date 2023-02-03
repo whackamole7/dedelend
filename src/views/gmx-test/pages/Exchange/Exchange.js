@@ -61,6 +61,8 @@ import { ARBITRUM } from './../../lib/legacy';
 import Modal from './../../../../components/UI/modal/Modal';
 import Button from './../../../../components/UI/button/Button';
 import MarginLevel from './../../../../components/MarginLevel';
+
+
 const { AddressZero } = ethers.constants;
 
 const PENDING_POSITION_VALID_DURATION = 600 * 1000;
@@ -506,7 +508,7 @@ export const Exchange = forwardRef((props, ref) => {
       const newTokenSelection = JSON.parse(JSON.stringify(tokenSelection));
       
       // ETH/USDC disabling
-      address = AddressZero;
+      // address = AddressZero;
       
       newTokenSelection[selectedSwapOption].to = address;
       if (selectedSwapOption === LONG || selectedSwapOption === SHORT) {
@@ -520,7 +522,7 @@ export const Exchange = forwardRef((props, ref) => {
 
   const setMarket = (selectedSwapOption, toTokenAddress) => {
     // ETH/USDC disabling
-    toTokenAddress = AddressZero;
+    // toTokenAddress = AddressZero;
     
     setSwapOption(selectedSwapOption);
     const newTokenSelection = JSON.parse(JSON.stringify(tokenSelection));

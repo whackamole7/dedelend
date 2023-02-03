@@ -2036,3 +2036,36 @@
 .muted-dark {
   color: $grey;
 }
+
+
+.chosen {
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 15px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: $green;
+  }
+}
+
+.divided {
+  & > *:not(:first-child) {
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 15px;
+      right: 15px;
+      height: 1px;
+      background-color: rgba(56, 66, 99, 0.2);
+    }
+  }
+}

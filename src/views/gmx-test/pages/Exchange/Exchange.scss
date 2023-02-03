@@ -351,7 +351,7 @@
       transition: transform .2s ease;
     }
     div[aria-expanded="true"] .chevron-down {
-      transform: rotate(180deg) translateY(5px);
+      transform: rotate(180deg);
     }
   }
   
@@ -367,26 +367,32 @@
   }
   
   .ExchangeChart-top-inner {
-    display: grid;
-    grid-template-columns: 1fr auto auto auto auto;
-    grid-column-gap: 60px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    column-gap: 60px;
+    row-gap: 10px;
     align-items: center;
   }
-  .ExchangeChart-top-inner > div {
-    position: relative;
+  .ExchangeChart-stats-container {
+    display: flex;
+    column-gap: 60px;
+
+    & > div {
+      position: relative;
+      text-align: center;
+    }
+    & > div:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: -30px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background-color:#181A3C;
+    }
   }
-  .ExchangeChart-top-inner > div:not(:first-child) {
-    text-align: center;
-  }
-  .ExchangeChart-top-inner > div:not(:first-child):not(:last-child)::after {
-    content: '';
-    position: absolute;
-    right: -30px;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    background-color:#181A3C;
-  }
+  
   
   .ExchangeChart-dollar-sign {
     display: inline-block;
@@ -413,6 +419,9 @@
     }
     @media (max-width: 768px) {
       margin-bottom: 10rem;
+    }
+    @media (max-width: 576px) {
+      margin-bottom: 32rem;
     }
     @media (max-width: 480px) {
       margin-bottom: 30rem;
@@ -1264,38 +1273,19 @@
     }
   }
 
-  @media (max-width: 1200px) {
+  @media (max-width: 1260px) and (min-width: 1100px) {
     .ExchangeChart-top-inner {
-      grid-template-columns: auto auto auto auto;
-      grid-template-rows: auto auto;
-
-      & > div:first-child {
-        grid-column: 1 / 8;
-        margin-bottom: 15px;
-      }
-    }
-
-    .ExchangeChart.tv .ExchangeChart-bottom {
-      top: 19.4rem;
-    }
-
-  }
-  
-  @media (max-width: 1100px) {
-
-    .ExchangeChart-top-inner {
-      grid-template-columns: 1fr auto auto auto auto;
-
-      & > div:first-child {
-        grid-column: auto;
-        margin-bottom: 0;
-      }
-    }
-
-    .ExchangeChart.tv .ExchangeChart-bottom {
-      top: 14.5rem;
+      align-items: flex-start;
+      flex-direction: column;
     }
     
+    .ExchangeChart.tv .ExchangeChart-bottom {
+      top: 19rem;
+    }
+  }
+  
+  
+  @media (max-width: 1100px) {
     .Exchange-swap-box {
       width: auto;
     }
@@ -1422,46 +1412,36 @@
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 920px) {
     .ExchangeChart.tv .ExchangeChart-top.App-box {
       border: none;
       background-color: transparent;
       padding: 0;
     }
     .ExchangeChart-top-inner {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      grid-template-rows: auto auto;
+      flex-direction: column;
+      row-gap: 30px;
 
       & > div:first-child {
-        grid-column: 1 / 5;
+        width: 100%;
         text-align: center;
         background-color: #0D0F29;
         border-radius: 5px;
         border: 1px solid rgba(152, 162, 198, 0.075);
         padding: 15px 20px;
-        margin-bottom: 20px;
       }
 
       .chart-token-selector {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
-
-        .chevron-down {
-          position: absolute;
-          right: 20px;
-          top: 50%;
-          transform: translateY(-50%);
-        }
+        width: 100%;
       }
 
       .chart-token-menu-items.menu-items {
-        left: 0;
-        right: 0;
-
-        .menu-item {
-          justify-content: center;
-        }
+        left: 50%;
+        transform: translateX(-50%);
+        width: fit-content;
       }
     }
 
@@ -1469,10 +1449,6 @@
       top: 16.5rem;
       height: 320px!important;
     }
-
-    // .Exchange-right {
-    //   margin-top: 100px;
-    // }
   }
   
   @media (max-width: 700px) {
@@ -1480,32 +1456,16 @@
       width: 90vw;
     }
   
-    .ExchangeChart-top-inner {
-      grid-template-columns: auto auto auto;
-      grid-column-gap: 0.8rem;
-    }
-  
     .ExchangeChart-title {
       font-size: 1.85rem;
     }
   
-    // .ExchangeChart-additional-info {
-    //   display: none;
-    // }
-  
-    // .Exchange-content {
-    //   padding: 1.5rem;
-    //   padding-top: 1.5rem;
-    // }
     .Exchange-swap-box .TokenSelector .Modal {
       margin: 0 1.5rem;
     }
-    // .Exchange {
-    //   padding-top: 1.5rem !important;
-    // }
   }
 
-  @media (max-width: 576px) {
+  @media (max-width: 620px) {
     .Exchange-lists.small {
       margin-top: -3rem;
     }
@@ -1521,53 +1481,70 @@
     }
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 576px) {
     .ExchangeChart-top-inner {
-      display: flex;
-      flex-direction: column;
-
-      & > div {
+      .ExchangeChart-stats-container {
         width: 100%;
-
-        &:not(:first-child) {
+        flex-direction: column;
+        
+        & > div {
+          width: 100%;
           border: 1px solid rgba(152, 162, 198, 0.075);
           border-top-color: transparent;
           border-bottom-color: transparent;
           background-color: #0D0F29;
           padding: 15px 20px;
-        }
-        &:nth-child(2) {
-          border-radius: 5px 5px 0 0;
-          border-top-color: rgba(152, 162, 198, 0.075);
-        }
-        &:last-child {
-          border-radius: 0 0 5px 5px;
-          border-bottom-color: rgba(152, 162, 198, 0.075);
-        }
 
-        .ExchangeChart-info-label {
-          margin-bottom: 5px;
+          &:first-child {
+            border-radius: 5px 5px 0 0;
+            border-top-color: rgba(152, 162, 198, 0.075);
+          }
+          &:last-child {
+            border-radius: 0 0 5px 5px;
+            border-bottom-color: rgba(152, 162, 198, 0.075);
+          }
+  
+          .ExchangeChart-info-label {
+            margin-bottom: 5px;
+          }
+
+          &:not(:last-child)::after {
+            display: block;
+            right: 20px;
+            left: 20px;
+            top: 100%;
+            height: 1px;
+            width: auto;
+          }
         }
       }
     }
-    .ExchangeChart-top-inner > div:not(:first-child):not(:last-child)::after {
-      display: block;
-      right: 20px;
-      left: 20px;
-      top: 100%;
-      height: 1px;
-      width: auto;
-    }
 
     .ExchangeChart.tv .ExchangeChart-bottom {
-      top: 42.5rem;
+      top: 44.5rem;
       height: 260px!important;
     }
+  }
 
-    // .Exchange-right {
-    //   margin-top: 29rem;
-    // }
+  @media (max-width: 480px) {
+    .ExchangeChart-top-inner {
+      row-gap: 20px;
 
+      .chart-token-menu-items.menu-items {
+        width: 100%;
+        left: 0;
+        right: 0;
+        transform: none;
+      }
+
+      .chart-token-selector {
+        justify-content: space-between;
+      }
+    }
+    .ExchangeChart.tv .ExchangeChart-bottom {
+      top: 42.5rem;
+    }
+    
     .Exchange-swap-box-inner {
       padding: 2rem;
     }

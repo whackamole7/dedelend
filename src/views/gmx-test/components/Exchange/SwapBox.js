@@ -255,8 +255,8 @@ export default function SwapBox(props) {
   const [ordersToaOpen, setOrdersToaOpen] = useState(false);
 
   // Market/Limit orders disabling
-  // let [orderOption, setOrderOption] = useLocalStorageSerializeKey([chainId, "Order-option"], MARKET);
-  let [orderOption, setOrderOption] = useState(BORROW);
+  let [orderOption, setOrderOption] = useLocalStorageSerializeKey([chainId, "Order-option"], BORROW);
+  // let [orderOption, setOrderOption] = useState(BORROW);
   
   if (!flagOrdersEnabled) {
     orderOption = MARKET;

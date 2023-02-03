@@ -437,37 +437,39 @@ export default function ExchangeTVChart(props) {
                 swapOption={swapOption}
                 infoTokens={infoTokens}
                 onSelectToken={onSelectToken}
-                className="chart-token-selector"
+                className="chart-token-selector pos-relative"
               />
             </div>
           </div>
-          <div>
-            <div className="ExchangeChart-info-label">
-              Current Price
-            </div>
-            <div className="ExchangeChart-main-price">
-              ${chartToken.maxPrice && formatAmount(chartToken.maxPrice, USD_DECIMALS, 2, true)}
-            </div>
-          </div>
-          <div>
-            <div className="ExchangeChart-info-label">24h Change</div>
-            <div className={cx({ positive: deltaPercentage > 0, negative: deltaPercentage < 0 })}>
-              {!deltaPercentageStr && "-"}
-              {deltaPercentageStr && deltaPercentageStr}
-            </div>
-          </div>
-          <div className="ExchangeChart-additional-info">
-            <div className="ExchangeChart-info-label">24h High</div>
+          <div className="ExchangeChart-stats-container">
             <div>
-              {!high && "-"}
-              {high && numberWithCommas(high.toFixed(2))}
+              <div className="ExchangeChart-info-label">
+                Current Price
+              </div>
+              <div className="ExchangeChart-main-price">
+                ${chartToken.maxPrice && formatAmount(chartToken.maxPrice, USD_DECIMALS, 2, true)}
+              </div>
             </div>
-          </div>
-          <div className="ExchangeChart-additional-info">
-            <div className="ExchangeChart-info-label">24h Low</div>
             <div>
-              {!low && "-"}
-              {low && numberWithCommas(low.toFixed(2))}
+              <div className="ExchangeChart-info-label">24h Change</div>
+              <div className={cx({ positive: deltaPercentage > 0, negative: deltaPercentage < 0 })}>
+                {!deltaPercentageStr && "-"}
+                {deltaPercentageStr && deltaPercentageStr}
+              </div>
+            </div>
+            <div className="ExchangeChart-additional-info">
+              <div className="ExchangeChart-info-label">24h High</div>
+              <div>
+                {!high && "-"}
+                {high && numberWithCommas(high.toFixed(2))}
+              </div>
+            </div>
+            <div className="ExchangeChart-additional-info">
+              <div className="ExchangeChart-info-label">24h Low</div>
+              <div>
+                {!low && "-"}
+                {low && numberWithCommas(low.toFixed(2))}
+              </div>
             </div>
           </div>
         </div>
