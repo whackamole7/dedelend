@@ -17,7 +17,7 @@ const MarginLevel = () => {
 							renderContent={() => {
 								return (
 									<div>
-										The margin required to maintain your current <br />positions. If your current margin balance falls <br />below Min. Maintenance Margin, your margin <br />account will be liquidated to repay the debt
+										The margin required to maintain <br className='br-mobile' />your current <br className='br-desktop' />positions. If your current <br className='br-mobile' />margin balance falls <br className='br-desktop' />below <br className='br-mobile' />Min. Maintenance Margin, your <br className='br-mobile' />margin <br className='br-desktop' />account will be liquidated <br className='br-mobile' />to repay the debt
 									</div>
 								);
 							}}

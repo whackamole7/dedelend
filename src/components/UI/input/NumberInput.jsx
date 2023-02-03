@@ -9,7 +9,6 @@ const NumberInput = (props) => {
 		<Input
 			{...props}
 			value={props.value}
-			className={"number-input"}
 
 			onChange={e => {
 				if (props.setBtnActive) {

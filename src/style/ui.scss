@@ -24,6 +24,7 @@ a {
 	color: $white;
 	background-color: $blue-1;
 	border-radius: 5px;
+	border: $border;
 	cursor: pointer;
 	padding: 13px 24.5px;
 
@@ -162,6 +163,49 @@ a {
 		}
 	}
 
+	&_inline {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		column-gap: 7px;
+		color: $white;
+
+		transition: color .2s ease;
+
+		&:not([disabled]) {
+			&:hover, &:focus-visible {
+				color: $lblue;
+	
+				.btn__icon {
+					transform: rotate(-360deg);
+				}
+			}
+		}
+		
+
+		&[disabled] {
+			color: $grey;
+
+			.btn__icon {
+				opacity: .5;
+			}
+		}
+
+		@media (max-width: 480px) {
+			font-size: 15px;
+			line-height: calc(19.5/15);
+
+			.btn__icon {
+				width: 12px;
+				height: 12px;
+			}
+		}
+	}
+
+	&__icon {
+		transition: transform .35s ease-in-out;
+	}
+
 	/* Btn states */
 	&.disabled {
 		color: $grey;
@@ -236,7 +280,7 @@ input[type="text"] {
 	
 	&.error {
 		border-color: $red;
-		padding-right: 136px;
+		// padding-right: 136px;
 
 		& + .msg {
 			display: block;
@@ -250,7 +294,7 @@ input[type="text"] {
 		}
 
 		@media (max-width: 480px) {
-			padding-right: 110px;
+			// padding-right: 110px;
 		}
 	}
 
@@ -286,7 +330,7 @@ input[type="text"] {
 	
 	&.error {
 		border-color: $red;
-		padding-right: 136px;
+		// padding-right: 136px;
 
 		& + .msg {
 			display: block;
@@ -300,7 +344,7 @@ input[type="text"] {
 		}
 
 		@media (max-width: 480px) {
-			padding-right: 110px;
+			// padding-right: 110px;
 		}
 	}
 

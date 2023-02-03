@@ -352,13 +352,37 @@ const PositionsItem = (props) => {
 					</div>
 					<div className="App-card-row">
 						<div className="label">
-							<Trans>Size</Trans>
+							<Tooltip
+								className="has-hint-tooltip nowrap"
+								handle="IM"
+								position="left-bottom"
+								enabled={true}
+								renderContent={() => {
+									return (
+										<div>
+											The margin reserved for your <br />open positions and open orders
+										</div>
+									);
+								}}
+							/>
 						</div>
 						<div>${formatAmount(position.size, USD_DECIMALS, 2, true)}</div>
 					</div>
 					<div className="App-card-row">
 						<div className="label">
-							<Trans>Collateral</Trans>
+							<Tooltip
+								className="has-hint-tooltip nowrap"
+								handle="MM"
+								position="left-bottom"
+								enabled={true}
+								renderContent={() => {
+									return (
+										<div>
+											The margin required to maintain your current <br />positions. If your current margin balance falls <br />below Min. Maintenance Margin, your margin <br />account will be liquidated to repay the debt
+										</div>
+									);
+								}}
+							/>
 						</div>
 						<div>
 							<Tooltip

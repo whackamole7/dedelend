@@ -6,9 +6,13 @@ import "./Tab.css";
 import Tooltip from './../Tooltip/Tooltip';
 
 export default function Tab(props) {
-  const { options, option, setOption, onChange, type = "block", className, optionLabels, icons } = props;
+  const { options, option, setOption, onChange, type = "block", className, optionLabels, icons, disabled, disabledTooltip } = props;
   
   const onClick = (opt) => {
+    if (disabled) {
+      return;
+    }
+    
     if (setOption) {
       setOption(opt);
     }
@@ -18,7 +22,7 @@ export default function Tab(props) {
   };
 
   return (
-    <div className={cx("Tab", type, className)}>
+    <div className={cx("Tab", type, className, disabled ? 'disabled' : '')}>
       {options.map((opt) => {
         const label = optionLabels && optionLabels[opt] ? optionLabels[opt] : opt;
         let disabledNode;
@@ -28,18 +32,7 @@ export default function Tab(props) {
             if (el.label === label && el.disabled) {
               disabledNode = (
                 <div className={cx("Tab-option", "tab-tooltip-container")} onClick={() => {return}} key={opt}>
-                  <Tooltip
-                    className="tab-tooltip nowrap"
-                    position="right-bottom"
-                    enabled={true}
-                    handle=""
-                    renderContent={() => {
-                      return (
-                        <div>
-                          <span className='spacing'>Y</span>ou can't open<br className="br-mobile" /> a long/short position<br /> at the same time
-                        </div>
-                      );
-                    }} />
+                  {disabledTooltip}
                   {icons && icons[opt] && <img className="Tab-option-icon" src={opt === option ? icons[opt + '_active'] : icons[opt]} alt={option} />}
                   {label}
                 </div>

@@ -1137,11 +1137,6 @@ export const Exchange = forwardRef((props, ref) => {
             setRegisterVisible={props.setRegisterVisible}
           />
           <MarginLevel />
-          <div className="Exchange-wallet-tokens">
-            <div className="Exchange-wallet-tokens-content">
-              <ExchangeWalletTokens tokens={tokens} infoTokens={infoTokens} onSelectToken={onSelectWalletToken} />
-            </div>
-          </div>
         </div>
         <div className="Exchange-lists small">{getListSection()}</div>
       </div>

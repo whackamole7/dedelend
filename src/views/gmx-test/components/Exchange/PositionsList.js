@@ -279,10 +279,34 @@ export default function PositionsList(props) {
                 <Trans>Net Value</Trans>
               </th>
               <th>
-                <Trans>Size</Trans>
+                <Tooltip
+                  className="has-hint-tooltip nowrap"
+                  handle="IM"
+                  position="left-bottom"
+                  enabled={true}
+                  renderContent={() => {
+                    return (
+                      <div>
+                        The margin reserved for your <br />open positions and open orders
+                      </div>
+                    );
+                  }}
+                />
               </th>
               <th>
-                <Trans>Collateral</Trans>
+                <Tooltip
+                  className="has-hint-tooltip nowrap"
+                  handle="MM"
+                  position="left-bottom"
+                  enabled={true}
+                  renderContent={() => {
+                    return (
+                      <div>
+                        The margin required to maintain your current <br />positions. If your current margin balance falls <br />below Min. Maintenance Margin, your margin <br />account will be liquidated to repay the debt
+                      </div>
+                    );
+                  }}
+                />
               </th>
               <th>
                 <Trans>Mark Price</Trans>
@@ -293,7 +317,6 @@ export default function PositionsList(props) {
               <th>
                 <Trans>Liq. Price</Trans>
               </th>
-              <th></th>
               <th></th>
             </tr>
           )}

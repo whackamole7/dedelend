@@ -94,6 +94,8 @@ import { callContract } from "../../lib/contracts/callContract";
 import { DDL_AccountManager, DDL_AccountManager_abi, USDC } from './../../../../components/utils/contracts';
 import Currency from './../../../../components/Currency';
 import NumberInput from './../../../../components/UI/input/NumberInput';
+import NumberInput_v2 from './../../../../components/UI/input/NumberInput_v2';
+import icon_repay from '../../../../img/icon-repay.svg';
 
 const SWAP_ICONS = {
   [LONG]: longImg,
@@ -109,7 +111,7 @@ const leverageSliderHandle = (props) => {
   return (
     <SliderTooltip
       prefixCls="rc-slider-tooltip"
-      overlay={`${parseFloat(value).toFixed(2)}x`}
+      overlay={`${value}%`}
       visible={dragging}
       placement="top"
       key={index}
@@ -241,7 +243,7 @@ export default function SwapBox(props) {
   }
   const [leverageOption, setLeverageOption] = useLocalStorageSerializeKey(
     [chainId, "Exchange-swap-leverage-option"],
-    "2"
+    "20"
   );
   const [isLeverageSliderEnabled, setIsLeverageSliderEnabled] = useLocalStorageSerializeKey(
     [chainId, "Exchange-swap-leverage-slider-enabled"],
@@ -266,6 +268,10 @@ export default function SwapBox(props) {
 
   const isMarketOrder = orderOption === MARKET;
   const isBorrow = orderOption === BORROW;
+
+  const [borrowValue, setBorrowValue] = useState(undefined);
+
+  
   const orderOptions = isSwap ? SWAP_ORDER_OPTIONS : LEVERAGE_ORDER_OPTIONS;
   const orderOptionLabels = { [STOP]: "Trigger" };
 
@@ -1814,20 +1820,6 @@ export default function SwapBox(props) {
     feeBps = feeBasisPoints;
   }
 
-  const leverageMarks = {
-    1.1: "1.1x",
-    5: "5x",
-    10: "10x",
-    15: "15x",
-    20: "20x",
-    25: "25x",
-    30: "30x",
-    35: "35x",
-    40: "40x",
-    45: "45x",
-    50: "50x",
-  };
-
   if (!fromToken || !toToken) {
     return null;
   }
@@ -1886,19 +1878,61 @@ export default function SwapBox(props) {
                 disabled: ethLongExists
               }
             ]}
-            option={swapOption}
+            disabledTooltip={
+              <Tooltip
+                className="tab-tooltip nowrap"
+                position="right-bottom"
+                enabled={true}
+                handle=""
+                renderContent={() => {
+                  return (
+                    <div>
+                      <span className='spacing'>Y</span>ou can't open<br className="br-mobile" /> a long/short position<br /> at the same time
+                    </div>
+                  );
+                }} />
+            }
+            disabled={isBorrow}
+            option={isBorrow ? undefined : swapOption}
             onChange={onSwapOptionChange}
-            className="Exchange-swap-option-tabs"
+            className={"Exchange-swap-option-tabs"}
           />
           {flagOrdersEnabled && (
-            <Tab
-              options={orderOptions}
-              optionLabels={orderOptionLabels}
-              className="Exchange-swap-order-type-tabs"
-              type="inline"
-              option={orderOption}
-              onChange={onOrderOptionChange}
-            />
+            <div className="Tab-inline-container">
+              <Tab
+                options={orderOptions}
+                optionLabels={orderOptionLabels}
+                className="Exchange-swap-order-type-tabs"
+                type="inline"
+                option={orderOption}
+                onChange={onOrderOptionChange}
+                disabledList={[
+                  {
+                    label: "Limit",
+                    disabled: true
+                  },
+                ]}
+                disabledTooltip={
+                  <Tooltip
+                    className="tab-tooltip nowrap"
+                    position="right-bottom"
+                    enabled={true}
+                    handle=""
+                    renderContent={() => {
+                      return (
+                        <div>
+                          Limit orders will be added soon!
+                        </div>
+                      );
+                    }} />
+                }
+              />
+              <button className="btn_inline">
+                <img className="btn__icon" src={icon_repay} alt="Repay icon" />
+                Repay
+              </button>
+            </div>
+            
           )}
         </div>
         {showFromAndToSection && (
@@ -2117,18 +2151,28 @@ export default function SwapBox(props) {
         )}
         {(isLong || isShort) && !isStopOrder && !isBorrow && (
           <div className="Exchange-leverage-box">
-            <div className="Exchange-leverage-slider-settings">
-              {/* <Checkbox isChecked={isLeverageSliderEnabled} setIsChecked={setIsLeverageSliderEnabled}>
-                <span className="muted">Leverage slider</span>
-              </Checkbox> */}
-              <div>Leverage</div>
-              {(isLong || isShort) && hasLeverageOption && (
-                <div className="Exchange-leverage-value">
-                  {parseFloat(leverageOption).toFixed(2)}x
+            <div className="Buying-power">
+              <div className="Exchange-leverage-slider-settings">
+                <div>
+                  <Tooltip
+                    className="has-hint-tooltip nowrap"
+                    handle="Buying Power"
+                    position="left-bottom"
+                    enabled={true}
+                    renderContent={() => {
+                      return (
+                        <div>
+                          Amount of USDC you can spend <br />on opening new positions
+                        </div>
+                      );
+                    }}
+                  />
                 </div>
-              )}
-            </div>
-            {isLeverageSliderEnabled && (
+                <div className="Buying-power__available">
+                  <div className="muted-dark">Available:</div>
+                  <Currency>1000000.33</Currency>
+                </div>
+              </div>
               <div
                 className={cx("Exchange-leverage-slider", "App-slider", {
                   positive: isLong,
@@ -2136,25 +2180,31 @@ export default function SwapBox(props) {
                 })}
               >
                 <Slider
-                  min={1.1}
-                  max={MAX_ALLOWED_LEVERAGE / BASIS_POINTS_DIVISOR}
-                  step={0.1}
-                  marks={leverageMarks}
-                  handle={leverageSliderHandle}
+                  min={0}
+                  max={100}
+                  step={10}
+                  // marks={leverageMarks}
+                  // handle={leverageSliderHandle}
                   onChange={(value) => setLeverageOption(value)}
                   value={leverageOption}
                   defaultValue={leverageOption}
                 />
               </div>
-            )}
-            {isShort && (
+              {(isLong || isShort) && hasLeverageOption && (
+                <div className="Exchange-leverage-value">
+                  {leverageOption}% of Buying Power
+                </div>
+              )}
+            </div>
+            
+            {/* {isShort && (
               <div className="Exchange-info-row Exchange-info-row_relative">
                 <div className="Exchange-info-label">
                   <Trans>Collateral In</Trans>
                 </div>
 
                 <div className="align-right">
-                  {/* <TokenSelector
+                  <TokenSelector
                     label="Collateral In"
                     chainId={chainId}
                     tokenAddress={shortCollateralAddress}
@@ -2162,7 +2212,7 @@ export default function SwapBox(props) {
                     tokens={stableTokens}
                     showTokenImgInDropdown={true}
                     disabled={false}
-                  /> */}
+                  />
                   USDC
                 </div>
               </div>
@@ -2193,7 +2243,7 @@ export default function SwapBox(props) {
                   />
                 </div>
               </div>
-            )}
+            )} */}
             <div className="Exchange-info-row">
               <div className="Exchange-info-label">
                 <Trans>Entry Price</Trans>
@@ -2209,7 +2259,7 @@ export default function SwapBox(props) {
                 {!nextAveragePrice && `-`}
               </div>
             </div>
-            <div className="Exchange-info-row">
+            {/* <div className="Exchange-info-row">
               <div className="Exchange-info-label">
                 <Trans>Liq. Price</Trans>
               </div>
@@ -2226,7 +2276,7 @@ export default function SwapBox(props) {
                 {!toAmount && displayLiquidationPrice && `-`}
                 {!displayLiquidationPrice && `-`}
               </div>
-            </div>
+            </div> */}
             <ExchangeInfoRow label="Fees">
               <div>
                 {!feesUsd && "-"}
@@ -2264,10 +2314,13 @@ export default function SwapBox(props) {
           </div>
         )}
         {isBorrow && (
-          <>
-            <div className="input-container">
-              <NumberInput />
-            </div>
+          <div className="borrow-list">
+            <NumberInput_v2
+              placeholder="Amount" 
+              value={borrowValue}
+              setValue={setBorrowValue}
+              currency='USDC'
+            />
             <div className="Exchange-info-row">
               <div className="Exchange-info-label">
                 <Trans>Available:</Trans>
@@ -2284,7 +2337,7 @@ export default function SwapBox(props) {
                 5%
               </div>
             </div>
-          </>
+          </div>
         )}
         {isStopOrder && (
           <div className="Exchange-swap-section Exchange-trigger-order-info">

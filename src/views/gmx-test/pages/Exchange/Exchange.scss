@@ -105,7 +105,7 @@
     // flex: 1;
 
     @media (max-width: 1380px) {
-      width: 33rem;
+      width: 35rem;
       // flex: 2;
     }
 
@@ -135,6 +135,20 @@
     /* margin-top: 14.5rem; */
     display: grid;
     grid-template-rows: auto 1fr;
+
+    @media (max-width: 1100px) and (min-width: 900px) {
+      display: flex;
+      align-items: flex-start;
+      column-gap: 30px;
+
+      .Exchange-swap-box, .Margin-level {
+        width: 50%;
+      }
+
+      .Margin-level {
+        margin-top: 0;
+      }
+    }
   }
   
   .Exchange-leverage-slider-settings {
@@ -934,6 +948,16 @@
       border-color: $red;
     }
   }
+
+  .Exchange-swap-option-tabs.disabled {
+    .Tab-option {
+      cursor: not-allowed;
+      
+      &:hover, &:focus-visible {
+        color: $grey;
+      }
+    }
+  }
   
   .Exchange-swap-option-tabs.Tab.block .Tab-option {
     padding: 1.05rem;
@@ -941,6 +965,17 @@
   
   .Exchange-swap-order-type-tabs {
     margin-top: 1.5rem;
+
+    .tab-tooltip-container {
+      &:hover, &:focus-visible {
+        color: $lgrey;
+      }
+    }
+
+    .Tooltip-popup.right-bottom {
+      top: calc(100% + 2px);
+      right: -12px;
+    }
   }
   
   .Exchange-swap-option-tabs.Tab.block .Tab-option-icon {
