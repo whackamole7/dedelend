@@ -10,7 +10,7 @@ import { getToken } from "../../config/Tokens";
 import Modal from "../Modal/Modal";
 
 import dropDownIcon from "../../img/DROP_DOWN.svg";
-import "./TokenSelector.css";
+import "./TokenSelector.scss";
 import TooltipWithPortal from "../Tooltip/TooltipWithPortal";
 
 export default function TokenSelector(props) {
@@ -31,6 +31,7 @@ export default function TokenSelector(props) {
     showNewCaret = false,
     getTokenState = () => ({ disabled: false, message: null }),
     disableBodyScrollLock,
+    curToken,
   } = props;
 
   const visibleTokens = tokens.filter((t) => !t.isTempHidden);
@@ -120,7 +121,7 @@ export default function TokenSelector(props) {
             return (
               <div
                 key={token.address}
-                className={cx("TokenSelector-token-row", { disabled: tokenState.disabled })}
+                className={cx("TokenSelector-token-row", token.symbol === curToken.symbol ? 'chosen' : '' , { disabled: tokenState.disabled })}
                 onClick={() => !tokenState.disabled && onSelectToken(token)}
               >
                 {tokenState.disabled && tokenState.message && (

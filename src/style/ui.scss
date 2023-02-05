@@ -115,6 +115,9 @@ a {
 			&::before {
 				padding-top: 12px;
 			}
+			&::after {
+				padding-bottom: 1px;
+			}
 		}
 	}
 

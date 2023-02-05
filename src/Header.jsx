@@ -256,7 +256,9 @@ const Header = (props) => {
 									<Button className='account-btn' isMain={true} onClick={(e) => {
 										connectWallet(setWalletAddress)
 									}}>
-										{'Create Margin Account      '}
+										{window.outerWidth > 480 ?
+										'Create Margin Account      '
+										: 'Create Account      '}
 									</Button>
 								</div>
 								}
@@ -268,7 +270,6 @@ const Header = (props) => {
 						<Button isMain={true} onClick={(e) => {
 							connectWallet(setWalletAddress)
 						}}>Connect wallet</Button>}
-
 				</div>
 
 				{loc.pathname.startsWith('/perpetuals') && (

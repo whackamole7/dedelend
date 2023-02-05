@@ -298,19 +298,51 @@ export default function SwapBox(props) {
   const hasExistingPosition = existingPosition && existingPosition.size && existingPosition.size.gt(0);
 
   const whitelistedTokens = getWhitelistedTokens(chainId);
+  
+  // Tokens control
   const tokens = getTokens(chainId);
-  const fromTokens = tokens;
+  // const fromTokens = tokens;
+  const fromTokens = [
+    {
+      name: "USD Coin",
+      symbol: "USDC",
+      decimals: 6,
+      address: "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8",
+      isStable: true,
+      imageUrl: "https://assets.coingecko.com/coins/images/6319/thumb/USD_Coin_icon.png?1547042389",
+    },
+  ]
+
   const stableTokens = tokens.filter((token) => token.isStable);
   const indexTokens = whitelistedTokens.filter((token) => !token.isStable && !token.isWrapped);
   const shortableTokens = indexTokens.filter((token) => token.isShortable);
 
-  let toTokens = tokens;
-  if (isLong) {
-    toTokens = indexTokens;
-  }
-  if (isShort) {
-    toTokens = shortableTokens;
-  }
+  // let toTokens = tokens;
+  let toTokens = [
+    {
+      name: "Ethereum",
+      symbol: "ETH",
+      decimals: 18,
+      address: ethers.constants.AddressZero,
+      isNative: true,
+      isShortable: true,
+      imageUrl: "https://assets.coingecko.com/coins/images/279/small/ethereum.png?1595348880",
+    },
+    {
+      name: "Bitcoin (WBTC)",
+      symbol: "BTC",
+      decimals: 8,
+      address: "0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f",
+      isShortable: true,
+      imageUrl: "https://assets.coingecko.com/coins/images/7598/thumb/wrapped_bitcoin_wbtc.png?1548822744",
+    },
+  ]
+  // if (isLong) {
+  //   toTokens = indexTokens;
+  // }
+  // if (isShort) {
+  //   toTokens = shortableTokens;
+  // }
 
   const needOrderBookApproval = !isMarketOrder && !orderBookApproved;
   const prevNeedOrderBookApproval = usePrevious(needOrderBookApproval);
@@ -1975,7 +2007,8 @@ export default function SwapBox(props) {
                   )}
                 </div>
                 <div>
-                  <TokenSelector
+                  {/* Tokens control */}
+                  {/* <TokenSelector
                     label="Pay"
                     chainId={chainId}
                     tokenAddress={fromTokenAddress}
@@ -1984,7 +2017,8 @@ export default function SwapBox(props) {
                     infoTokens={infoTokens}
                     showMintingCap={false}
                     showTokenImgInDropdown={true}
-                  />
+                  /> */}
+                  <div className="TokenSelector-dummy">USDC</div>
                 </div>
               </div>
             </div>
@@ -2027,8 +2061,7 @@ export default function SwapBox(props) {
                   />
                 </div>
                 <div>
-                  {/* ETH/USDC disabling */}
-                  {/* <TokenSelector
+                  <TokenSelector
                     label={getTokenLabel()}
                     chainId={chainId}
                     tokenAddress={toTokenAddress}
@@ -2036,8 +2069,8 @@ export default function SwapBox(props) {
                     tokens={toTokens}
                     infoTokens={infoTokens}
                     showTokenImgInDropdown={true}
-                  /> */}
-                  <div className="TokenSelector-dummy">ETH</div>
+                    curToken={toToken}
+                  />
                 </div>
               </div>
             </div>

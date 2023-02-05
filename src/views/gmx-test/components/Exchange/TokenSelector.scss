@@ -1,3 +1,5 @@
+@import "../../../../style/vars.scss";
+
 .TokenSelector .Modal .Modal-content {
   /* width: 31rem; */
   margin: 0;
@@ -12,10 +14,6 @@
 
 .TokenSelector.opened .Modal-content {
   box-shadow: 3px 0 20px #060D21;
-}
-
-.TokenSelector-token-row {
-  /* min-width: fit-content; */
 }
 
 .TokenSelector-token-name {
@@ -92,7 +90,7 @@
   cursor: pointer;
   position: relative;
   color: #747FA6;
-  border: 1px solid transparent;
+  border: $border;
   background-color: #181A3C;
   border-radius: 5px;
   display: flex;
@@ -100,6 +98,10 @@
   align-items: center;
   padding: 0.8rem 1rem;
   transition: all .2s ease;
+
+  &.chosen::after {
+    right: 11px;
+  }
 }
 
 .TokenSelector-tooltip.Tooltip {

@@ -6,6 +6,12 @@
 .account-btn {
 	text-align: right;
 	white-space: pre;
+	padding-left: 14px;
+	padding-right: 14px;
+
+	&::before, &::after {
+		padding-left: 7px;
+	}
 	
 	span {
 		display: flex;
@@ -32,7 +38,7 @@
 			content: '';
 			position: absolute;
 			top: 12px;
-			left: 22px;
+			left: 15px;
 			z-index: 2;
 			display: block;
 			flex-shrink: 0;
@@ -64,6 +70,24 @@
 					transform: scale3d(1, 1, 1);
 				}
 			}
+		}
+	}
+
+	@media (max-width: 480px) {
+		padding-left: 7.5px;
+		padding-right: 7.5px;
+
+		&-wrapper::before {
+			content: '';
+			left: 8px;
+		}
+
+		span::before {
+			margin-right: 5px;
+		}
+
+		&::before, &::after {
+			padding-left: 12px;
 		}
 	}
 }
