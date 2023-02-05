@@ -7,6 +7,11 @@ const Wallet = ({ address, setAddress }) => {
 	const [open, setOpen] = useState(false);
 
 	function openWallet(e) {
+		if (open) {
+			closeWallet();
+			return
+		}
+		
 		e.stopPropagation();
 		document.addEventListener('click', closeWallet);
 		setOpen(true);
@@ -16,19 +21,22 @@ const Wallet = ({ address, setAddress }) => {
 		setOpen(false);
 	}
 
+
+	function cutAddress(addr) {
+		if (!addr) {
+			return '';
+		}
+		
+		return addr.slice(0, 9) + '...' + addr.slice(-15);
+	}
 	
 	return (
 		<div className={"wallet" + (open ? " active" : "")}>
 			<button className="wallet__header" onClick={openWallet}>
-				{/* <div className="wallet__avatar-wrapper">
-					<div className="wallet__avatar">
-						<img src="./img/1.jpg" alt="Wallet Avatar" />
-					</div>
-				</div> */}
 				<div className="wallet__address">
 					<img src={icon_wallet} alt="ETH" />
 					<span>
-						{address.substr(0,11) + '...' + address.substr(-15)}
+						{cutAddress(address)}
 					</span>
 				</div>
 			</button>

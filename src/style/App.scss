@@ -60,16 +60,9 @@
 		align-items: center;
 		column-gap: 7px;
 		font-size: 15px;
-		// line-height: calc(19.5/15);
 		line-height: 1;
 		color: $lgrey;
 		transition: color .2s ease;
-
-		@media (max-width: 576px) {
-			& > span {
-				display: none;
-			}
-		}
 	}
 	
 	&__avatar {
@@ -117,10 +110,14 @@
 		margin-top: 13px;
 	}
 
-	@media (max-width: 576px) {
+	@media (max-width: 768px) {
 		&__body {
 			left: auto;
 			width: 280px;
+		}
+
+		&__address > span {
+			display: none;
 		}
 	}
 	@media (max-width: 480px) {
