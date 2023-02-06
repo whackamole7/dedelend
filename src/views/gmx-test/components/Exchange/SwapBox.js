@@ -2391,7 +2391,7 @@ export default function SwapBox(props) {
           </div>
         )}
         <div className="Exchange-swap-button-container">
-          <button className={"App-cta Exchange-swap-button" + (isPrimaryEnabled() ? " hlight" : "")} onClick={onClickPrimary} disabled={!isPrimaryEnabled()}>
+          <button className={"Exchange-swap-button btn" + (isPrimaryEnabled() ? " btn_hlight" : "")} onClick={onClickPrimary} disabled={!isPrimaryEnabled()}>
             {getPrimaryText()}
           </button>
         </div>

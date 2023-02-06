@@ -103,11 +103,19 @@ h2 {
 }
 
 .block {
-	margin-bottom: 60px;
+	margin-bottom: 90px;
 
 	&__title {
 		font-size: 30px;
 		line-height: calc(39/30);
+		margin-bottom: 30px;
+	}
+
+	@media (max-width: 992px) {
+		margin-bottom: 60px;
+	}
+
+	@media (max-width: 768px) {
 		margin-bottom: 30px;
 	}
 

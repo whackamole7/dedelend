@@ -312,6 +312,17 @@
 	}
 }
 
+.App-box {
+	background-color: $blue-2;
+	border-radius: 5px;
+	border: $border;
+	padding: 30px;
+
+	@media (max-width: 480px) {
+		padding: 20px;
+	}
+}
+
 
 
 @import './block/Header.scss';
@@ -321,5 +332,6 @@
 @import './block/supply-market.scss';
 @import './block/banner.scss';
 @import './block/Account.scss';
+@import './block/MarginAccount.scss';
 
 @import './toastify.scss';

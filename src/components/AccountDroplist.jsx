@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import icon_user from '../img/icon-user.svg';
+import { cutAddress } from './utils/wallet';
 
 const AccountDroplist = ({ accounts, account }) => {
 	const [open, setOpen] = useState(false);
@@ -17,18 +18,6 @@ const AccountDroplist = ({ accounts, account }) => {
 	function closeAccounts() {
 		document.removeEventListener('click', closeAccounts);
 		setOpen(false);
-	}
-
-	function cutAddress (addr) {
-		if (!addr) {
-			return '';
-		}
-
-		if (window.outerWidth <= 480) {
-			return addr.slice(0, 3) + '...' + addr.slice(-3);
-		}
-		
-		return addr.slice(0, 10) + '...' + addr.slice(-5);
 	}
 	
 	const accountCut = cutAddress(account);

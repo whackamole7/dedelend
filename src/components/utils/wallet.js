@@ -63,3 +63,16 @@ export const requestAccount = async (setWalletAddress) => {
 export const connectWallet = async (setWalletAddress) => {
 	await requestAccount(setWalletAddress);
 }
+
+
+export const cutAddress = (addr, isAdaptive = true) => {
+	if (!addr) {
+		return '';
+	}
+
+	if (isAdaptive && window.outerWidth <= 480) {
+		return addr.slice(0, 3) + '...' + addr.slice(-3);
+	}
+	
+	return addr.slice(0, 10) + '...' + addr.slice(-5);
+}

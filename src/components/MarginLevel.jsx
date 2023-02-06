@@ -2,9 +2,9 @@ import React from 'react';
 import Currency from './Currency';
 import Tooltip from './../views/gmx-test/components/Tooltip/Tooltip';
 
-const MarginLevel = () => {
+const MarginLevel = ({ children }) => {
 	return (
-		<div className="App-box-border Margin-level">
+		<div className="App-box Margin-level">
 			<h1>Margin level</h1>
 			<div className="text-table">
 				<div className="text-table__row">
@@ -75,6 +75,7 @@ const MarginLevel = () => {
 				</div>
 				<div className="ruler__pointer"></div>
 			</div>
+			{children}
 		</div>
 	);
 };

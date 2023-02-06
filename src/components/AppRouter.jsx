@@ -8,9 +8,10 @@ import { UserStatsContext } from '../context/context';
 import { ethers } from 'ethers';
 import GMXInterface from '../views/gmx-test/App/App';
 import { connectWallet } from './utils/wallet';
+import MarginAccount from '../views/MarginAccount';
 
 
-const AppRouter = ({ walletAddress, setWalletAddress, dgAddress, setRegisterVisible }) => {
+const AppRouter = ({ walletAddress, setWalletAddress, dgAddress, setRegisterVisible, account }) => {
 	const loc = useLocation();
 	const navigate = useNavigate();
 
@@ -57,6 +58,14 @@ const AppRouter = ({ walletAddress, setWalletAddress, dgAddress, setRegisterVisi
 			<Route
 				path="/earn"
 				element={<SupplyMarket walletAddress={walletAddress} setWalletAddress={setWalletAddress} supplyStep={supplyStep} setSupplyStep={setSupplyStep} />} 
+			/>
+			<Route
+				path="/account"
+				element={
+					<MarginAccount
+						account={account}
+					/>
+				}
 			/>
 		</Routes>
 	);
