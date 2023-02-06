@@ -9,6 +9,7 @@ import icon_wallet from '../img/icon-wallet.svg';
 import icon_dollar from '../img/icon-dollar.svg';
 import { cutAddress } from './../components/utils/wallet';
 import MarginLevel from './../components/MarginLevel';
+import Tooltip from './gmx-test/components/Tooltip/Tooltip';
 
 const MarginAccount = (props) => {
 	const {
@@ -75,11 +76,41 @@ const MarginAccount = (props) => {
 						<div className="MarginAccount__section-icon">
 							<img src={icon_wallet} alt="Wallet icon" />
 						</div>
-						<div className="MarginAccount__section-title">Margin Balance</div>
+						<div className="MarginAccount__section-title">
+							<Tooltip
+								className="has-hint-tooltip nowrap"
+								id="margin-balance-tooltip"
+								handle="Margin Balance"
+								position="left-bottom"
+								enabled={true}
+								renderContent={() => {
+									return (
+										<div>
+											Margin Balance = Account Balance + <br />Unrealized PnL. Your margin account <br />will be liquidated once Margin Balance <br />less or equal min. Maintain margin
+										</div>
+									);
+								}}
+							/>
+						</div>
 						<div className="MarginAccount__section-value">$100,000</div>
 						<div className="MarginAccount__section-table text-table text-table_small">
 							<div className="text-table__row">
-								<div className="text-table__left">Account Balance</div>
+								<div className="text-table__left">
+									<Tooltip
+										className="has-hint-tooltip nowrap"
+										id="account-balance-tooltip"
+										handle="Account Balance"
+										position="left-bottom"
+										enabled={true}
+										renderContent={() => {
+											return (
+												<div>
+													The value of your assets in USDC
+												</div>
+											);
+										}}
+									/>
+								</div>
 								<div className="text-table__right">$99,500</div>
 							</div>
 							<div className="text-table__row">
@@ -92,7 +123,22 @@ const MarginAccount = (props) => {
 						<div className="MarginAccount__section-icon">
 							<img src={icon_dollar} alt="Dollar Icon" />
 						</div>
-						<div className="MarginAccount__section-title">Debt</div>
+						<div className="MarginAccount__section-title">
+							<Tooltip
+								className="has-hint-tooltip nowrap"
+								id="debt-tooltip"
+								handle="Debt"
+								position="left-bottom"
+								enabled={true}
+								renderContent={() => {
+									return (
+										<div>
+											The total amount of USDC <br />loaned to you margin account <br />+ Interest fee + Service fee
+										</div>
+									);
+								}}
+							/>
+						</div>
 						<div className="MarginAccount__section-value">
 							<div className="MarginAccount__section-value_major">
 								<Currency>20000</Currency>
@@ -106,12 +152,16 @@ const MarginAccount = (props) => {
 						</div>
 						<div className="MarginAccount__section-table text-table text-table_small">
 							<div className="text-table__row">
-								<div className="text-table__left">Account Balance</div>
-								<div className="text-table__right">$99,500</div>
+								<div className="text-table__left">Debt</div>
+								<div className="text-table__right">
+									<Currency>19950</Currency>
+								</div>
 							</div>
 							<div className="text-table__row">
-								<div className="text-table__left">Unrealized PnL</div>
-								<div className="text-table__right">$500</div>
+								<div className="text-table__left">Interest & Service Fee</div>
+								<div className="text-table__right">
+									<Currency>50</Currency>
+								</div>
 							</div>
 						</div>
 					</div>

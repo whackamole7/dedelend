@@ -1775,6 +1775,11 @@
     font-size: 15px;
     line-height: calc(19.5/15);
     color: $lgrey;
+
+    .currency img {
+      width: 15px;
+      height: 15px;
+    }
   }
 
   @media (max-width: 480px) {

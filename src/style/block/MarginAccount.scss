@@ -59,6 +59,7 @@
 		}
 		
 		&-title {
+			width: fit-content;
 			font-size: 15px;
 			line-height: calc(19.5/15);
 			color: $lgrey;
@@ -185,6 +186,32 @@
 				line-height: calc(22.1/17);
 			}
 		}
+	}
+
+	.has-hint-tooltip {
+		.Tooltip-popup {
+			left: calc(100% - 36px);
+		}
+
+		@media (max-width: 480px) {
+			&#margin-balance-tooltip {
+				.Tooltip-popup {
+					left: 0;
+					&::before {
+						left: 96px;
+					}
+				}
+			}
+			&#account-balance-tooltip {
+				.Tooltip-popup {
+					left: 0;
+					&::before {
+						left: 104px;
+					}
+				}
+			}
+		}
+		
 	}
 
 	@media (max-width: 1200px) {
