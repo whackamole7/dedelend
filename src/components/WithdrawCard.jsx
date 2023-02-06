@@ -7,6 +7,7 @@ import Loader from './UI/loader/Loader';
 import { getGlobalStats, getUserStats } from './utils/stats';
 import { formatForContract } from './utils/math';
 import { errAlert } from './utils/notifications';
+import Currency from './Currency';
 
 const WithdrawCard = (props) => {
 	const {userStats, setUserStats} = useContext(UserStatsContext);
@@ -67,7 +68,7 @@ const WithdrawCard = (props) => {
 	}
 	
 	return (
-		<div className={"withdraw-card market-card app-box " + props.className}>
+		<div className={"withdraw-card market-card App-box " + props.className}>
 			<h2>Withdraw USDC</h2>
 			
 			{
@@ -80,11 +81,15 @@ const WithdrawCard = (props) => {
 			<div className="market-card__info">
 				<div className="info-field">
 					<div className="info-field__name">Current Balance: </div>
-					<div className={"info-field__val" + (userStats.curBalance !== undefined ? '' : ' no-data')}>{userStats.curBalance !== undefined ? (separateThousands(userStats.curBalance) + ' USDC') : ''}</div>
+					<div className={"info-field__val" + (userStats.curBalance !== undefined ? '' : ' no-data')}>
+						<Currency>{userStats.curBalance}</Currency>
+					</div>
 				</div>
 				<div className="info-field">
 					<div className="info-field__name">Available: </div>
-					<div className={"info-field__val" + (userStats.balance !== undefined ? '' : ' no-data')}>{userStats.avail !== undefined ? (separateThousands(userStats.avail) + ' USDC') : ''}</div>
+					<div className={"info-field__val" + (userStats.balance !== undefined ? '' : ' no-data')}>
+						<Currency>{userStats.avail}</Currency>
+					</div>
 				</div>
 			</div>
 		</div>

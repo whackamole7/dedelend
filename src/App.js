@@ -24,7 +24,7 @@ import { LANGUAGE_LOCALSTORAGE_KEY } from './views/gmx-test/lib/legacy';
 function App() {
 	const [walletAddress, setWalletAddress] = useState('');
 	const [dgAddress, setDgAddress] = useState('');
-	const [account, setAccount] = useState('0x0641bc55ddab3b9636e82cbf87ede3c3c533039d');
+	const [account, setAccount] = useState('');
 	const [accounts, setAccounts] = useState([
 		'0x0641bc55ddab3b9636e82cbf87ede3c3c533039d',
 		'0x0641bc55ddab3b9636e82cbf87ede3c3c5330000'

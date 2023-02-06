@@ -3,7 +3,11 @@ import icon_usdc from '../img/icon-usdc.svg';
 import { separateThousands } from './utils/sepThousands';
 
 const Currency = ({ children }) => {
-	const val = typeof children === 'string' ? children : undefined;
+	const val = children;
+	
+	if (typeof val !== 'string' && typeof val !== 'number') {
+		return;
+	}
 	
 	return (
 		<div className="currency">

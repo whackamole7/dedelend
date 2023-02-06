@@ -7,8 +7,6 @@ const SupplyMarket = ({ walletAddress, supplyStep, setSupplyStep }) => {
 	
 	return (
 		<div className='block supply-market'>
-			<h1 className='block__title'>Supply Market</h1>
-
 			<MarketInfoBoard />
 			
 			<div className="supply-market__functions">

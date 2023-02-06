@@ -7,6 +7,7 @@ import Loader from './UI/loader/Loader';
 import { getGlobalStats, getUserStats } from './utils/stats';
 import { formatForContract } from './utils/math';
 import { errAlert } from './utils/notifications';
+import Currency from './Currency';
 
 const SupplyCard = ({ step, setStep, ...props }) => {
 	const {userStats, setUserStats} = useContext(UserStatsContext);
@@ -103,7 +104,7 @@ const SupplyCard = ({ step, setStep, ...props }) => {
 	]
 	
 	return (
-		<div className={"supply-card market-card app-box " + props.className}>
+		<div className={"supply-card market-card App-box " + props.className}>
 			<h2>Supply USDC</h2>
 			<div className="steps">
 				{steps.map((el, i) => {
@@ -127,7 +128,9 @@ const SupplyCard = ({ step, setStep, ...props }) => {
 			<div className="market-card__info">
 				<div className="info-field">
 					<div className="info-field__name">Balance: </div>
-					<div className={"info-field__val" + (userStats.balance !== undefined ? '' : ' no-data')}>{userStats.balance !== undefined ? (separateThousands(userStats.balance) + ' USDC') : ''}</div>
+					<div className={"info-field__val" + (userStats.balance !== undefined ? '' : ' no-data')}>
+						<Currency>{userStats.balance}</Currency>
+					</div>
 				</div>
 			</div>
 		</div>

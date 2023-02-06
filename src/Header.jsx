@@ -224,6 +224,7 @@ const Header = (props) => {
 		{
 			name: 'Margin Account',
 			to: '/account',
+			isHidden: !account,
 		},
 		{
 			name: 'Old Version',
@@ -254,7 +255,7 @@ const Header = (props) => {
 								:
 								<div className="account-btn-wrapper">
 									<Button className='account-btn' isMain={true} onClick={(e) => {
-										connectWallet(setWalletAddress)
+										setAccount('0x0641bc55DDAb3b9636e82CbF87EDE3c3c533039d')
 									}}>
 										{window.outerWidth > 480 ?
 										'Create Margin Account      '

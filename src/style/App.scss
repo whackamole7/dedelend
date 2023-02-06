@@ -179,14 +179,22 @@
 
 .info-field {
 	display: flex;
+	align-items: center;
 	gap: 15px;
 
 	&__name {
 		color: $grey;
 	}
 	&__val {
-		font-size: 15px;
-		line-height: 1.55;
+		&, .currency {
+			font-size: 15px;
+			line-height: calc(19.5/15);
+			color: $white;
+		}
+		.currency img {
+			width: 15px;
+			height: 15px;
+		}
 	}
 }
 

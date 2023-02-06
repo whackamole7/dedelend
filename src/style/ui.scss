@@ -177,10 +177,10 @@ a {
 
 		&:hover, &:focus-visible {
 			background-color: $blue-1!important;
-			border-color: rgba(56, 66, 99, 0.2);
+			border-color: $lgrey;
 		}
 		&:active {
-			border-color: $lgrey;
+			border-color: $grey;
 		}
 	}
 
