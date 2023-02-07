@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { UserStatsContext, GlobalStatsContext } from './../context/context';
 import Form from './Form';
 import { DDL_POOL, DDL_POOL_signed, USDC_signed } from './utils/contracts';
-import { separateThousands, sepToNumber } from './utils/sepThousands';
+import { sepToNumber } from './utils/sepThousands';
 import Loader from './UI/loader/Loader';
 import { getGlobalStats, getUserStats } from './utils/stats';
 import { formatForContract } from './utils/math';
@@ -19,7 +19,7 @@ const SupplyCard = ({ step, setStep, ...props }) => {
 		if (sepToNumber(inputVal) > userStats.balance) {
 			setInputVal(userStats.balance)
 		}
-	}, [inputVal])
+	}, [inputVal]);
 	
 
 	const steps = [

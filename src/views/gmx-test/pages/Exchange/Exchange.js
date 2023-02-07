@@ -1081,8 +1081,6 @@ export const Exchange = forwardRef((props, ref) => {
       <div className="Exchange-content">
         <div className="Exchange-left">
           {renderChart()}
-          {/* {dgHasFunds && 
-            <ReturnFundsBox dgAddress={props.dgAddress} tokenAddresses={dgFundsAddresses} />} */}
           <div className="Exchange-lists large">{getListSection()}</div>
         </div>
         <div className="Exchange-right">

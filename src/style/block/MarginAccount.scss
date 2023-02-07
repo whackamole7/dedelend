@@ -188,7 +188,7 @@
 		}
 	}
 
-	.has-hint-tooltip {
+	.has-hint-tooltip:not(.margin-tooltip) {
 		.Tooltip-popup {
 			left: calc(100% - 36px);
 		}
@@ -198,7 +198,7 @@
 				.Tooltip-popup {
 					left: 0;
 					&::before {
-						left: 96px;
+						left: 97px;
 					}
 				}
 			}

@@ -126,6 +126,7 @@ a {
 	}
 
 	&_hlight {
+		color: $white;
 		background-color: $lblue;
 
 		&:not([disabled]):hover, &:not([disabled]):focus-visible {
@@ -133,6 +134,9 @@ a {
 		}
 		&:not([disabled]):active {
 			background-color: $lblue;
+		}
+		&[disabled] {
+			background-color: $blue-1;
 		}
 	}
 
