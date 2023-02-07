@@ -92,7 +92,9 @@ const Form = ({children, maxVal, inputProps, btnText, btnIsActive, onSubmit, mod
 						</Button>
 						: ''}
 				</div>
-				<Button btnActive={btnActive || btnIsActive} disabled={props.btnIsDisabled} className="submit-btn">{btnText}</Button>
+				<Button btnActive={btnActive || btnIsActive} disabled={props.btnIsDisabled} className="submit-btn">
+					{btnText}
+				</Button>
 			</div>
 			{children}
 		</form>

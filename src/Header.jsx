@@ -51,7 +51,8 @@ const Header = (props) => {
 	const [depositVal, setDepositVal] = useState('');
 	
 	async function register() {
-		setRegisterLoading(true);
+		// setRegisterLoading(true);
+		setRegisterStep(1);
 	}
 
 	async function approveAll() {
