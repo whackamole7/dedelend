@@ -26,10 +26,9 @@ import HegicOperationalTreasury from "./deployments/arbitrum_ddl/HegicOperationa
 import {mmProvider} from './components/utils/providers.js'
 import { OptManager, PriceProviderETH, PriceProviderBTC, DDL_AccountManager, getDgContract } from './components/utils/contracts';
 import { getGlobalStats, getUserStats, getOptionStats } from './components/utils/stats';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Tabs from './components/Tabs';
 import RegisterModal from './components/UI/modal/RegisterModal';
-import { errAlert } from './components/utils/notifications';
 import AccountDroplist from './components/AccountDroplist';
 
 
@@ -189,25 +188,8 @@ const Header = (props) => {
 			})
 	}, [window.ethereum?.networkVersion])
 
-	useEffect(() => {
-		if (walletAddress) {
-			getUserStats(walletAddress)
-				.then(stats => {
-					setUserStats(stats)
-
-					getOptionByUser(walletAddress)
-						.then(options => {
-							setUserStats({
-								...stats,
-								options
-							})
-						})
-				})
-		}
-	}, [walletAddress])
-
-
 	const loc = useLocation();
+	const nav = useNavigate();
 	const headerLinks = [
 		/* {
 			name: 'Options',
@@ -232,8 +214,31 @@ const Header = (props) => {
 			isExternal: true,
 		},
 	]
+
+	useEffect(() => {
+		if (walletAddress) {
+			getUserStats(walletAddress)
+				.then(stats => {
+					setUserStats(stats)
+
+					getOptionByUser(walletAddress)
+						.then(options => {
+							setUserStats({
+								...stats,
+								options
+							})
+						})
+				})
+		} else {
+			setAccount('');
+			if (loc.pathname === '/account') {
+				nav('/');
+			}
+		}
+	}, [walletAddress])
+	
 	headerLinks.find(link => {
-		link.isActive = loc.pathname.split('/')[1] === link.to.split('/')[1];
+		link.isActive = loc.pathname === link.to;
 		return link.isActive;
 	})
 
@@ -255,7 +260,7 @@ const Header = (props) => {
 								:
 								<div className="account-btn-wrapper">
 									<Button className='account-btn' isMain={true} onClick={(e) => {
-										setAccount('0x0641bc55DDAb3b9636e82CbF87EDE3c3c533039d')
+										setAccount('0x0641bc55ddab3b9636e82cbf87ede3c3c533039d');
 									}}>
 										{window.outerWidth > 480 ?
 										'Create Margin Account      '
@@ -265,6 +270,7 @@ const Header = (props) => {
 								}
 							<Wallet address={walletAddress} 
 								setAddress={setWalletAddress}
+								setAccount={setAccount}
 							/>
 						</>
 						:
