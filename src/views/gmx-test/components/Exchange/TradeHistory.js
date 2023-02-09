@@ -448,7 +448,7 @@ export default function TradeHistory(props) {
 
   return (
     <div className="TradeHistory">
-      {tradesWithMessages.length === 0 && <div className="TradeHistory-row App-box Exchange-list-empty-note">No trades yet</div>}
+      {tradesWithMessages.length === 0 && <div className="TradeHistory-row App-box App-box_no-border Exchange-list-empty-note">No trades yet</div>}
       {tradesWithMessages.length > 0 &&
         tradesWithMessages.map((trade, index) => {
           const tradeData = trade.data;
