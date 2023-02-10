@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/dedelend/static/css/main.7df7af37.chunk.css",
-    "main.js": "/dedelend/static/js/main.4e7db759.chunk.js",
-    "main.js.map": "/dedelend/static/js/main.4e7db759.chunk.js.map",
-    "runtime-main.js": "/dedelend/static/js/runtime-main.4adbebf8.js",
-    "runtime-main.js.map": "/dedelend/static/js/runtime-main.4adbebf8.js.map",
+    "main.css": "/dedelend/static/css/main.839a8373.chunk.css",
+    "main.js": "/dedelend/static/js/main.89120bb1.chunk.js",
+    "main.js.map": "/dedelend/static/js/main.89120bb1.chunk.js.map",
+    "runtime-main.js": "/dedelend/static/js/runtime-main.ae8bfd10.js",
+    "runtime-main.js.map": "/dedelend/static/js/runtime-main.ae8bfd10.js.map",
     "static/css/2.9980fd32.chunk.css": "/dedelend/static/css/2.9980fd32.chunk.css",
-    "static/js/2.0411e366.chunk.js": "/dedelend/static/js/2.0411e366.chunk.js",
-    "static/js/2.0411e366.chunk.js.map": "/dedelend/static/js/2.0411e366.chunk.js.map",
-    "static/js/3.f1954ead.chunk.js": "/dedelend/static/js/3.f1954ead.chunk.js",
-    "static/js/3.f1954ead.chunk.js.map": "/dedelend/static/js/3.f1954ead.chunk.js.map",
+    "static/js/2.a1f3a7bc.chunk.js": "/dedelend/static/js/2.a1f3a7bc.chunk.js",
+    "static/js/2.a1f3a7bc.chunk.js.map": "/dedelend/static/js/2.a1f3a7bc.chunk.js.map",
+    "static/js/3.70acef4a.chunk.js": "/dedelend/static/js/3.70acef4a.chunk.js",
+    "static/js/3.70acef4a.chunk.js.map": "/dedelend/static/js/3.70acef4a.chunk.js.map",
     "static/js/4.27d9589c.chunk.js": "/dedelend/static/js/4.27d9589c.chunk.js",
     "static/js/4.27d9589c.chunk.js.map": "/dedelend/static/js/4.27d9589c.chunk.js.map",
     "static/js/5.b3cd248d.chunk.js": "/dedelend/static/js/5.b3cd248d.chunk.js",
@@ -28,9 +28,9 @@
     "static/js/11.6ba70f8b.chunk.js.map": "/dedelend/static/js/11.6ba70f8b.chunk.js.map",
     "index.html": "/dedelend/index.html",
     "static/css/2.9980fd32.chunk.css.map": "/dedelend/static/css/2.9980fd32.chunk.css.map",
-    "static/css/main.7df7af37.chunk.css.map": "/dedelend/static/css/main.7df7af37.chunk.css.map",
-    "static/js/2.0411e366.chunk.js.LICENSE.txt": "/dedelend/static/js/2.0411e366.chunk.js.LICENSE.txt",
-    "static/js/3.f1954ead.chunk.js.LICENSE.txt": "/dedelend/static/js/3.f1954ead.chunk.js.LICENSE.txt",
+    "static/css/main.839a8373.chunk.css.map": "/dedelend/static/css/main.839a8373.chunk.css.map",
+    "static/js/2.a1f3a7bc.chunk.js.LICENSE.txt": "/dedelend/static/js/2.a1f3a7bc.chunk.js.LICENSE.txt",
+    "static/js/3.70acef4a.chunk.js.LICENSE.txt": "/dedelend/static/js/3.70acef4a.chunk.js.LICENSE.txt",
     "static/media/Anyswap.svg": "/dedelend/static/media/Anyswap.491d1f32.svg",
     "static/media/Artwork.svg": "/dedelend/static/media/Artwork.a2d41b8c.svg",
     "static/media/Artwork_gmx.svg": "/dedelend/static/media/Artwork_gmx.cc61d732.svg",
@@ -160,7 +160,6 @@
     "static/media/ic_wavax_40.svg": "/dedelend/static/media/ic_wavax_40.ba36eda4.svg",
     "static/media/ic_weth_24.svg": "/dedelend/static/media/ic_weth_24.bc395894.svg",
     "static/media/ic_weth_40.svg": "/dedelend/static/media/ic_weth_40.334ca16a.svg",
-    "static/media/icon-BTC.03c08127.svg": "/dedelend/static/media/icon-BTC.03c08127.svg",
     "static/media/icon-ETH.6aac1b5f.svg": "/dedelend/static/media/icon-ETH.6aac1b5f.svg",
     "static/media/icon-WBTC.8955e194.svg": "/dedelend/static/media/icon-WBTC.8955e194.svg",
     "static/media/icon-dollar.37b11694.svg": "/dedelend/static/media/icon-dollar.37b11694.svg",
@@ -203,10 +202,10 @@
     "static/media/wave-02.png": "/dedelend/static/media/wave-02.4a56e8c7.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.4adbebf8.js",
+    "static/js/runtime-main.ae8bfd10.js",
     "static/css/2.9980fd32.chunk.css",
-    "static/js/2.0411e366.chunk.js",
-    "static/css/main.7df7af37.chunk.css",
-    "static/js/main.4e7db759.chunk.js"
+    "static/js/2.a1f3a7bc.chunk.js",
+    "static/css/main.839a8373.chunk.css",
+    "static/js/main.89120bb1.chunk.js"
   ]
 }
