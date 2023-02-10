@@ -185,6 +185,7 @@
 }
 
 
+/* Tooltip helper cls */
 .spacing {
   letter-spacing: -0.1em;
 }
@@ -194,12 +195,13 @@
     display: block;
   }
 }
-
 .br-desktop {
   @media (max-width: 480px) {
     display: none;
   }
 }
+/* Tooltip helper cls end */
+
 
 /* Tooltip types */
 .btn-tooltip.App-button-option {
