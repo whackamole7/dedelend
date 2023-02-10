@@ -2055,17 +2055,18 @@
 
 .chosen {
   position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   
   &::after {
     content: '';
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 15px;
     width: 6px;
     height: 6px;
+    flex-shrink: 0;
     border-radius: 50%;
     background-color: $green;
+    margin-left: 3px;
   }
 }
 

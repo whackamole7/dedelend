@@ -2069,7 +2069,6 @@ export default function SwapBox(props) {
                     tokens={toTokens}
                     infoTokens={infoTokens}
                     showTokenImgInDropdown={true}
-                    curToken={toToken}
                   />
                 </div>
               </div>

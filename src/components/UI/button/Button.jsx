@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 
 const Button = ({children, className, clickHandler, disabled, isMain, ...props}) => {
-	const classes = cx('btn', className, (isMain && 'btn_main'), (disabled && 'disabled'), (props.btnActive && 'btn_hlight'));
+	const classes = cx('btn', className, (isMain && 'btn_main'), (props.btnActive && 'btn_hlight'));
 	
 	const childProps = { ...props };
 	delete childProps.btnActive;
