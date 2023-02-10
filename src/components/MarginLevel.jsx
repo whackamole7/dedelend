@@ -4,10 +4,10 @@ import Tooltip from './../views/gmx-test/components/Tooltip/Tooltip';
 import cx from 'classnames';
 
 const MarginLevel = ({ children, className }) => {
-	const cls = cx(className);
+	const cls = cx("App-box Margin-level", className);
 	
 	return (
-		<div className={"App-box Margin-level" + cls}>
+		<div className={cls}>
 			<h1>Margin level</h1>
 			<div className="text-table">
 				<div className="text-table__row">

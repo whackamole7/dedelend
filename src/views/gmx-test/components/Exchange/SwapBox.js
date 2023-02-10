@@ -2187,7 +2187,7 @@ export default function SwapBox(props) {
               <div className="Exchange-leverage-slider-settings">
                 <div>
                   <Tooltip
-                    className="has-hint-tooltip nowrap"
+                    className="buying-power-tooltip has-hint-tooltip nowrap"
                     handle="Buying Power"
                     position="left-bottom"
                     enabled={true}
