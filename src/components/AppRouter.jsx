@@ -2,11 +2,12 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Routes, Route,	useLocation, Navigate } from "react-router-dom";
 import SupplyMarket from '../views/markets/SupplyMarket';
 import { UserStatsContext } from '../context/context';
-import { ethers } from 'ethers';
 import GMXInterface from '../views/gmx-test/App/App';
 import { connectWallet } from './utils/wallet';
 import MarginAccount from '../views/MarginAccount';
 import { HOMEPAGE_HREF } from './utils/constants';
+import { USDC } from './utils/contracts';
+import { ethers } from 'ethers';
 
 
 const AppRouter = ({ walletAddress, setWalletAddress, setRegisterVisible, account }) => {
@@ -17,16 +18,16 @@ const AppRouter = ({ walletAddress, setWalletAddress, setRegisterVisible, accoun
 	const contract = '';
 	useEffect(() => {
 		if (walletAddress) {
-			// USDC.allowance(walletAddress, contract)
-			// 	.then((res) => {
-			// 		if (Number(ethers.utils.formatUnits(res, 6)) >= userStats.balance) {
-			// 			setSupplyStep(1)
-			// 		} else {
-			// 			setSupplyStep(0)
-			// 		}
-			// })
+			USDC.allowance(walletAddress, contract)
+				.then((res) => {
+					if (Number(ethers.utils.formatUnits(res, 6)) >= userStats.balance) {
+						setSupplyStep(1)
+					} else {
+						setSupplyStep(0)
+					}
+			})
 		}
-	}, [userStats.balance, walletAddress]);
+	}, [userStats?.balance, walletAddress]);
 
 	
 	return (

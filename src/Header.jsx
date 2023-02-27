@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Tabs from './components/Tabs';
 import RegisterModal from './components/UI/modal/RegisterModal';
 import AccountDroplist from './components/AccountDroplist';
+import { getGlobalStats, getUserStats } from './components/utils/stats';
 
 
 const Header = (props) => {
@@ -39,6 +40,11 @@ const Header = (props) => {
 
 	useEffect(() => {
 		connectWallet(setWalletAddress)
+
+		getGlobalStats()
+			.then(stats => {
+				setGlobalStats(stats)
+			})
 	}, [window.ethereum?.networkVersion])
 
 	const loc = useLocation();
@@ -66,18 +72,10 @@ const Header = (props) => {
 
 	useEffect(() => {
 		if (walletAddress) {
-			/* getUserStats(walletAddress)
+			getUserStats(walletAddress)
 				.then(stats => {
 					setUserStats(stats)
-
-					getOptionByUser(walletAddress)
-						.then(options => {
-							setUserStats({
-								...stats,
-								options
-							})
-						})
-				}) */
+				})
 		} else {
 			setAccount('');
 			if (loc.pathname === '/account') {

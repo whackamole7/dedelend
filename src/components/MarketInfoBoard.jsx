@@ -37,7 +37,7 @@ const MarketInfoBoard = () => {
 				<div className="info-board__item">
 					<div className="info-board__item-title">Earn APR</div>
 					<div className="info-board__item-val">
-						{separateThousands(globalStats.borrowAPY, ',') + '%'}
+						{separateThousands(globalStats.borrowAPY, ',')}
 					</div>
 				</div>
 			</div>
