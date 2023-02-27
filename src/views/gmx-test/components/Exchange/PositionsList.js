@@ -6,8 +6,6 @@ import PositionSeller from "./PositionSeller";
 import PositionEditor from "./PositionEditor";
 import OrdersToa from "./OrdersToa";
 
-import { ImSpinner2 } from "react-icons/im";
-
 import {
   helperToast,
   bigNumberify,
@@ -25,10 +23,6 @@ import {
   DECREASE,
 } from "../../lib/legacy";
 import PositionShare from "./PositionShare";
-import PositionDropdown from "./PositionDropdown";
-import StatsTooltipRow from "../StatsTooltip/StatsTooltipRow";
-import CollateralLocked from './CollateralLocked';
-import { getDgContract, DDL_GMX, DDL_AccountManagerToken } from './../../../../components/utils/contracts';
 import PositionsItem from './PositionsItem';
 
 const getOrdersForPosition = (account, position, orders, nativeTokenAddress) => {

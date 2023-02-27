@@ -23,7 +23,6 @@ import { LANGUAGE_LOCALSTORAGE_KEY } from './views/gmx-test/lib/legacy';
 
 function App() {
 	const [walletAddress, setWalletAddress] = useState('');
-	const [dgAddress, setDgAddress] = useState('');
 	const [account, setAccount] = useState('');
 	const [accounts, setAccounts] = useState([
 		'0x0641bc55ddab3b9636e82cbf87ede3c3c533039d',
@@ -97,8 +96,6 @@ function App() {
 										setWalletAddress={setWalletAddress} 
 										account={account}
 										setAccount={setAccount}
-										dgAddress={dgAddress}
-										setDgAddress={setDgAddress}
 										setRegisterVisible={setRegisterVisible}
 									/>
 								</main>

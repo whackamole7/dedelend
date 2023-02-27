@@ -1,12 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { UserStatsContext, GlobalStatsContext } from './../context/context';
 import Form from './Form';
-import { DDL_POOL, DDL_POOL_signed, USDC_signed } from './utils/contracts';
 import { sepToNumber } from './utils/sepThousands';
 import Loader from './UI/loader/Loader';
-import { getGlobalStats, getUserStats } from './utils/stats';
-import { formatForContract } from './utils/math';
-import { errAlert } from './utils/notifications';
 import Currency from './Currency';
 
 const SupplyCard = ({ step, setStep, ...props }) => {
@@ -27,7 +23,7 @@ const SupplyCard = ({ step, setStep, ...props }) => {
 			title: "Approve",
 			onSubmit: (e) => {
 				e.preventDefault();
-				setIsLoading(true)
+				/* setIsLoading(true)
 				try {
 					USDC_signed.approve(DDL_POOL.address, (10**9 * 1e6).toFixed(0))
 					.then(tsc => {
@@ -46,7 +42,7 @@ const SupplyCard = ({ step, setStep, ...props }) => {
 				} catch(err) {
 					errAlert(err)
 					setIsLoading(false)
-				}
+				} */
 				
 			},
 			inputProps: {
@@ -60,7 +56,7 @@ const SupplyCard = ({ step, setStep, ...props }) => {
 			onSubmit: (e) => {
 				e.preventDefault()
 				setIsLoading(true)
-				try {
+				/* try {
 					DDL_POOL_signed.provideFrom(formatForContract(inputVal), 0)
 					.then(tsc => {
 						console.log('Supply transaction:', tsc);
@@ -89,7 +85,7 @@ const SupplyCard = ({ step, setStep, ...props }) => {
 				} catch(err) {
 					errAlert(err)
 					setIsLoading(false)
-				}
+				} */
 				
 			},
 			inputProps: {

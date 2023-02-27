@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Routes, Route,	useLocation, Navigate } from "react-router-dom";
-import BorrowMarket from '../views/markets/BorrowMarket';
 import SupplyMarket from '../views/markets/SupplyMarket';
-import Tabs from './Tabs';
-import { DDL_POOL, USDC } from './utils/contracts';
 import { UserStatsContext } from '../context/context';
 import { ethers } from 'ethers';
 import GMXInterface from '../views/gmx-test/App/App';
@@ -12,38 +9,34 @@ import MarginAccount from '../views/MarginAccount';
 import { HOMEPAGE_HREF } from './utils/constants';
 
 
-const AppRouter = ({ walletAddress, setWalletAddress, dgAddress, setRegisterVisible, account }) => {
+const AppRouter = ({ walletAddress, setWalletAddress, setRegisterVisible, account }) => {
 	// Supply Market state
 	const {userStats} = useContext(UserStatsContext)
 	const [supplyStep, setSupplyStep] = useState(0)
 
+	const contract = '';
 	useEffect(() => {
 		if (walletAddress) {
-			USDC.allowance(walletAddress, DDL_POOL.address)
-				.then((res) => {
-					if (Number(ethers.utils.formatUnits(res, 6)) >= userStats.balance) {
-						setSupplyStep(1)
-					} else {
-						setSupplyStep(0)
-					}
-			})
+			// USDC.allowance(walletAddress, contract)
+			// 	.then((res) => {
+			// 		if (Number(ethers.utils.formatUnits(res, 6)) >= userStats.balance) {
+			// 			setSupplyStep(1)
+			// 		} else {
+			// 			setSupplyStep(0)
+			// 		}
+			// })
 		}
 	}, [userStats.balance, walletAddress]);
 
 	
 	return (
 		<Routes>
-			{/* <Route
-				path="/options"
-				element={<BorrowMarket walletAddress={walletAddress} setWalletAddress={setWalletAddress} />} 
-			/> */}
 			<Route path="/perpetuals" element={
 				<GMXInterface
 					connectWallet={() => {
 						connectWallet(setWalletAddress)
 					}}
-					walletAddress={walletAddress} 
-					dgAddress={dgAddress}
+					walletAddress={walletAddress}
 					setRegisterVisible={setRegisterVisible} />
 			} />
 			<Route

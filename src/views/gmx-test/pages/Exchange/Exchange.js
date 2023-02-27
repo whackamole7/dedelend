@@ -3,8 +3,6 @@ import { Trans, t } from "@lingui/macro";
 import { useWeb3React } from "@web3-react/core";
 import useSWR from "swr";
 import { ethers } from "ethers";
-import cx from "classnames";
-import { BigNumber } from "ethers";
 
 import {
   FUNDING_RATE_PRECISION,
@@ -46,17 +44,11 @@ import ExchangeTVChart, { getChartToken } from "../../components/Exchange/Exchan
 import PositionsList from "../../components/Exchange/PositionsList";
 import OrdersList from "../../components/Exchange/OrdersList";
 import TradeHistory from "../../components/Exchange/TradeHistory";
-import ExchangeWalletTokens from "../../components/Exchange/ExchangeWalletTokens";
 import ExchangeBanner from "../../components/Exchange/ExchangeBanner";
 import Tab from "../../components/Tab/Tab";
-import Footer from "../../components/Footer/Footer";
 
 import "./Exchange.scss";
 import { fetcher } from "../../lib/contracts/fetcher";
-import BorrowsList from './../../components/Exchange/BorrowsList';
-import { DDL_AccountManager, USDC } from "../../../../components/utils/contracts";
-import ReturnFundsBox from './../../components/Exchange/ReturnFundsBox';
-import { getDgContract, DDL_GMX } from './../../../../components/utils/contracts';
 import { ARBITRUM } from './../../lib/legacy';
 import Modal from './../../../../components/UI/modal/Modal';
 import Button from './../../../../components/UI/button/Button';
@@ -196,7 +188,6 @@ export function getPositions(
       hasProfit: positionData[i * propsLength + 7].eq(1),
       delta: positionData[i * propsLength + 8],
       markPrice: isLong[i] ? indexToken.minPrice : indexToken.maxPrice,
-      ddl: {},
     };
 
 
@@ -456,46 +447,9 @@ export const Exchange = forwardRef((props, ref) => {
   const tokens = getTokens(chainId);
   const stableTokens = tokens.filter((token) => token.isStable);
 
-  const [shortWarningState, setShortWarningState] = useState({
-    visible: false,
-    tokenSymbol: '...',
-    notShowAgain: false,
-  })
-  const setShortWarningVisible = (bool) => {
-    setShortWarningState({
-      ...shortWarningState,
-      visible: bool
-    })
-  }
-
-  function showShortWarning(tokenAddr) {
-    if (localStorage.getItem('Short-warning-show') === 'false') {
-      return;
-    }
-    const isStable = Boolean(stableTokens.find(token => token.address === tokenAddr));
-
-    if (isStable && tokenAddr !== USDC.address) {
-      const token = getToken(ARBITRUM, tokenAddr);
-      
-      setShortWarningState({
-        visible: true,
-        tokenSymbol: token.symbol
-      })
-    }
-  }
-
-  useEffect(() => {
-    if (swapOption === SHORT) {
-      showShortWarning(fromTokenAddress);
-    }
-  }, [swapOption])
 
   const setFromTokenAddress = useCallback(
     (selectedSwapOption, address) => {
-      if (selectedSwapOption === SHORT) {
-        showShortWarning(address);
-      }
-      
       const newTokenSelection = JSON.parse(JSON.stringify(tokenSelection));
       newTokenSelection[selectedSwapOption].from = address;
       setTokenSelection(newTokenSelection);
@@ -597,7 +551,7 @@ export const Exchange = forwardRef((props, ref) => {
   );
 
   const { data: positionRouterApproved } = useSWR(
-    active && [active, chainId, routerAddress, "approvedPlugins", account, DDL_AccountManager.address],
+    active && [active, chainId, routerAddress, "approvedPlugins", account, routerAddress],
     {
       fetcher: fetcher(library, Router),
     }
@@ -871,7 +825,7 @@ export const Exchange = forwardRef((props, ref) => {
 
   const approvePositionRouter = ({ sentMsg, failMsg }) => {
     setIsPositionRouterApproving(true);
-    return approvePlugin(chainId, DDL_AccountManager.address, {
+    return approvePlugin(chainId, routerAddress, {
       library,
       pendingTxns,
       setPendingTxns,
@@ -1011,45 +965,6 @@ export const Exchange = forwardRef((props, ref) => {
             shouldShowPaginationButtons={true}
           />
         )}
-        {listSection === 'Borrows' && (
-          <BorrowsList
-            positionsDataIsLoading={positionsDataIsLoading}
-            pendingPositions={pendingPositions}
-            setPendingPositions={setPendingPositions}
-            setListSection={setListSection}
-            setIsWaitingForPluginApproval={setIsWaitingForPluginApproval}
-            setIsWaitingForPositionRouterApproval={setIsWaitingForPositionRouterApproval}
-            approveOrderBook={approveOrderBook}
-            approvePositionRouter={approvePositionRouter}
-            isPluginApproving={isPluginApproving}
-            isPositionRouterApproving={isPositionRouterApproving}
-            isWaitingForPluginApproval={isWaitingForPluginApproval}
-            isWaitingForPositionRouterApproval={isWaitingForPositionRouterApproval}
-            orderBookApproved={orderBookApproved}
-            positionRouterApproved={positionRouterApproved}
-            positions={positions}
-            positionsMap={positionsMap}
-            infoTokens={infoTokens}
-            active={active}
-            account={account}
-            library={library}
-            pendingTxns={pendingTxns}
-            setPendingTxns={setPendingTxns}
-            flagOrdersEnabled={flagOrdersEnabled}
-            savedIsPnlInLeverage={savedIsPnlInLeverage}
-            chainId={chainId}
-            nativeTokenAddress={nativeTokenAddress}
-            setMarket={setMarket}
-            orders={orders}
-            showPnlAfterFees={savedShowPnlAfterFees}
-            minExecutionFee={minExecutionFee}
-            minExecutionFeeUSD={minExecutionFeeUSD}
-            minExecutionFeeErrorMessage={minExecutionFeeErrorMessage}
-            usdgSupply={usdgSupply}
-            totalTokenWeights={totalTokenWeights}
-            dgAddress={props.dgAddress}
-          />
-        )}
       </div>
     );
   };
@@ -1140,36 +1055,6 @@ export const Exchange = forwardRef((props, ref) => {
         </div>
         <div className="Exchange-lists small">{getListSection()}</div>
       </div>
-      <Modal
-        className="modal_warning"
-        visible={shortWarningState.visible}
-        setVisible={setShortWarningVisible}>
-        <h1 className='modal__title'>Attention</h1>
-        <div className="modal__body">
-          <div className="modal__text">
-            <p>Please note that only USDC is allowed as collateral for short positions. DeDeLend will swap {shortWarningState.tokenSymbol} to USDC to open the short position.
-            <br />By clicking on the «Confirm» button you confirm that you have been advised of this.</p>
-          </div>
-          <div className="input-container modal__checkbox">
-						<input type="checkbox"
-              onChange={(e) => {
-                setShortWarningState({
-                  ...shortWarningState,
-                  notShowAgain: e.target.checked
-                })
-              }} />
-						<label>Don't show me this message again</label>
-					</div>
-          <Button btnActive={true} onClick={() => {
-            console.log(shortWarningState);
-            
-            if (shortWarningState.notShowAgain) {
-              localStorage.setItem('Short-warning-show', false);
-            }
-            setShortWarningVisible(false);
-          }}>Confirm</Button>
-        </div>
-      </Modal>
       
     </div>
   );

@@ -5,14 +5,7 @@ import { ImSpinner2 } from 'react-icons/im';
 import { t } from '@lingui/macro';
 import { USD_DECIMALS, INCREASE } from './../../lib/legacy';
 import StatsTooltipRow from '../StatsTooltip/StatsTooltipRow';
-import { floor } from './../../../../components/utils/math';
-import CollateralLocked from './CollateralLocked';
-import { DDL_AccountManagerToken, getDgContract, WETH_address } from '../../../../components/utils/contracts';
-import { DDL_GMX } from './../../../../components/utils/contracts';
-import { useState, useEffect } from 'react';
 import { Trans } from '@lingui/macro';
-import { BigNumber } from 'ethers';
-import { ADDRESS_ZERO } from '@uniswap/v3-sdk';
 
 const PositionsItem = (props) => {
 	const {
@@ -29,25 +22,8 @@ const PositionsItem = (props) => {
 		borrowFeeUSD,
 		editPosition,
 		sellPosition,
-		dgAddress,
 		isLarge,
 	} = props;
-
-	const [isLocked, setIsLocked] = useState(false);
-
-	useEffect(() => {
-		const DG = getDgContract(dgAddress);
-		if (!DG) {
-			return
-		}
-		DG.keyByIndexToken((position.indexToken.address === ADDRESS_ZERO ? WETH_address : position.indexToken.address), position.isLong)
-			.then(id => {
-				DDL_AccountManagerToken.ownerOf(id)
-					.then(owner => {
-						setIsLocked(owner === DDL_GMX.address);
-					});
-			})
-	}, [dgAddress, position])
 
 	return (
 		<>
@@ -231,7 +207,7 @@ const PositionsItem = (props) => {
 
 					<td className="td-btn pos-relative">
 						<Tooltip
-							className={"btn-tooltip nowrap" + (isLocked ? "" : " hidden")}
+							className={"btn-tooltip nowrap"}
 							position="left-bottom"
 							enabled={true}
 							handle=""
@@ -245,14 +221,14 @@ const PositionsItem = (props) => {
 						<button
 							className="Exchange-list-action"
 							onClick={() => editPosition(position)}
-							disabled={position.size.eq(0) || isLocked}
+							disabled={position.size.eq(0)}
 						>
 							Edit
 						</button>
 					</td>
 					<td className="td-btn pos-relative">
 						<Tooltip
-							className={"btn-tooltip nowrap" + (isLocked ? "" : " hidden")}
+							className={"btn-tooltip nowrap"}
 							position="left-bottom"
 							enabled={true}
 							handle=""
@@ -266,7 +242,7 @@ const PositionsItem = (props) => {
 						<button
 							className="Exchange-list-action"
 							onClick={() => sellPosition(position)}
-							disabled={position.size.eq(0) || isLocked}
+							disabled={position.size.eq(0)}
 						>
 							Close
 						</button>
@@ -284,8 +260,6 @@ const PositionsItem = (props) => {
 						/> */}
 					</td>
 					<td className="td-btn">
-						{isLocked &&
-							<CollateralLocked />}
 					</td>
 				</tr>
 			:
@@ -443,7 +417,7 @@ const PositionsItem = (props) => {
 				<div className="App-card-options">
 					<div className="App-button-option pos-relative">
 						<Tooltip
-							className={"btn-tooltip nowrap" + (isLocked ? "" : " hidden")}
+							className={"btn-tooltip nowrap"}
 							position="left-bottom"
 							enabled={true}
 							handle=""
@@ -456,7 +430,7 @@ const PositionsItem = (props) => {
 							}} />
 						<button
 							className="App-button-option App-card-option"
-							disabled={position.size.eq(0) || isLocked}
+							disabled={position.size.eq(0)}
 							onClick={() => editPosition(position)}
 						>
 							<Trans>Edit</Trans>
@@ -464,7 +438,7 @@ const PositionsItem = (props) => {
 					</div>
 					<div className="App-button-option pos-relative">
 						<Tooltip
-							className={"btn-tooltip nowrap" + (isLocked ? "" : " hidden")}
+							className={"btn-tooltip nowrap"}
 							position="left-bottom"
 							enabled={true}
 							handle=""
@@ -477,14 +451,12 @@ const PositionsItem = (props) => {
 							}} />
 						<button
 							className="App-button-option App-card-option"
-							disabled={position.size.eq(0) || isLocked}
+							disabled={position.size.eq(0)}
 							onClick={() => sellPosition(position)}
 						>
 							Close
 						</button>
 					</div>
-					{isLocked &&
-						<CollateralLocked />}
 				</div>
 			</div>}
 		</>

@@ -2,11 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import { separateThousands, sepToNumber } from './utils/sepThousands';
 import { UserStatsContext, GlobalStatsContext } from './../context/context';
 import Form from './Form';
-import { DDL_POOL_signed } from './utils/contracts';
 import Loader from './UI/loader/Loader';
-import { getGlobalStats, getUserStats } from './utils/stats';
-import { formatForContract } from './utils/math';
-import { errAlert } from './utils/notifications';
 import Currency from './Currency';
 
 const WithdrawCard = (props) => {
@@ -34,7 +30,7 @@ const WithdrawCard = (props) => {
 		e.preventDefault()
 		setIsLoading(true)
 		
-		try {
+		/* try {
 			DDL_POOL_signed.withdraw(formatForContract(inputVal))
 			.then(tsc => {
 				console.log('Withdraw transaction:', tsc);
@@ -63,7 +59,7 @@ const WithdrawCard = (props) => {
 		} catch(err) {
 			errAlert(err)
 			setIsLoading(false)
-		}
+		} */
 		
 	}
 	

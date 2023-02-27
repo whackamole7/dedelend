@@ -3,7 +3,6 @@ import { SWRConfig } from "swr";
 import { ethers } from "ethers";
 import { Web3ReactProvider, useWeb3React } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
-import useScrollToTop from "../lib/useScrollToTop";
 
 import { Routes, Route, HashRouter as Router, Navigate, useLocation, useNavigate } from "react-router-dom";
 
@@ -42,23 +41,7 @@ import {
   LANGUAGE_LOCALSTORAGE_KEY,
 } from "../lib/legacy";
 
-// import Home from "../pages/Home/Home";
-// import Dashboard from "../pages/Dashboard/Dashboard";
-// import Ecosystem from "../pages/Ecosystem/Ecosystem";
-// import Stake from "../pages/Stake/Stake";
 import { Exchange } from "../pages/Exchange/Exchange";
-// import Actions from "../pages/Actions/Actions";
-// import OrdersOverview from "../pages/OrdersOverview/OrdersOverview";
-// import PositionsOverview from "../pages/PositionsOverview/PositionsOverview";
-// import Referrals from "../pages/Referrals/Referrals";
-// import BuyGlp from "../pages/BuyGlp/BuyGlp";
-// import BuyGMX from "../pages/BuyGMX/BuyGMX";
-// import Buy from "../pages/Buy/Buy";
-// import NftWallet from "../pages/NftWallet/NftWallet";
-// import ClaimEsGmx from "../pages/ClaimEsGmx/ClaimEsGmx";
-// import BeginAccountTransfer from "../pages/BeginAccountTransfer/BeginAccountTransfer";
-// import CompleteAccountTransfer from "../pages/CompleteAccountTransfer/CompleteAccountTransfer";
-
 import { cssTransition, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from "../components/Modal/Modal";
@@ -68,10 +51,6 @@ import "../styles/Shared.scss";
 import "../styles/Font.css";
 import "./App.scss";
 import "../styles/Input.scss";
-
-import metamaskImg from "../img/metamask.png";
-import coinbaseImg from "../img/coinbaseWallet.png";
-import walletConnectImg from "../img/walletconnect-circle-blue.svg";
 import useEventToast from "../components/EventToast/useEventToast";
 import EventToastContainer from "../components/EventToast/EventToastContainer";
 import SEO from "../components/Common/SEO";
@@ -82,23 +61,11 @@ import { getContract } from "../config/Addresses";
 import VaultV2 from "../abis/VaultV2.json";
 import VaultV2b from "../abis/VaultV2b.json";
 import PositionRouter from "../abis/PositionRouter.json";
-// import PageNotFound from "../pages/PageNotFound/PageNotFound";
-// import ReferralTerms from "../pages/ReferralTerms/ReferralTerms";
-// import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
 import { useLocalStorage } from "react-use";
 import { RedirectPopupModal } from "../components/ModalViews/RedirectModal";
 import { REDIRECT_POPUP_TIMESTAMP_KEY } from "../config/ui";
-// import Jobs from "../pages/Jobs/Jobs";
-
-import { i18n } from "@lingui/core";
-import { I18nProvider } from "@lingui/react";
 import { Trans, t } from "@lingui/macro";
-import { defaultLocale, dynamicActivate } from "../lib/i18n";
-// import { Header } from "../components/Header/Header";
 
-import { signer } from './../../../components/utils/providers';
-import _AccountManager from "../../../deployments/arbitrum_ddl/accountManager.json";
-import Banner from './../../../components/Banner';
 
 if ("ethereum" in window) {
   window.ethereum.autoRefreshOnNetworkChange = false;

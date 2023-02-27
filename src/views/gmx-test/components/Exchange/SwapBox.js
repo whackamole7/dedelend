@@ -9,7 +9,6 @@ import cx from "classnames";
 import useSWR from "swr";
 import { ethers } from "ethers";
 
-import { IoMdSwap } from "react-icons/io";
 import { BsArrowRight } from "react-icons/bs";
 
 import {
@@ -67,7 +66,6 @@ import { getConstant } from "../../config/chains";
 import * as Api from "../../domain/legacy";
 import { getContract } from "../../config/Addresses";
 
-import Checkbox from "../Checkbox/Checkbox";
 import Tab from "../Tab/Tab";
 import TokenSelector from "./TokenSelector";
 import ExchangeInfoRow from "./ExchangeInfoRow";
@@ -91,9 +89,7 @@ import NoLiquidityErrorModal from "./NoLiquidityErrorModal";
 import StatsTooltipRow from "../StatsTooltip/StatsTooltipRow";
 import { fetcher } from "../../lib/contracts/fetcher";
 import { callContract } from "../../lib/contracts/callContract";
-import { DDL_AccountManager, DDL_AccountManager_abi, USDC } from './../../../../components/utils/contracts';
 import Currency from './../../../../components/Currency';
-import NumberInput from './../../../../components/UI/input/NumberInput';
 import NumberInput_v2 from './../../../../components/UI/input/NumberInput_v2';
 import icon_repay from '../../../../img/icon-repay.svg';
 
@@ -379,7 +375,7 @@ export default function SwapBox(props) {
   const routerAddress = getContract(chainId, "Router");
   const tokenAllowanceAddress = fromTokenAddress === AddressZero ? nativeTokenAddress : fromTokenAddress;
   const { data: tokenAllowance } = useSWR(
-    active && [active, chainId, tokenAllowanceAddress, "allowance", account, DDL_AccountManager.address],
+    active && [active, chainId, tokenAllowanceAddress, "allowance", account, routerAddress],
     {
       fetcher: fetcher(library, Token),
     }
@@ -1627,10 +1623,8 @@ export default function SwapBox(props) {
       return;
     }
 
-    // const contractAddress = getContract(chainId, "PositionRouter");
-    // const contract = new ethers.Contract(contractAddress, PositionRouter.abi, library.getSigner());
-    // const contract = DDL_AccountManager;
-    const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
+    const contractAddress = getContract(chainId, "PositionRouter");
+    const contract = new ethers.Contract(contractAddress, PositionRouter.abi, library.getSigner());
     
     const indexToken = getTokenInfo(infoTokens, indexTokenAddress);
     const tokenSymbol = indexToken.isWrapped ? getConstant(chainId, "nativeTokenSymbol") : indexToken.symbol;
@@ -1728,8 +1722,7 @@ export default function SwapBox(props) {
       setIsApproving,
       library,
       tokenAddress: fromToken.address,
-      // spender: routerAddress,
-      spender: DDL_AccountManager.address,
+      spender: routerAddress,
       chainId: chainId,
       onApproveSubmitted: () => {
         setIsWaitingForApproval(true);

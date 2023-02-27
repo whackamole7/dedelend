@@ -66,8 +66,6 @@ import marketActiveImg from '../../img/ddl/icon_market_active.svg'
 import triggerImg from '../../img/ddl/icon_trigger.svg'
 import triggerActiveImg from '../../img/ddl/icon_trigger_active.svg'
 import SlippageInput from './../SlippageInput/SlippageInput';
-import { DDL_AccountManager } from "../../../../components/utils/contracts";
-import { DDL_AccountManager_abi } from './../../../../components/utils/contracts';
 
 const CLOSE_ICONS = {
   Market: marketImg,
@@ -784,8 +782,7 @@ export default function PositionSeller(props) {
       position.isLong ? "Long" : "Short"
     } by ${formatAmount(sizeDelta, USD_DECIMALS, 2)} USD.`;
 
-    // const contract = new ethers.Contract(positionRouterAddress, PositionRouter.abi, library.getSigner());
-    const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
+    const contract = new ethers.Contract(positionRouterAddress, PositionRouter.abi, library.getSigner());
 
     callContract(chainId, contract, "createDecreasePosition", params, {
       value: minExecutionFee,

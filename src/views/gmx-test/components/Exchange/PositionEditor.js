@@ -41,8 +41,6 @@ import depositImg from '../../img/ddl/icon_dollar.svg'
 import depositActiveImg from '../../img/ddl/icon_dollar_active.svg'
 import withdrawImg from '../../img/ddl/icon_withdraw.svg'
 import withdrawActiveImg from '../../img/ddl/icon_withdraw_active.svg'
-import { DDL_AccountManager } from "../../../../components/utils/contracts";
-import { DDL_AccountManager_abi } from './../../../../components/utils/contracts';
 
 const DEPOSIT = t`Deposit`;
 const WITHDRAW = t`Withdraw`;
@@ -351,8 +349,7 @@ export default function PositionEditor(props) {
       return;
     }
 
-    // const contract = new ethers.Contract(positionRouterAddress, PositionRouter.abi, library.getSigner());
-    const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
+    const contract = new ethers.Contract(positionRouterAddress, PositionRouter.abi, library.getSigner());
     callContract(chainId, contract, method, params, {
       value,
       sentMsg: t`Deposit submitted.`,
@@ -406,8 +403,7 @@ export default function PositionEditor(props) {
 
     const method = "createDecreasePosition";
 
-    // const contract = new ethers.Contract(positionRouterAddress, PositionRouter.abi, library.getSigner());
-    const contract = new ethers.Contract(DDL_AccountManager.address, DDL_AccountManager_abi, library.getSigner());
+    const contract = new ethers.Contract(positionRouterAddress, PositionRouter.abi, library.getSigner());
     callContract(chainId, contract, method, params, {
       value: minExecutionFee,
       sentMsg: t`Withdrawal submitted.`,
